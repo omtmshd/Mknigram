@@ -1,0 +1,7 @@
+<p>Hello <%= @email %>!</p>
+
+<% if @resource.try(:unconfirmed_email?) %>
+  <p>メールが<%= @resource.unconfirmed_email %>に変更されることをお知らせするためにご連絡いたします。</p>
+<% else %>
+  <p>メールが<%= @resource.email %>に変更されたことをお知らせするためにご連絡いたします。</p>
+<% end %>

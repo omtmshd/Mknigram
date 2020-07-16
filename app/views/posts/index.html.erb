@@ -1,0 +1,9 @@
+<% @posts.each do |post| %>
+
+  <%= link_to post_path(post.id) do %>
+
+    <%= image_tag post.post_image.thumb.url %>
+    <p><%= post.title %>by.
+  <% end %>
+    <%= link_to post.user.name, user_path(post.user_id)%></p>
+<% end %>

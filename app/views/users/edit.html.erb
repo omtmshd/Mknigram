@@ -1,0 +1,21 @@
+<h2>マイページ編集画面</h2>
+<h2><%= @user.name %>さん</h2>
+
+<%= form_with model: @user, local: true do |f| %>
+
+<div class="field">
+  <%= f.label :image %><br/>
+  <%= f.file_field :profile_image %>
+</div>
+
+<div class="field">
+    <%= f.label :profile %><br />
+    <%= f.text_area :profile, autofocus: true %>
+</div>
+
+<%= f.submit "保存" %>
+
+<% end %>
+
+
+<%= link_to "登録情報の変更", edit_user_password_path  %>
