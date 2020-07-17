@@ -11,12 +11,14 @@
 
   <body>
     <header>
+      <%= link_to "投稿一覧", posts_path %>
     <% if user_signed_in? %>
       <%= link_to "マイページ", user_path(current_user.id)%>
       <%= link_to "新規投稿", new_post_path %>
       <%= link_to "ログアウト", sign_out_path, method: :delete %>
     <% else %>
       <%= link_to "ログイン", sign_in_path %>
+      <%= link_to "新規登録", sign_up_path %>
     <% end %>
     </header>
       <p class="notice"><%= notice %></p>
