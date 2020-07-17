@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     :sessions => 'users/sessions'
   }
   devise_scope :user do
+    get "sign_up", :to => "users/registrations#new"
     get "sign_in", :to => "users/sessions#new"
     delete "sign_out", :to => "users/sessions#destroy"
   end
