@@ -1,0 +1,38 @@
+<section class="hero is-dark ">
+  <div class="hero-body">
+    <div class="container is-fluid">
+      <nav class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <p class="subtitle is-5">
+              <%= link_to "投稿一覧", posts_path %>
+            </p>
+          </div>
+          <%# ここら辺に検索フォームかな %>
+        </div>
+        <div class="level-right">
+          <% if user_signed_in? %>
+            <div class="level-item">
+              <p class="subtitle is-5"><%= link_to "マイページ", user_path(current_user.id)%></p>
+            </div>
+              <div class="level-item">
+            <p class="subtitle is-5"><%= link_to "新規投稿", new_post_path %></p>
+              </div>
+            <div class="level-item">
+              <p class="subtitle is-5"><%= link_to "ログアウト", sign_out_path, method: :delete %></p>
+            </div>
+          <% else %>
+            <div class="level-item">
+              <p class="subtitle is-5"><%= link_to "ログイン", sign_in_path %></p>
+            </div>
+            <div class="level-item">
+              <p class="subtitle is-5"><%= link_to "新規登録", sign_up_path %></p>
+            </div>
+          <% end %>
+        </div>
+      </nav>
+    </div>
+  </div>
+</section>
+
+
