@@ -65,6 +65,8 @@ GEM
     bootsnap (1.4.6)
       msgpack (~> 1.0)
     builder (3.2.4)
+    bulma-rails (0.9.0)
+      sassc (~> 2.0)
     byebug (11.1.3)
     capybara (3.33.0)
       addressable
@@ -260,6 +262,7 @@ PLATFORMS
 DEPENDENCIES
   ancestry
   bootsnap (>= 1.4.2)
+  bulma-rails (~> 0.9.0)
   byebug
   capybara
   carrierwave

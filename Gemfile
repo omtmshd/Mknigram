@@ -57,3 +57,4 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'factory_bot_rails'
 gem 'ancestry'
+gem "bulma-rails", "~> 0.9.0"
