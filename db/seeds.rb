@@ -11,10 +11,17 @@ if Rails.env == 'development'
     name  = "example-#{n+1}"
     email = "example-#{n+1}@example.com"
     password = "password"
-    User.create!(name:  name,
-                 email: email,
-                 password:              password,
-                 password_confirmation: password)
+    user = User.create!(
+                name:  name,
+                email: email,
+                password:              password,
+                password_confirmation: password)
+    title = "カレー#{n+1}"
+    body = "a" * 250
+    user.posts.create(
+                title: title,
+                body: body,
+                post_image: open("#{Rails.root}/db/fixtures/img.jpg"))
   end
 
   vegetable = Category.create(name: "野菜料理")
