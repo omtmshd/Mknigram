@@ -7,6 +7,16 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 if Rails.env == 'development'
 
+  100.times do |n|
+    name  = "example-#{n+1}"
+    email = "example-#{n+1}@example.com"
+    password = "password"
+    User.create!(name:  name,
+                 email: email,
+                 password:              password,
+                 password_confirmation: password)
+  end
+
   vegetable = Category.create(name: "野菜料理")
     major = vegetable.children.create(name: "よく使う野菜")
       major.children.create([{name: "にんじん"}, {name: "じゃがいも"}, {name: "たまねぎ"}, {name: "キャベツ"}])
