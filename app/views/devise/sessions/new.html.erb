@@ -1,26 +1,38 @@
-<h2>ログイン</h2>
+<div class="box is-light">
+  <div class="notification">
+    <h1 class="title">ログイン</h1>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :メール %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="field">
+        <p class="control has-icons-left">
+          <%= f.email_field :email, autocomplete: "email", placeholder: "Email", class: "input" %>
+          <span class="icon is-small is-left">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+          </span>
+        </p>
+      </div>
+
+      <div class="field">
+        <p class="control has-icons-left">
+          <%= f.password_field :password, autocomplete: "current-password", placeholder: "Password", class: "input" %>
+          <span class="icon is-small is-left">
+            <i class="fa fa-lock" aria-hidden="true"></i>
+          </span>
+        </p>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <label class="checkbox">
+          <%= f.check_box :remember_me %>
+          <%= f.label :ログインしたままにする %>
+        </label>
+      <% end %>
+
+      <div class="actions">
+        <%= f.submit "ログイン", class: "button is-dark"%>
+      </div>
+    <% end %>
   </div>
-
-  <div class="field">
-    <%= f.label :パスワード %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :ログインしたままにする %>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "ログイン" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

@@ -1,34 +1,49 @@
-<h2>新規登録画面</h2>
+<div class="box is-light">
+  <div class="notification">
+    <h1 class="title">新規登録</h1>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :name, "名前" %> <br />
-    <%= f.text_field :name, autofocus: true %>
+      <div class="field">
+        <p class="control has-icons-left">
+          <%= f.text_field :name, autofocus: true, placeholder: "Name", class: "input" %>
+          <span class="icon is-small is-left">
+            <i class="fa fa-user-circle" aria-hidden="true"></i>
+          </span>
+        </p>
+      </div>
+
+      <div class="field">
+        <p class="control has-icons-left">
+          <%= f.email_field :email, autocomplete: "email", placeholder: "Email", class: "input" %>
+          <span class="icon is-small is-left">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+          </span>
+        </p>
+      </div>
+
+      <div class="field">
+        <p class="control has-icons-left">
+          <%= f.password_field :password, autocomplete: "new-password", placeholder: "Password(6字以上)", class: "input" %>
+          <span class="icon is-small is-left">
+            <i class="fa fa-lock" aria-hidden="true"></i>
+          </span>
+        </p>
+      </div>
+
+      <div class="field">
+        <p class="control has-icons-left">
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Password(確認)", class: "input" %>
+          <span class="icon is-small is-left">
+            <i class="fa fa-lock" aria-hidden="true"></i>
+          </span>
+        </p>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "登録", class: "button is-dark"%>
+      </div>
+    <% end %>
   </div>
-
-  <div class="field">
-    <%= f.label :email, "メールアドレス" %><br />
-    <%= f.email_field :email, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password, "パスワード" %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> 字以上)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation, "パスワード確認"  %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "登録" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
