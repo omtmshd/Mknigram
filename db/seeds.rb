@@ -26,6 +26,13 @@ if Rails.env == 'development'
                 post_image: open("#{Rails.root}/db/fixtures/img.jpg"))
   end
 
+  users = User.all
+  user  = users.first
+  following = users[2..50]
+  followers = users[3..40]
+  following.each { |followed| user.follow(followed) }
+  followers.each { |follower| follower.follow(user) }
+
   categories=[
     {level1:"野菜料理",level1_children:[
                                     {level2:"よく使う野菜",level2_children:["にんじん","じゃがいも","たまねぎ","キャベツ"]},
