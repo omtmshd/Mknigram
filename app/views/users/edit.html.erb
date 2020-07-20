@@ -1,21 +1,34 @@
-<h2>マイページ編集画面</h2>
-<h2><%= @user.name %>さん</h2>
+<h2 class="title is-2">マイページ編集画面</h2>
 
 <%= form_with model: @user, local: true do |f| %>
 
 <div class="field">
-  <%= f.label :image %><br/>
-  <%= f.file_field :profile_image %>
+  <div class="file is-medium">
+    <label class="file-label">
+      <%= f.file_field :profile_image, class: "file-input" %>
+      <span class="file-cta">
+        <span class="file-icon">
+          <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+        </span>
+        <span class="file-label">
+          プロフィール画像
+        </span>
+      </span>
+    </label>
+  </div>
 </div>
 
 <div class="field">
-    <%= f.label :profile %><br />
-    <%= f.text_area :profile, autofocus: true %>
+    <div class="control">
+      <%= f.text_area :profile, autofocus: true, class: "textarea is-medium", placeholder: "プロフィール" %>
+    </div>
 </div>
 
-<%= f.submit "保存" %>
+<div class="actions">
+  <%= f.submit "保存", class: "button is-dark"%>
+</div>
 
 <% end %>
 
 
-<%= link_to "登録情報の変更", edit_user_password_path  %>
+<%= link_to "登録情報の変更", edit_user_registration_path  %>
