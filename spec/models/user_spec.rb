@@ -118,6 +118,11 @@ RSpec.describe User, type: :model do
   describe "関連づけされたモデル" do
     it "ユーザーが削除された場合、関連する投稿も削除されること" do
     end
+    it "ユーザーが削除された場合、関連するRelationshipモデルも削除されること"
   end
 
+  it "ユーザーをフォローできること" do
+  end
+  it "ユーザーのフォローを解除できること" do
+  end
 end
