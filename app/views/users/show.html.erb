@@ -1,14 +1,23 @@
-<h2><%= @user.name %>さんのマイページ</h2>
 
-<% if @user.profile_image?%>
-<%= image_tag @user.profile_image.thumb.url %>
-<% else %>
-<%= image_tag "/assets/default.png" %>
+
+<figure class="image is-128x128">
+  <% if @user.profile_image?%>
+    <%= image_tag @user.profile_image.url %>
+  <% else %>
+    <%= image_tag "/assets/default.png" %>
+  <% end %>
+</figure>
+ <%= @user.profile%>
+
+<% @posts.each do |post| %>
+  <%= link_to post_path(post.id) do %>
+   <%= image_tag post.post_image.url %>
+   <p><%= post.title %></p>
+  <% end %>
 <% end %>
-<%= @user.profile %>
-
-
-<% if current_user == @user %>
-    <%= link_to "マイページ編集", edit_user_path %>
-    <%= link_to "登録情報編集", edit_user_registration_path %>
-<% end %>
+<p>
+  <% if current_user == @user %>
+      <%= link_to "マイページ編集", edit_user_path %>
+      <%= link_to "登録情報編集", edit_user_registration_path %>
+  <% end %>
+</p>
