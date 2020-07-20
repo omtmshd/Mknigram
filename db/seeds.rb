@@ -15,6 +15,7 @@ if Rails.env == 'development'
     user = User.create!(
                 name:  name,
                 email: email,
+                profile: "a" * 150,
                 password:              password,
                 password_confirmation: password)
     title = "カレー#{n+1}"
