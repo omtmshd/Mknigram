@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Post, type: :model do
 
-  let(:post) { create(:post) }
+  let(:post) { build(:post) }
 
   it "ファクトリーが有効であること" do
     expect(post).to be_valid
