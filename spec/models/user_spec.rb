@@ -116,13 +116,34 @@ RSpec.describe User, type: :model do
   end
 
   describe "関連づけされたモデル" do
-    it "ユーザーが削除された場合、関連する投稿も削除されること" do
+    it "ユーザーを削除した場合、関連する投稿も削除されること" do
+      user = create(:user, :with_posts, posts_count: 1)
+      expect { user.destroy }.to change { Post.count }.by(-1)
     end
-    it "ユーザーが削除された場合、関連するRelationshipモデルも削除されること"
+    it "ユーザーを削除した場合、フォロー関係も削除されること" do
+      alice = create(:user)
+      bob = create(:user, email: "bob@example.com")
+      alice.follow(bob)
+      expect(bob.followed?(alice)).to eq true
+      expect { alice.destroy }.to change { bob.followers.count }.by(-1)
+    end
+    it "ユーザーを削除した場合、フォロワー関係も削除されること" do
+      alice = create(:user)
+      bob = create(:user, email: "bob@example.com")
+      bob.follow(alice)
+      expect(bob.following?(alice)).to eq true
+      expect { alice.destroy }.to change { bob.following.count }.by(-1)
+    end
   end
 
-  it "ユーザーをフォローできること" do
+  it "ユーザーをフォロー/解除できること" do
+    alice = create(:user)
+    bob = create(:user, email: "bob@example.com")
+    expect(alice.following?(bob)).to eq false
+    alice.follow(bob)
+    expect(alice.following?(bob)).to eq true
+    alice.unfollow(bob)
+    expect(alice.following?(bob)).to eq false
   end
-  it "ユーザーのフォローを解除できること" do
-  end
+
 end
