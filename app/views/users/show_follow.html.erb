@@ -1,0 +1,14 @@
+
+
+<h1><%= @user.name %></h1>
+<section class="stats">
+  <%= render 'users/stats' %>
+  <% if @users.any? %>
+    <div class="user_avatars">
+      <% @users.each do |user| %>
+        <%= link_to user.name, user_path(user.id) %>
+      <% end %>
+    </div>
+  <% end %>
+</section>
+

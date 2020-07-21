@@ -18,4 +18,5 @@ Rails.application.routes.draw do
   end
   resources :posts
   resources :categories
+  resources :relationships, only: [:create, :destroy]
 end
