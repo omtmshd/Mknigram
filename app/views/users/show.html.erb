@@ -1,8 +1,12 @@
-<% if @user == current_user%>
+<% if @user == current_user %>
   <h2 class="title is-2">マイページ</h2>
 <% else %>
   <h2 class="title is-2"><%= @user.name%></h2>
 <% end %>
+
+<%= render "users/stats" %>
+<%= render "follow_form" if user_signed_in? %>
+
 <figure class="image is-128x128">
   <% if @user.profile_image?%>
     <%= image_tag @user.profile_image.url %>
