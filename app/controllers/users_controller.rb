@@ -1,20 +1,20 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!,  only: [:index, :edit, :update, :destroy,:following, :followers]
+  before_action :authenticate_user!, only: %i[index edit update destroy following followers]
 
   def following
     @user  = User.find(params[:id])
     @users = @user.following
-    render "show_follow"
+    render 'show_follow'
   end
 
   def followers
     @user  = User.find(params[:id])
     @users = @user.followers
-    render "show_follow"
+    render 'show_follow'
   end
 
   def edit
-    @user=User.find(params[:id])
+    @user = User.find(params[:id])
   end
 
   def update
@@ -27,11 +27,10 @@ class UsersController < ApplicationController
     @posts = Post.where(user: @user)
   end
 
-  def destroy
-  end
+  def destroy; end
 
   def index
-    if current_user != nil
+    if !current_user.nil?
       redirect_to user_path(current_user.id)
     else
       redirect_to sign_in_path
@@ -40,8 +39,7 @@ class UsersController < ApplicationController
 
   private
 
-    def user_params
-      params.require(:user).permit(:profile_image, :profile)
-    end
-
+  def user_params
+    params.require(:user).permit(:profile_image, :profile)
+  end
 end
