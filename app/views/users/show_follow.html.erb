@@ -1,12 +1,31 @@
-
-
+<%= render 'avatar', user: @user %>
 <h1><%= @user.name %></h1>
-<section class="stats">
-  <%= render 'users/stats' %>
+<%= render 'users/stats' %>
+<% if current_page?(following_user_path)%>
+  <h2 class="title is-2">フォローリスト</h2>
+<% else%>
+  <h2 class="title is-2">フォロワーリスト</h2>
+<% end %>
+<section>
   <% if @users.any? %>
-    <div class="user_avatars">
+    <div>
       <% @users.each do |user| %>
-        <%= link_to user.name, user_path(user.id) %>
+        <div class="box">
+          <article class="media">
+            <div class="media-left">
+              <%= render 'avatar', user: user %>
+            </div>
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong><%= user.name %></strong>
+                  <br>
+                  <%= user.profile %>
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
       <% end %>
     </div>
   <% end %>
