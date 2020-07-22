@@ -15,11 +15,11 @@ if Rails.env == 'development'
     user = User.create!(
                 name:  name,
                 email: email,
-                profile: "a" * 150,
+                profile: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus venenatis aliquet leo, quis elementum enim hendrerit eu. Donec blandit velit sed orc.",
                 password:              password,
                 password_confirmation: password)
     title = "カレー#{n+1}"
-    body = "a" * 250
+    body = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse non ultrices ipsum, aliquet tempor velit. In ut consectetur est, et vehicula tellus. Duis feugiat leo ligula, eget porta mi tristique sit amet. Mauris rhoncus ultrices augue id."
     user.posts.create(
                 title: title,
                 body: body,

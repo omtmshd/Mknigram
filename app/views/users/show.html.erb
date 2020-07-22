@@ -1,20 +1,14 @@
 <% if @user == current_user %>
-  <h2 class="title is-2">マイページ</h2>
+  <h2 class='title is-2'>マイページ</h2>
 <% else %>
-  <h2 class="title is-2"><%= @user.name%></h2>
+  <h2 class='title is-2'><%= @user.name%></h2>
 <% end %>
 
-<%= render "users/stats" %>
-<%= render "follow_form" if user_signed_in? %>
+<%= render 'stats' %>
+<%= render 'follow_form' if user_signed_in? %>
 
-<figure class="image is-128x128">
-  <% if @user.profile_image?%>
-    <%= image_tag @user.profile_image.url %>
-  <% else %>
-    <%= image_tag "/assets/default.png" %>
-  <% end %>
-</figure>
- <%= @user.profile%>
+<%= render 'avatar', user: @user %>
+<%= @user.profile %>
 
 <% @posts.each do |post| %>
   <%= link_to post_path(post.id) do %>
@@ -24,7 +18,7 @@
 <% end %>
 <p>
   <% if current_user == @user %>
-      <%= link_to "マイページ編集", edit_user_path %>
-      <%= link_to "登録情報編集", edit_user_registration_path %>
+      <%= link_to 'マイページ編集', edit_user_path %>
+      <%= link_to '登録情報編集', edit_user_registration_path %>
   <% end %>
 </p>
