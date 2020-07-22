@@ -15,3 +15,10 @@
  */
  @import "bulma";
  @import "font-awesome";
+
+ .sticky {
+  position: sticky;
+  padding-bottom: 0;
+  top: 10px;
+  z-index: 1;
+}

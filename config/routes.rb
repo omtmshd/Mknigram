@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   root to: "posts#index"
-
+  get "categories_post(/:id)" => "categories#post_index"
   devise_for :users, :controllers => {
     :registrations => 'users/registrations',
     :sessions => 'users/sessions'
@@ -17,6 +17,5 @@ Rails.application.routes.draw do
     end
   end
   resources :posts
-  resources :categories
   resources :relationships, only: [:create, :destroy]
 end

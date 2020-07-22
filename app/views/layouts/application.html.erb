@@ -15,14 +15,18 @@
       <%= render 'layouts/header' %>
       <div class="container is-desktop">
         <div class="notification">
-          <div class="container">
-            <div class="notification">
+          <div class="columns is-mobile">
+            <div class="column is-one-quarter">
+              <div class="sticky">
+                <%= render 'layouts/side_bar'%>
+              </div>
+            </div>
               <p class="notice"><%= notice %></p>
               <p class="alert"><%= alert %></p>
-
+              <div class="column">
               <%= yield %>
+              </div>
             </div>
-          </div>
         </div>
       </div>
     </div>

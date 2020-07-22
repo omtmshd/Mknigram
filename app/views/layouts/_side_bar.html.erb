@@ -1,0 +1,26 @@
+<aside class="menu">
+  <p class="menu-label">
+    レシピを探す
+  </p>
+  <ul class="menu-list">
+    <li><a>最新のレシピ</a></li>
+    <li><a>人気のレシピ</a></li>
+    <li><a>フォロー中</a></li>
+    <p class="menu-label">
+      カテゴリーから探す
+    </p>
+    <li>
+      <ul>
+        <% $category_l1.each do |category| %>
+          <li>
+            <%= link_to category.name, "/categories_post/#{category.id}", method: :get %>
+          </li>
+        <% end %>
+      </ul>
+    </li>
+    <li><a>自分のレシピ</a></li>
+    <li><a>いいねしたレシピ</a></li>
+    <li><a>コメントしたレシピ</a></li>
+  </ul>
+</aside>
+
