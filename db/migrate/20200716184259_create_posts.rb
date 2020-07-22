@@ -4,11 +4,11 @@ class CreatePosts < ActiveRecord::Migration[6.0]
       t.text :body
       t.references :user, null: false, foreign_key: true
 
-      t.string :post_image, null:false
-      t.text :title, null:false
+      t.string :post_image, null: false
+      t.text :title, null: false
 
       t.timestamps
     end
-    add_index :posts, [:user_id, :created_at]
+    add_index :posts, %i[user_id created_at]
   end
 end

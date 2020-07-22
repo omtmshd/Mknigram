@@ -1,5 +1,4 @@
 class PostsController < ApplicationController
-
   def index
     @posts = Post.all
   end
@@ -18,8 +17,7 @@ class PostsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     @post = Post.find(params[:id])
@@ -46,7 +44,7 @@ class PostsController < ApplicationController
 
   private
 
-    def post_params
+  def post_params
     params.require(:post).permit(:title, :body, :post_image)
-    end
+  end
 end

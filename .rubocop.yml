@@ -1,0 +1,55 @@
+# 自動生成したファイルはRubocopでチェックしない
+AllCops:
+  Exclude:
+    - 'Gemfile'
+    - 'node_modules/**/*'
+    - 'bin/*'
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'test/**/*'
+    - 'spec/**/*'
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# 1行の最大文字数を150字にする
+LineLength:
+  Max: 150
+
+# ドキュメントのないclassを許可する
+Style/Documentation:
+  Enabled: false
+
+# rubocopをかけたときに警告が出たのでtrue or falseの選択
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/SlicingWithRange:
+  Enabled: true
+
+Style/AsciiComments:
+  Enabled: false
+
+ClassAndModuleChildren:
+  Enabled: false

@@ -1,38 +1,39 @@
-<section class="hero is-dark ">
-  <div class="hero-body">
-    <div class="container is-fluid">
-      <nav class="level">
-        <div class="level-left">
-          <div class="level-item">
-            <p class="subtitle is-5">
-              <%= link_to "投稿一覧", posts_path %>
-            </p>
-          </div>
-          <%# ここら辺に検索フォームかな %>
-        </div>
-        <div class="level-right">
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="https://bulma.io">
+      <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item">
+        <%= link_to "投稿一覧", posts_path, class: "navbar-item" %>
+      </a>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          アカウント
+        </a>
+        <div class="navbar-dropdown">
           <% if user_signed_in? %>
-            <div class="level-item">
-              <p class="subtitle is-5"><%= link_to "マイページ", user_path(current_user.id)%></p>
-            </div>
-              <div class="level-item">
-            <p class="subtitle is-5"><%= link_to "新規投稿", new_post_path %></p>
-              </div>
-            <div class="level-item">
-              <p class="subtitle is-5"><%= link_to "ログアウト", sign_out_path, method: :delete %></p>
-            </div>
+            <%= link_to "マイページ", user_path(current_user), class: "navbar-item" %>
+            <hr class="navbar-divider">
+            <%= link_to "ログアウト", sign_out_path, method: :delete, class: "navbar-item" %>
           <% else %>
-            <div class="level-item">
-              <p class="subtitle is-5"><%= link_to "ログイン", sign_in_path %></p>
-            </div>
-            <div class="level-item">
-              <p class="subtitle is-5"><%= link_to "新規登録", sign_up_path %></p>
-            </div>
+            <%= link_to "ログイン", sign_in_path, class: "navbar-item" %>
+            <%= link_to "新規登録", sign_up_path, class: "navbar-item" %>
           <% end %>
         </div>
-      </nav>
+      </div>
     </div>
   </div>
-</section>
-
-
+</nav>

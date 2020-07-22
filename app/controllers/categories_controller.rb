@@ -1,5 +1,4 @@
 class CategoriesController < ApplicationController
-
   def post_index
     @category = Category.find(params[:id])
     # 子階層がいる場合
@@ -13,5 +12,4 @@ class CategoriesController < ApplicationController
     end
     @posts = Post.all
   end
-
 end
