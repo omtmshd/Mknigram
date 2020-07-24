@@ -1,26 +1,24 @@
 <div class="columns is-mobile">
-  <div class="column is-one-quarter is-hidden-mobile">
-    <div class="sticky">
-      <aside class="menu">
-        <ul class="menu-list">
-          <p class="menu-label">
-            <%= link_to @category.parent.name, "/categories_post/#{@category.parent_id}", method: :get if @category.ancestors? %>
-          </p>
-          <li>
-            <%= @category.name %>
-          </li>
-          <li>
-            <ul>
-              <% @categories.each do |category| %>
-                <li>
-                  <%= link_to category.name, "/categories_post/#{category.id}", method: :get %>
-                </li>
-              <% end %>
-            </ul>
-          </li>
-        </ul>
-      </aside>
-    </div>
+  <div class="column is-2 is-hidden-touch bg3">
+    <aside class="menu">
+      <ul class="menu-list">
+        <p class="menu-label">
+          <%= link_to @category.parent.name, "/categories_post/#{@category.parent_id}", method: :get if @category.ancestors? %>
+        </p>
+        <li>
+          <a><%= @category.name %></a>
+        </li>
+        <li>
+          <ul>
+            <% @categories.each do |category| %>
+              <li>
+                <%= link_to category.name, "/categories_post/#{category.id}", method: :get %>
+              </li>
+            <% end %>
+          </ul>
+        </li>
+      </ul>
+    </aside>
   </div>
   <div class="column">
     <% @posts.each do |post| %>

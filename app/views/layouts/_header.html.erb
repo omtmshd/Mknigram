@@ -1,39 +1,27 @@
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a class="navbar-item" href="https://bulma.io">
-      <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-    </a>
-
-    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
+<nav class="level is-mobile head">
+  <div class="level-left">
+    <p class="level-item">
+      <%= link_to "レシピを書く", new_post_path, class: "navbar-item is-size-7" %>
+    </p>
   </div>
-
-  <div id="navbarBasicExample" class="navbar-menu">
-    <div class="navbar-start">
-      <a class="navbar-item">
-        <%= link_to "投稿一覧", posts_path, class: "navbar-item" %>
-      </a>
-    </div>
-
-    <div class="navbar-end">
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          アカウント
-        </a>
-        <div class="navbar-dropdown">
-          <% if user_signed_in? %>
-            <%= link_to "マイページ", user_path(current_user), class: "navbar-item" %>
-            <hr class="navbar-divider">
-            <%= link_to "ログアウト", sign_out_path, method: :delete, class: "navbar-item" %>
-          <% else %>
-            <%= link_to "ログイン", sign_in_path, class: "navbar-item" %>
-            <%= link_to "新規登録", sign_up_path, class: "navbar-item" %>
-          <% end %>
-        </div>
-      </div>
-    </div>
+  <p class="level-item has-text-centered">
+    <%= link_to "MKgram", posts_path, class: "navbar-item is-size-4", style:"font-family: cursive;" %>
+  </p>
+  <div class="level-right">
+    <p class="level-item navbar-item">
+      <% if user_signed_in? %>
+        <%= link_to user_path(current_user) do %>
+          <span class="icon icon	mx-3">
+            <i class="fa fa-2x fa-user-circle" aria-hidden="true"></i>
+          </span>
+        <% end %>
+      <% else %>
+        <%= link_to sign_in_path do %>
+          <span class="icon icon	mx-3">
+            <i class="fa fa-2x fa-user-circle" aria-hidden="true"></i>
+          </span>
+        <% end %>
+      <% end %>
+    </p>
   </div>
 </nav>

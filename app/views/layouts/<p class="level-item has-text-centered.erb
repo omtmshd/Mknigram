@@ -1,0 +1,21 @@
+  <p class="level-item has-text-centered">
+    <% if user_signed_in? %>
+      <%= link_to "レシピを書く", new_post_path, class: "navbar-item" %>
+    <% end %>
+  </p>
+
+  <% if user_signed_in? %>
+    <p class="level-item has-text-centered">
+      <%= link_to "マイページ", user_path(current_user), class: "navbar-item" %>
+    </p>
+    <p class="level-item has-text-centered">
+      <%= link_to "ログアウト", sign_out_path, method: :delete, class: "navbar-item" %>
+    </p>
+  <% else %>
+    <p class="level-item has-text-centered">
+      <%= link_to "ログイン", sign_in_path, class: "navbar-item" %>
+    </p>
+    <p class="level-item has-text-centered">
+      <%= link_to "新規登録", sign_up_path, class: "navbar-item" %>
+    </p>
+  <% end %>
