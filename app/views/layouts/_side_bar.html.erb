@@ -11,7 +11,7 @@
     </p>
     <li>
       <ul>
-        <% $category_l1.each do |category| %>
+        <% Category.where(ancestry: nil).each do |category| %>
           <li>
             <%= link_to category.name, "/categories_post/#{category.id}", method: :get %>
           </li>

@@ -1,0 +1,32 @@
+<footer class="footer is-hidden-desktop">
+  <div class="columns is-multiline is-mobile has-text-centered pb-5">
+    <div class="column is-full">
+      レシピを探す
+    </div>
+    <div class="column is-half">
+      最新のレシピ
+    </div>
+    <div class="column is-half">
+      人気のレシピ
+    </div>
+    <div class="column is-half">
+      いいねしたレシピ
+    </div>
+    <div class="column is-half">
+      自分のレシピ
+    </div>
+    <div class="column is-full">
+      カテゴリーから探す
+    </div>
+    <div class="column">
+      <ul>
+        <% Category.where(ancestry: nil).each do |category| %>
+          <li>
+            <%= link_to category.name, "/categories_post/#{category.id}", method: :get %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</footer>
+
