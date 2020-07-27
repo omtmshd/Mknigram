@@ -1,5 +1,4 @@
 class PostsController < ApplicationController
-
   def index
     @posts = Post.all
   end
@@ -10,11 +9,11 @@ class PostsController < ApplicationController
   end
 
   def get_category_children
-    @category_children = Category.where("#{params[:parent_id]}").children
+    @category_children = Category.where(params[:parent_id].to_s).children
   end
 
   def get_category_grandchildren
-    @category_grandchildren = Category.where("#{params[:child_id]}").children
+    @category_grandchildren = Category.where(params[:child_id].to_s).children
   end
 
   def create
