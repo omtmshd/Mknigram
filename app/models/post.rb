@@ -2,6 +2,7 @@ class Post < ApplicationRecord
   belongs_to :user
   has_many :post_category
   has_many :categories, through: :post_category
+  has_many :likes, dependent: :destroy
 
   mount_uploader :post_image, PostImageUploader
   default_scope -> { order(created_at: :desc) }
