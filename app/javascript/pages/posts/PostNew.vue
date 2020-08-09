@@ -1,37 +1,36 @@
 <template>
-  <post-form :post="post" :errors="errors" @submit="updatePost"></post-form>
+  <post-form :post="post" :errors="errors" @submit="createPost"></post-form>
 </template>
 
 <script>
 import axios from "axios";
-import PostForm from "./PostForm.vue";
+import PostForm from "../../components/Post/PostForm.vue";
 
 export default {
   components: { PostForm },
   data() {
     return {
-      post: {},
+      post: {
+        title: "",
+        body: "",
+        post_image: null,
+      },
       errors: "",
     };
   },
-  mounted() {
-    axios
-      .get(`/api/v1/posts/${this.$route.params.id}.json`)
-      .then((response) => (this.post = response.data));
-  },
   methods: {
-    updatePost: function () {
+    createPost() {
       let formData = new FormData();
       formData.append("post[title]", this.post.title);
       formData.append("post[body]", this.post.body);
-      // まだ画像編集できない
-      // formData.append("post[post_image]", this.post.post_image);
+      formData.append("post[post_image]", this.post.post_image);
       axios
-        .patch(`/api/v1/posts/${this.post.id}`, formData)
+        .post("/api/v1/posts", formData)
         .then((response) => {
+          let p = response.data;
           this.$router.push({
             name: "PostShow",
-            params: { id: this.post.id },
+            params: { id: p.id },
           });
         })
         .catch((error) => {
