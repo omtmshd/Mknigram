@@ -5,27 +5,13 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%#= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
-
   <body>
-    <div class="columns bg">
-      <div class="column is-centere py-5 bg2">
-        <%= render 'layouts/header' %>
-        <div class="columns is-desktop">
-          <div class="column is-2 is-hidden-touch ml-6 bg3">
-            <%= render 'layouts/side_bar'%>
-          </div>
-            <p class="notice"><%= notice %></p>
-            <p class="alert"><%= alert %></p>
-          <div class="column ml-2">
-            <%= yield %>
-          </div>
-        </div>
-      </div>
-      <%= render 'layouts/footer' %>
-    </div>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <%= yield %>
   </body>
 </html>

@@ -13,81 +13,84 @@
  *= require_tree .
  *= require_self
  */
- $text:white;
- $link: white;
- $link-invert:hsla(0, 0%, 0%, 0);
-//ヘッダー
-$navbar-item-hover-color:white;
-$navbar-item-hover-background-color:rgba(0, 0, 0, 0.5);
-
-//サイドバー
-$menu-label-color: white;
-
-//フッター
-$footer-background-color:rgba(0, 0, 0, 0.5);
-$footer-padding: 0.5rem 1.5rem;
 
 
-@import "bulma";
-@import "font-awesome";
 
-*{
-  margin:0;
-  padding: 0;
-}
-　
-html,　body {
-  height: 100%;
-  width:100%;
-}
+//  $text:white;
+//  $link: white;
+//  $link-invert:hsla(0, 0%, 0%, 0);
+// // ヘッダー
+// $navbar-item-hover-color:white;
+// $navbar-item-hover-background-color:rgba(0, 0, 0, 0.5);
 
-//背景画像
+// // サイドバー
+// $menu-label-color: white;
 
-//PC
-@media (min-width: 641px){
-  .bg {
-    background-image: url("back_pc.jpg");
-  }
-}
-//tablet
-@media (max-width: 640px){
-  .bg {
-    background-image: url("back_sp.jpg");
-  }
-}
+// // フッター
+// $footer-background-color:rgba(0, 0, 0, 0.5);
+// $footer-padding: 0.5rem 1.5rem;
 
-.bg {
-  position: sticky;
-  padding-bottom: 0;
-  top: 0px;
-  background-size: cover;
-  background-repeat:  no-repeat;
-  background-attachment: fixed;
-  min-height: 100%;
-}
 
-//ぼかし
-.bg2 {
-  background-color: rgba(0, 0, 0, 0.2);
-}
+// @import "bulma";
+// @import "font-awesome";
 
-//サイドバー
-.bg3 {
-  background: linear-gradient(to right,rgba(0,0,0,0),15%, rgba(0,0,0,0.4),75%, rgba(0,0,0,0.0));
-  position: sticky;
-  top: 0px;
-}
+// *{
+//   margin:0;
+//   padding: 0;
+// }
+// 　
+// html,　body {
+//   height: 100%;
+//   width:100%;
+// }
 
-//ヘッダー
-.navbar-item{
-  background: radial-gradient(rgba(0,0,0,3),20%, rgba(0,0,0,0));
-  color: white;
-}
+// //背景画像
 
-.head{
-  position: sticky;
-  top: 0px;
-}
+// //PC
+// @media (min-width: 641px){
+//   .bg {
+//     background-image: url("back_pc.jpg");
+//   }
+// }
+// //tablet
+// @media (max-width: 640px){
+//   .bg {
+//     background-image: url("back_sp.jpg");
+//   }
+// }
 
-//フッター
+// .bg {
+//   position: sticky;
+//   padding-bottom: 0;
+//   top: 0px;
+//   background-size: cover;
+//   background-repeat:  no-repeat;
+//   background-attachment: fixed;
+//   min-height: 100%;
+// }
+
+// //ぼかし
+// .bg2 {
+//   background-color: rgba(0, 0, 0, 0.2);
+// }
+
+// //サイドバー
+// .bg3 {
+//   background: linear-gradient(to right,rgba(0,0,0,0),15%, rgba(0,0,0,0.4),75%, rgba(0,0,0,0.0));
+//   position: sticky;
+//   top: 0px;
+// }
+
+// //ヘッダー
+// .navbar-item{
+//   background: radial-gradient(rgba(0,0,0,3),20%, rgba(0,0,0,0));
+//   color: white;
+// }
+
+// .head{
+//   position: sticky;
+//   top: 0px;
+// }
+
+// //フッター
 

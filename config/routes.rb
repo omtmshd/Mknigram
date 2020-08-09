@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  root to: 'posts#index'
+  root to: 'home#index'
 
   namespace :api, { format: 'json' } do
     namespace :v1 do
@@ -8,9 +8,6 @@ Rails.application.routes.draw do
       resources :posts, only: %i[index show create update destroy]
     end
   end
-
-
-  resources :posts, only: %i[new create update destroy index show]
 
   get 'categories_post(/:id)' => 'categories#post_index'
   devise_for :users, controllers: {

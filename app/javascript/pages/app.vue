@@ -8,10 +8,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import PostsIndex from "./PostsIndex.vue";
-import PostShow from "./PostShow.vue";
-import PostNew from "./PostNew.vue";
-import PostEdit from "./PostEdit.vue";
+import PostsIndex from "./posts/PostsIndex.vue";
+import PostShow from "./posts/PostShow.vue";
+import PostNew from "./posts/PostNew.vue";
+import PostEdit from "./posts/PostEdit.vue";
 
 const router = new VueRouter({
   routes: [
