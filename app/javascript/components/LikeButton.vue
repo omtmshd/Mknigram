@@ -43,7 +43,7 @@ export default {
   methods: {
     // rails側のindexアクションにリクエストするメソッド
     fetchLikeByPostId: async function () {
-      const res = await axios.get(`/api/likes/?post_id=${this.postId}`);
+      const res = await axios.get(`/api/v1/likes/?post_id=${this.postId}`);
       if (res.status !== 200) {
         process.exit();
       }
@@ -51,7 +51,7 @@ export default {
     },
     // rails側のcreateアクションにリクエストするメソッド
     registerLike: async function () {
-      const res = await axios.post("/api/likes", { post_id: this.postId });
+      const res = await axios.post("/api/v1/likes", { post_id: this.postId });
       if (res.status !== 201) {
         process.exit();
       }
@@ -62,7 +62,7 @@ export default {
     // rails側のdestroyアクションにリクエストするメソッド
     deleteLike: async function () {
       const likeId = this.findLikeId();
-      const res = await axios.delete(`/api/likes/${likeId}`);
+      const res = await axios.delete(`/api/v1/likes/${likeId}`);
       if (res.status !== 200) {
         process.exit();
       }

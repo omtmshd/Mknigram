@@ -3,8 +3,14 @@ Rails.application.routes.draw do
   root to: 'posts#index'
 
   namespace :api, { format: 'json' } do
-    resources :likes, only: [:index, :create, :destroy]
+    namespace :v1 do
+      resources :likes, only: %i[index create destroy]
+      resources :posts, only: %i[index show create update destroy]
+    end
   end
+
+
+  resources :posts, only: %i[new create update destroy index show]
 
   get 'categories_post(/:id)' => 'categories#post_index'
   devise_for :users, controllers: {
@@ -24,6 +30,5 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :posts
   resources :relationships, only: %i[create destroy]
 end

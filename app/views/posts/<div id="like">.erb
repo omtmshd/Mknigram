@@ -1,0 +1,19 @@
+<div id="like">
+  <% @posts.each do |post| %>
+    <li>
+      <%= link_to post_path(post.id) do %>
+
+        <%= image_tag post.post_image.url %>
+        <p><%= post.title %>by.
+      <% end %>
+      <%= link_to post.user.name, user_path(post.user_id)%></p>
+      <p>
+        <% if user_signed_in? %>
+          <like-button :user-id="<%= current_user.id %>" :post-id="<%= post.id %>"></like-button>
+        <% end %>
+      </p>
+    </li>
+  <% end %>
+</div>
+
+<%= javascript_pack_tag 'index' %>

@@ -1,0 +1,17 @@
+      <%= f.collection_check_boxes :category_ids, @parent, :id, :name do |p| %>
+        <p>
+          <%= p.label do %>
+            <%= p.check_box %>
+            <%= p.text %>
+          <% end %>
+          <div id="Category">
+            <category-hidden></category-child>
+          </div>
+          <%= f.collection_check_boxes :category_ids, p.object.children, :id, :name do |c| %>
+            <%= c.label do %>
+              <%= c.check_box %>
+              <%= c.text %>
+            <% end %>
+          <% end %>
+        </p>
+      <% end %>
