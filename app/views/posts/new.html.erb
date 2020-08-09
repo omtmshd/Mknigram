@@ -1,6 +1,6 @@
 <h2>新規投稿</h2>
 
-<%= form_with model: Post, url: posts_path do |f| %>
+<%= form_with model: @post, url: posts_path, method: :post, local: true do |f| %>
 
     <div class="field">
       <%= f.label :post_image, "写真" %><br/>
@@ -16,6 +16,24 @@
       <%= f.label :body, "レシピ" %><br/>
       <%= f.text_area :body %>
     </div>
+
+    <div id="Category">
+      <%= f.collection_check_boxes :category_ids, @parent, :id, :name do |p| %>
+        <p>
+          <%= p.label do %>
+            <%= p.check_box %>
+            <%= p.text %>
+          <% end %>
+          <%= f.collection_check_boxes :category_ids, p.object.children, :id, :name do |c| %>
+            <%= c.label do %>
+              <%= c.check_box %>
+              <%= c.text %>
+            <% end %>
+          <% end %>
+        </p>
+      <% end %>
+    </div>
+
 
 <%= f.submit "投稿" %>
 <% end %>

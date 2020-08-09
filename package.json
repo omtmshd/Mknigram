@@ -13,6 +13,7 @@
     "turbolinks": "^5.2.0",
     "vue": "^2.6.11",
     "vue-loader": "^15.9.3",
+    "vue-router": "^3.4.2",
     "vue-template-compiler": "^2.6.11"
   },
   "version": "0.1.0",

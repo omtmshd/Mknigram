@@ -2,7 +2,7 @@
 <p><%= @post.title %>by.<%= link_to @user.name, user_path(@user.id)%></p>
 
 <p><%= @post.body %></p>
-
+<p><%= @category %></p>
 <% if user_signed_in? %>
   <%= link_to "編集", edit_post_path %>
   <%= link_to "削除", post_path(@post.id), method: :delete %><br>

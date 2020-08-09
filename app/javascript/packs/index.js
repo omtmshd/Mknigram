@@ -1,10 +1,12 @@
 import Vue from 'vue'
-import LikeButton from '../components/Like/LikeButton.vue'
+import App from '../components/app.vue'
 
-// HTMLが解釈された時点で発生するイベント
 document.addEventListener('DOMContentLoaded', () => {
-  new Vue({
-    el: '#like',
-    components: { LikeButton }
+  const el = document.body.appendChild(document.createElement('hello'))
+  const app = new Vue({
+    el,
+    render: h => h(App)
   })
+
+  console.log(app)
 })

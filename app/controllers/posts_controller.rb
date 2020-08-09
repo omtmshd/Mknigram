@@ -5,15 +5,7 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
-    @category_parent_array = Category.where(ancestry: nil)
-  end
-
-  def get_category_children
-    @category_children = Category.where(params[:parent_id].to_s).children
-  end
-
-  def get_category_grandchildren
-    @category_grandchildren = Category.where(params[:child_id].to_s).children
+    @parent = Category.where(ancestry: nil)
   end
 
   def create
@@ -40,6 +32,8 @@ class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @user = @post.user
+    @category_id = @post.category_ids
+    @category = Category.find(@category_id)
   end
 
   def destroy
@@ -54,6 +48,6 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :body, :post_image)
+    params.require(:post).permit(:title, :body, :post_image, :category_ids [])
   end
 end

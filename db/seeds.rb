@@ -84,18 +84,18 @@ if Rails.env == 'development'
       { level2: 'リゾット・雑炊類', level2_children: ['リゾット', '雑炊・おじや', 'お粥', 'クッパ'] },
       { level2: 'アレンジごはん', level2_children: %w[おにぎり 焼きおにぎり ドリア ライスコロッケ お茶漬け] }
     ] },
-    { level1: 'パスタ・グラタン', level1_children: [
-      { level2: 'トマト系パスタ', level2_children: ['ペスカトーレ', 'ミートソース', 'トマトクリーム', 'ボンゴレ・ロッソ', 'ナポリタン', 'アラビアータ', 'トマトソースパスタ'] },
+    { level1: 'パスタ/グラタン', level1_children: [
+      { level2: 'トマト系パスタ', level2_children: ['ペスカトーレ', 'ミートソース', 'トマトクリーム', 'ボンゴレロッソ', 'ナポリタン', 'アラビアータ', 'トマトソースパスタ'] },
       { level2: 'クリーム系パスタ', level2_children: %w[クリームソース カルボナーラ] },
-      { level2: 'オイル・塩系パスタ', level2_children: ['ペペロンチーノ', 'ボンゴレ・ビアンコ', 'アレンジオイル・塩系パスタ'] },
+      { level2: 'オイル/塩系パスタ', level2_children: ['ペペロンチーノ', 'ボンゴレビアンコ', 'アレンジオイル/塩系パスタ'] },
       { level2: 'チーズ系パスタ' },
       { level2: 'ジェノベーゼ' },
-      { level2: '和風パスタ', level2_children: ['明太子・たらこスパ', '醤油風味スパ', '味噌風味スパ', '梅風味スパ', '納豆入りスパ'] },
-      { level2: '冷製・アイデアパスタ', level2_children: %w[冷製パスタ アイデアパスタ] },
+      { level2: '和風パスタ', level2_children: ['明太子/たらこスパ', '醤油風味スパ', '味噌風味スパ', '梅風味スパ', '納豆入りスパ'] },
+      { level2: '冷製/アイデアパスタ', level2_children: %w[冷製パスタ アイデアパスタ] },
       { level2: 'スープパスタ' },
       { level2: 'ニョッキ' },
       { level2: 'グラタン', level2_children: %w[カボチャグラタン マカロニグラタン 魚介のグラタン チキングラタン 豆腐グラタン アレンジグラタン ポテトグラタン] },
-      { level2: 'ラザニア・ラビオリ', level2_children: ['ラザニア', 'ラビオリ', 'アイデアラザニア・ラビオリ'] },
+      { level2: 'ラザニア/ラビオリ', level2_children: ['ラザニア', 'ラビオリ', 'アイデアラザニア/ラビオリ'] },
       { level2: '手作りパスタ' }
     ] },
     { level1: '麺', level1_children: [
@@ -104,7 +104,7 @@ if Rails.env == 'development'
       { level2: 'そうめん', level2_children: %w[そうめんチャンプルー にゅうめん アレンジそうめん] },
       { level2: '中華麺', level2_children: %w[焼きそば ラーメン アレンジ焼きそば ジャージャー麺 冷やし中華] },
       { level2: 'アジアの麺', level2_children: ['ビーフン', 'フォー', 'ビビン麺・冷麺'] },
-      { level2: '手打ち麺', level2_children: ['手打ちうどん', '手打ち蕎麦・中華麺'] }
+      { level2: '手打ち麺', level2_children: ['手打ちうどん', '手打ち蕎麦/中華麺'] }
     ] },
     { level1: '汁物・スープ', level1_children: [
       { level2: 'お味噌汁' },
@@ -123,7 +123,7 @@ if Rails.env == 'development'
       { level2: '冷や汁' },
       { level2: 'ポタージュ' },
       { level2: 'オニオングラタンスープ' },
-      { level2: 'エスニックなスープ', level2_children: ['タイ風・アジアンスープ', '韓国風スープ'] },
+      { level2: 'エスニックなスープ', level2_children: ['タイ風/アジアンスープ', '韓国風スープ'] },
       { level2: 'コンソメスープ' },
       { level2: 'ラタトゥイユ' }
     ] },
@@ -176,7 +176,7 @@ if Rails.env == 'development'
       { level2: 'チヂミ' },
       { level2: 'お好み焼き', level2_children: %w[広島風お好み焼き 関西風お好み焼き アレンジお好み焼き] }
     ] },
-    { level1: 'たまご・大豆加工品', level1_children: [
+    { level1: 'たまご/大豆加工品', level1_children: [
       { level2: 'たまご', level2_children: ['オムレツ', '卵焼き', '温泉たまご・味付けたまご', '茶碗蒸し', 'アレンジたまご料理'] },
       { level2: '豆腐', level2_children: ['揚げ出し豆腐', '麻婆豆腐', '豆腐ハンバーグ', '冷奴', '胡麻豆腐・たまご豆腐', 'アレンジ豆腐料理'] },
       { level2: 'おから' },
@@ -187,11 +187,11 @@ if Rails.env == 'development'
       { level2: '油揚げ' },
       { level2: '厚揚げ' }
     ] },
-    { level1: '海藻・乾物・こんにゃく', level1_children: [
+    { level1: '海藻/乾物/こんにゃく', level1_children: [
       { level2: 'こんにゃく' },
       { level2: '糸こんにゃく・しらたき' },
       { level2: '海藻', level2_children: %w[わかめ 昆布 ひじき めかぶ] },
-      { level2: '乾物', level2_children: ['干ししいたけ', '切り干し大根', '春雨', '桜えび・干しえび', 'きくらげ'] }
+      { level2: '乾物', level2_children: ['干ししいたけ', '切り干し大根', '春雨', '桜えび/干しえび', 'きくらげ'] }
     ] }
   ]
 
