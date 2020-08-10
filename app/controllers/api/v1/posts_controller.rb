@@ -1,4 +1,5 @@
 class Api::V1::PostsController < ApiController
+  before_action :authenticate_user!, only: %i[create update destroy]
   before_action :set_post, only: %i[show update destroy]
 
   rescue_from ActiveRecord::RecordNotFound do |_exception|

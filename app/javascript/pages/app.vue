@@ -8,17 +8,39 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import PostsIndex from "./posts/PostsIndex.vue";
-import PostShow from "./posts/PostShow.vue";
-import PostNew from "./posts/PostNew.vue";
-import PostEdit from "./posts/PostEdit.vue";
+import PostsIndexPage from "./posts/PostsIndexPage.vue";
+import PostsShowPage from "./posts/PostsShowPage.vue";
+import PostsNewPage from "./posts/PostsNewPage.vue";
+import PostsEditPage from "./posts/PostsEditPage.vue";
+import UsersIndexPage from "./users/UsersIndexPage.vue";
+import UsersShowPage from "./users/UsersShowPage.vue";
+import UsersEditPage from "./users/UsersEditPage.vue";
 
 const router = new VueRouter({
   routes: [
-    { path: "/", component: PostsIndex },
-    { path: "/posts/:id(\\d+)", name: "PostShow", component: PostShow },
-    { path: "/posts/new", name: "PostNew", component: PostNew },
-    { path: "/posts/:id(\\d+)/edit", name: "PostEdit", component: PostEdit },
+    { path: "/", component: PostsIndexPage },
+    {
+      path: "/posts/:id(\\d+)",
+      name: "PostsShowPage",
+      component: PostsShowPage,
+    },
+    { path: "/posts/new", name: "PostsNewPage", component: PostsNewPage },
+    {
+      path: "/posts/:id(\\d+)/edit",
+      name: "PostsEditPage",
+      component: PostsEditPage,
+    },
+    { path: "/users", name: "UsersIndexPage", component: UsersIndexPage },
+    {
+      path: "/users/:id(\\d+)",
+      name: "UsersShowPage",
+      component: UsersShowPage,
+    },
+    {
+      path: "/users/:id(\\d+)/edit",
+      name: "UsersEditPage",
+      component: UsersEditPage,
+    },
   ],
 });
 

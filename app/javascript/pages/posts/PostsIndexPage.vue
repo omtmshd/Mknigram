@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
+  <div>
     <div v-for="p in posts" :key="p.id">
       <p>
-        <router-link :to="{ name: 'PostShow', params: { id: p.id } }">{{ p.id }}</router-link>
+        <router-link :to="{ name: 'PostsShowPage', params: { id: p.id } }">{{ p.id }}</router-link>
       </p>
       <p>{{ p.id }}</p>
       <p>{{ p.title }}</p>
