@@ -29,7 +29,7 @@ export default {
         .then((response) => {
           let p = response.data;
           this.$router.push({
-            name: "PostShow",
+            name: "PostsShowPage",
             params: { id: p.id },
           });
         })

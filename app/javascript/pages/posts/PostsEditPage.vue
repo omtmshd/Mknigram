@@ -30,7 +30,7 @@ export default {
         .patch(`/api/v1/posts/${this.post.id}`, formData)
         .then((response) => {
           this.$router.push({
-            name: "PostShow",
+            name: "PostsShowPage",
             params: { id: this.post.id },
           });
         })
