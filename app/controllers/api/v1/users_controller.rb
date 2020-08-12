@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApiController
   # before_action :authenticate_user!, only: %i[index edit update destroy following followers]
-  before_action :set_user, only: %i[update show]
+  before_action :set_user, only: %i[update show following followers following_status]
 
   rescue_from ActiveRecord::RecordNotFound do |_exception|
     render json: { error: '404 not found' }, status: 404
@@ -21,6 +21,26 @@ class Api::V1::UsersController < ApiController
     else
       render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
     end
+  end
+
+  def following
+    @users = @user.following
+    render json: @users
+  end
+
+  def followers
+    @users = @user.followers
+    render json: @users
+  end
+
+  def current
+    @user = current_user
+    render json: @user
+  end
+
+  def following_status
+    @follow = current_user.following.include?(@user)
+    render json: @follow
   end
 
   private

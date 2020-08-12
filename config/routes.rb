@@ -6,7 +6,13 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :likes, only: %i[index create destroy]
       resources :posts, only: %i[index show create update destroy]
-      resources :users, only: %i[show update index]
+      resources :users, only: %i[show update index] do
+        member do
+          get :following, :followers, :following_status
+        end
+        get :current, on: :collection
+      end
+      resources :relationships, only: %i[create destroy]
     end
   end
 
