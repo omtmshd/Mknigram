@@ -23,12 +23,7 @@
 <%= render 'avatar', user: @user %>
 <%= @user.profile %>
 
-<% @posts.each do |post| %>
-  <%= link_to post_path(post.id) do %>
-   <%= image_tag post.post_image.url %>
-   <p><%= post.title %></p>
-  <% end %>
-<% end %>
+
 <p>
   <% if user_signed_in? %>
       <%= link_to 'マイページ編集', edit_user_path %>

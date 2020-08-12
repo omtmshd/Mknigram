@@ -1,20 +1,24 @@
 <template>
   <div>
-    <router-view></router-view>
+    <router-view :current_user="current_user"></router-view>
   </div>
 </template>
 
 <script>
 import Vue from "vue";
 import VueRouter from "vue-router";
+import axios from "axios";
 
 import PostsIndexPage from "./posts/PostsIndexPage.vue";
 import PostsShowPage from "./posts/PostsShowPage.vue";
 import PostsNewPage from "./posts/PostsNewPage.vue";
 import PostsEditPage from "./posts/PostsEditPage.vue";
+
 import UsersIndexPage from "./users/UsersIndexPage.vue";
 import UsersShowPage from "./users/UsersShowPage.vue";
 import UsersEditPage from "./users/UsersEditPage.vue";
+import UsersFollowingPage from "./users/UsersFollowingPage.vue";
+import UsersFollowersPage from "./users/UsersFollowersPage.vue";
 
 const router = new VueRouter({
   routes: [
@@ -41,6 +45,16 @@ const router = new VueRouter({
       name: "UsersEditPage",
       component: UsersEditPage,
     },
+    {
+      path: "/users/:id(\\d+)/following",
+      name: "UsersFollowingPage",
+      component: UsersFollowingPage,
+    },
+    {
+      path: "/users/:id(\\d+)/followers",
+      name: "UsersFollowersPage",
+      component: UsersFollowersPage,
+    },
   ],
 });
 
@@ -48,6 +62,16 @@ Vue.use(VueRouter);
 
 export default {
   router,
+  data() {
+    return {
+      current_user: {},
+    };
+  },
+  mounted() {
+    axios
+      .get(`/api/v1/users/current.json`)
+      .then((response) => (this.current_user = response.data));
+  },
 };
 </script>
 
