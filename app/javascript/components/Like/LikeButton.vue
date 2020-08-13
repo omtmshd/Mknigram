@@ -6,27 +6,22 @@
 </template>
 
 <script>
-// axios と rails-ujsのメソッドインポート
 import axios from "axios";
 import { csrfToken } from "rails-ujs";
-// CSRFトークンの取得とリクエストヘッダへの設定
+
 axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken();
 
 export default {
-  // propsでrailsのviewからデータを受け取る
-  props: ["userId", "postId"],
+  props: ["postId"],
   data() {
     return {
-      likeList: [], // いいね一覧を格納するための変数　{ id: 1, user_id: 1, post_id: 1 } がArrayで入る
+      likeList: [],
     };
   },
-  // 算出プロパティ ここではlikeListが変更される度に、count、isLiked が再構築される (watchで監視するようにしても良いかも)
   computed: {
-    // いいね数を返す
     count() {
       return this.likeList.length;
     },
-    // ログインユーザが既にいいねしているかを判定する
     isLiked() {
       if (this.likeList.length === 0) {
         return false;
@@ -35,13 +30,13 @@ export default {
     },
   },
   // Vueインスタンスの作成・初期化直後に実行される
-  created: function () {
+  mounted() {
     this.fetchLikeByPostId().then((result) => {
       this.likeList = result;
     });
   },
   methods: {
-    // rails側のindexアクションにリクエストするメソッド
+    // rails側のindexアクション
     fetchLikeByPostId: async function () {
       const res = await axios.get(`/api/v1/likes/?post_id=${this.postId}`);
       if (res.status !== 200) {
@@ -49,7 +44,7 @@ export default {
       }
       return res.data;
     },
-    // rails側のcreateアクションにリクエストするメソッド
+    // rails側のcreateアクション
     registerLike: async function () {
       const res = await axios.post("/api/v1/likes", { post_id: this.postId });
       if (res.status !== 201) {
@@ -59,7 +54,7 @@ export default {
         this.likeList = result;
       });
     },
-    // rails側のdestroyアクションにリクエストするメソッド
+    // rails側のdestroyアクション
     deleteLike: async function () {
       const likeId = this.findLikeId();
       const res = await axios.delete(`/api/v1/likes/${likeId}`);
@@ -68,10 +63,10 @@ export default {
       }
       this.likeList = this.likeList.filter((n) => n.id !== likeId);
     },
-    // ログインユーザがいいねしているlikeモデルのidを返す
-    findLikeId: function () {
+    // いいねしているlikeモデルのidを返す
+    findLikeId() {
       const like = this.likeList.find((like) => {
-        return like.user_id === this.userId;
+        return like.user_id === this.current_user.id;
       });
       if (like) {
         return like.id;

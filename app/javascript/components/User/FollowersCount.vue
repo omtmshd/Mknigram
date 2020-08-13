@@ -15,16 +15,15 @@ export default {
     };
   },
   mounted() {
-    this.updateFollewers();
+    this.updateFollowers();
   },
   computed: {
     followersNumber() {
-      this.updateFollewers();
       return Object.keys(this.users).length;
     },
   },
   methods: {
-    updateFollewers() {
+    updateFollowers() {
       axios
         .get(`/api/v1/users/${this.$route.params.id}/followers.json`)
         .then((response) => (this.users = response.data));

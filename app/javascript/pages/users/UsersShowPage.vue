@@ -28,9 +28,6 @@ import UserUnfollow from "../../components/User/UserUnfollow.vue";
 
 export default {
   components: { FollowingCount, FollowersCount, UserFollow, UserUnfollow },
-  props: {
-    current_user: {},
-  },
   data() {
     return {
       user: {},
@@ -46,12 +43,12 @@ export default {
   methods: {
     userFollow() {
       axios.post("/api/v1/relationships", this.user);
-      this.$refs.child.$emit("updateFollewers");
+      this.$refs.child.$emit("updateFollowers");
       this.follow_status = true;
     },
     userUnfollow() {
       axios.delete(`/api/v1/relationships/${this.user.id}`);
-      this.$refs.child.$emit("updateFollewers");
+      this.$refs.child.$emit("updateFollowers");
       this.follow_status = false;
     },
     followStatus() {
