@@ -1,13 +1,12 @@
 <template>
   <div>
-    <router-view :current_user="current_user"></router-view>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import Vue from "vue";
 import VueRouter from "vue-router";
-import axios from "axios";
 
 import PostsIndexPage from "./posts/PostsIndexPage.vue";
 import PostsShowPage from "./posts/PostsShowPage.vue";
@@ -19,7 +18,7 @@ import UsersShowPage from "./users/UsersShowPage.vue";
 import UsersEditPage from "./users/UsersEditPage.vue";
 import UsersFollowingPage from "./users/UsersFollowingPage.vue";
 import UsersFollowersPage from "./users/UsersFollowersPage.vue";
-
+import { currentUser } from "../packs/mixins/currentUser";
 const router = new VueRouter({
   routes: [
     { path: "/", component: PostsIndexPage },
@@ -59,19 +58,10 @@ const router = new VueRouter({
 });
 
 Vue.use(VueRouter);
+Vue.mixin(currentUser);
 
 export default {
   router,
-  data() {
-    return {
-      current_user: {},
-    };
-  },
-  mounted() {
-    axios
-      .get(`/api/v1/users/current.json`)
-      .then((response) => (this.current_user = response.data));
-  },
 };
 </script>
 

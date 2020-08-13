@@ -9,19 +9,22 @@
       <p>{{ p.body }}</p>
       <p>{{ p.post_image }}</p>
       <!-- <p>{{ p.category_ids }}</p> -->
+      <like-button :post-id="p.id"></like-button>
     </div>
   </div>
 </template>
 <script>
 import axios from "axios";
+import LikeButton from "../../components/Like/LikeButton.vue";
 
 export default {
-  data: function () {
+  components: { LikeButton },
+  data() {
     return {
       posts: [],
     };
   },
-  mounted() {
+  created() {
     axios
       .get("/api/v1/posts.json")
       .then((response) => (this.posts = response.data));
@@ -30,8 +33,4 @@ export default {
 </script>
 
 <style scoped>
-p {
-  font-size: 2em;
-  text-align: center;
-}
 </style>
