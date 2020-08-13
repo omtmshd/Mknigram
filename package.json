@@ -13,7 +13,8 @@
     "vue": "^2.6.11",
     "vue-loader": "^15.9.3",
     "vue-router": "^3.4.2",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "vuetify": "^2.3.8"
   },
   "version": "0.1.0",
   "devDependencies": {
