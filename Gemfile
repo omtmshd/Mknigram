@@ -51,7 +51,6 @@ group :test do
 end
 
 gem 'ancestry'
-gem 'bulma-rails', '~> 0.9.0'
 gem 'carrierwave'
 gem 'devise'
 gem 'devise-i18n'
