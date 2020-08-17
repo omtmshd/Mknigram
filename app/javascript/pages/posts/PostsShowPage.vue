@@ -8,8 +8,10 @@
     <p>{{ post.body }}</p>
     <p>Image</p>
     <p>{{ post.post_image }}</p>
+    <p>カテゴリー</p>
+    <p v-for="c in post.categories" :key="c.id">{{ c.name }}</p>
     <p>
-      <button @click="deleteTarget = post.id; showModal = true">Delete</button>
+      <button v-if="current_user" @click="deleteTarget = post.id; showModal = true">Delete</button>
       <modal v-if="showModal" @cancel="showModal = false" @ok="deletePost(); showModal = false;">
         <div slot="body">Are you sure?</div>
       </modal>
@@ -23,8 +25,10 @@ import axios from "axios";
 
 import Modal from "../../components/Post/Modal.vue";
 import LikeButton from "../../components/Like/LikeButton.vue";
+import { currentUser } from "../../packs/mixins/currentUser";
 
 export default {
+  mixins: [currentUser],
   components: {
     Modal,
     LikeButton,
@@ -38,9 +42,7 @@ export default {
     };
   },
   created() {
-    axios
-      .get(`/api/v1/posts/${this.$route.params.id}.json`)
-      .then((response) => (this.post = response.data));
+    this.setPost();
   },
   methods: {
     deletePost() {
@@ -60,6 +62,11 @@ export default {
             this.errors = error.response.data.errors;
           }
         });
+    },
+    setPost() {
+      axios
+        .get(`/api/v1/posts/${this.$route.params.id}.json`)
+        .then((response) => (this.post = response.data));
     },
   },
 };

@@ -10,25 +10,65 @@ export default {
   components: { PostForm },
   data() {
     return {
-      post: {},
+      post: {
+        title: "",
+        body: "",
+        post_image: String,
+        category_ids: [],
+        categories: [],
+      },
       errors: "",
     };
   },
-  mounted() {
-    axios
-      .get(`/api/v1/posts/${this.$route.params.id}.json`)
-      .then((response) => (this.post = response.data));
+  created() {
+    this.setPost();
   },
   methods: {
-    updatePost: function () {
+    setPost() {
+      axios
+        .get(`/api/v1/posts/${this.$route.params.id}.json`)
+        .then((response) => (this.post = response.data));
+    },
+    updatePost() {
+      // フォームデータ
       let formData = new FormData();
       formData.append("post[title]", this.post.title);
       formData.append("post[body]", this.post.body);
-      // まだ画像編集できない
-      // formData.append("post[post_image]", this.post.post_image);
+      formData.append("post[post_image]", this.post.post_image);
+      // メインが選択済みである場合、代入
+      if (this.post.categories[0].id > 0) {
+        this.post.category_ids = [this.post.categories[0].id];
+        // サブのidがメインより大きい場合、代入
+        if (this.post.categories[1].id > this.post.categories[0].id) {
+          this.post.category_ids = [
+            this.post.categories[0].id,
+            this.post.categories[1].id,
+          ];
+          // サブ2のidがサブより大きい場合、代入
+          if (this.post.categories[2].id > this.post.categories[1].id) {
+            this.post.category_ids = [
+              this.post.categories[0].id,
+              this.post.categories[1].id,
+              this.post.categories[2].id,
+            ];
+          }
+        }
+        // 配列をまとめる
+        this.post.category_ids.forEach((category_id, index) => {
+          formData.append("post[category_ids][]", category_id);
+        });
+        // 有効なデータが無い場合、空配列
+      } else {
+        formData.append("post[category_ids][]", []);
+      }
       axios
-        .patch(`/api/v1/posts/${this.post.id}`, formData)
+        .patch(`/api/v1/posts/${this.post.id}`, formData, {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        })
         .then((response) => {
+          let p = response.data;
           this.$router.push({
             name: "PostsShowPage",
             params: { id: this.post.id },

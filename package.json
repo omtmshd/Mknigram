@@ -9,6 +9,7 @@
     "axios": "^0.19.2",
     "popper.js": "^1.16.1",
     "rails-ujs": "^5.2.4-3",
+    "serialize-javascript": "^4.0.0",
     "turbolinks": "^5.2.0",
     "vue": "^2.6.11",
     "vue-loader": "^15.9.3",

@@ -7,16 +7,15 @@ class Api::V1::PostsController < ApiController
   end
 
   def index
-    posts = Post.select(:id, :title, :body, :post_image)
-    render json: posts
+    render json: Post.all
   end
 
   def show
-    render json: @post
+    render json: @post.to_json(include: [categories: { only: %i[id name] }])
   end
 
   def create
-    post = current_user.posts.new(post_params)
+    post = Post.new(post_params)
     if post.save
       render json: post, status: :created
     else
@@ -44,7 +43,7 @@ class Api::V1::PostsController < ApiController
   end
 
   def post_params
-    params.fetch(:post).permit(:title, :body, :post_image)
+    params.require(:post).permit(:title, :body, :post_image, category_ids: []).merge(user_id: current_user.id)
   end
 
   def render_status_404(exception)

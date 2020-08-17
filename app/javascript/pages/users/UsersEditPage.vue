@@ -9,7 +9,7 @@
     </div>
     <div>
       <label>プロフィール</label>
-      <input v-model="user.profile" type="text" />
+      <input v-model="current_user.profile" type="text" />
     </div>
     <div>
       <label>プロフィール画像</label>
@@ -20,34 +20,30 @@
 </template>
 <script>
 import axios from "axios";
+import { currentUser } from "../../packs/mixins/currentUser";
 
 export default {
+  mixins: [currentUser],
   data() {
     return {
-      user: {},
       errors: "",
     };
   },
-  mounted() {
-    axios
-      .get(`/api/v1/users/${this.$route.params.id}.json`)
-      .then((response) => (this.user = response.data));
-  },
   methods: {
     selectedFile(e) {
-      this.user.profile_image = this.$refs.myFiles.files[0];
+      this.current_user.profile_image = this.$refs.myFiles.files[0];
     },
     updateUser() {
       let formData = new FormData();
-      formData.append("user[profile]", this.user.profile);
+      formData.append("user[profile]", this.current_user.profile);
       // まだ画像編集できない、初期値とのバインディング
-      // formData.append("user[profile_image]", this.user.profile_image);
+      // formData.append("current_user[profile_image]", this.current_user.profile_image);
       axios
-        .patch(`/api/v1/users/${this.user.id}`, formData)
+        .patch(`/api/v1/users/${this.current_user.id}`, formData)
         .then((response) => {
           this.$router.push({
             name: "UsersShowPage",
-            params: { id: this.user.id },
+            params: { id: this.current_user.id },
           });
         })
         .catch((error) => {

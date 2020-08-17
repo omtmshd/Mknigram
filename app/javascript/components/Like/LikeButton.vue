@@ -7,12 +7,9 @@
 
 <script>
 import axios from "axios";
-import { csrfToken } from "rails-ujs";
-
-axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken();
 
 export default {
-  props: ["postId"],
+  props: ["postId", "userId"],
   data() {
     return {
       likeList: [],
@@ -66,7 +63,7 @@ export default {
     // いいねしているlikeモデルのidを返す
     findLikeId() {
       const like = this.likeList.find((like) => {
-        return like.user_id === this.current_user.id;
+        return like.user_id === this.userId;
       });
       if (like) {
         return like.id;

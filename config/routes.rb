@@ -6,17 +6,22 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :likes, only: %i[index create destroy]
       resources :posts, only: %i[index show create update destroy]
+      resources :relationships, only: %i[create destroy]
       resources :users, only: %i[show update index] do
+        get :current, on: :collection
         member do
           get :following, :followers, :following_status
         end
-        get :current, on: :collection
       end
-      resources :relationships, only: %i[create destroy]
+      resources :categories, only: %i[index] do
+        get :parents, on: :collection
+        member do
+          get :children, :post
+        end
+      end
     end
   end
 
-  get 'categories_post(/:id)' => 'categories#post_index'
   devise_for :users, controllers: {
     registrations: 'users/registrations',
     sessions: 'users/sessions'
@@ -28,11 +33,4 @@ Rails.application.routes.draw do
     delete 'sign_out', to: 'users/sessions#destroy'
   end
 
-  resources :users, only: %i[show edit update index] do
-    member do
-      get :following, :followers
-    end
-  end
-
-  resources :relationships, only: %i[create destroy]
 end

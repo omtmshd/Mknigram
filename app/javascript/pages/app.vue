@@ -18,7 +18,7 @@ import UsersShowPage from "./users/UsersShowPage.vue";
 import UsersEditPage from "./users/UsersEditPage.vue";
 import UsersFollowingPage from "./users/UsersFollowingPage.vue";
 import UsersFollowersPage from "./users/UsersFollowersPage.vue";
-import { currentUser } from "../packs/mixins/currentUser";
+
 const router = new VueRouter({
   routes: [
     { path: "/", component: PostsIndexPage },
@@ -58,7 +58,6 @@ const router = new VueRouter({
 });
 
 Vue.use(VueRouter);
-Vue.mixin(currentUser);
 
 export default {
   router,

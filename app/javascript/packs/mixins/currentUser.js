@@ -3,7 +3,10 @@ import axios from "axios";
 export const currentUser = {
   data() {
     return {
-      current_user: {},
+      current_user: {
+        id: Number,
+        name: String
+      },
     };
   },
   created() {

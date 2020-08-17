@@ -1,9 +1,0 @@
-<%= link_to user_path(user) do %>
-<figure class='image is-128x128'>
-  <% if user.profile_image?%>
-    <%= image_tag user.profile_image.url %>
-  <% else %>
-    <%= image_tag '/assets/default.png' %>
-  <% end %>
-</figure>
-<% end %>

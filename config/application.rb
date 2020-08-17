@@ -37,5 +37,8 @@ module Myapp
 
     # 認証トークンをremoteフォームに埋め込む
     config.action_view.embed_authenticity_token_in_remote_forms = true
+
+    # オートロードの設定
+    config.autoload_paths << Rails.root.join('app', 'uploaders')
   end
 end

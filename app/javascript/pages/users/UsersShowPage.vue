@@ -25,9 +25,11 @@ import FollowingCount from "../../components/User/FollowingCount.vue";
 import FollowersCount from "../../components/User/FollowersCount.vue";
 import UserFollow from "../../components/User/UserFollow.vue";
 import UserUnfollow from "../../components/User/UserUnfollow.vue";
+import { currentUser } from "../../packs/mixins/currentUser";
 
 export default {
   components: { FollowingCount, FollowersCount, UserFollow, UserUnfollow },
+  mixins: [currentUser],
   data() {
     return {
       user: {},

@@ -8,16 +8,17 @@
       <p>{{ p.title }}</p>
       <p>{{ p.body }}</p>
       <p>{{ p.post_image }}</p>
-      <!-- <p>{{ p.category_ids }}</p> -->
-      <like-button :post-id="p.id"></like-button>
+      <like-button :post-id="p.id" :user-id="current_user.id"></like-button>
     </div>
   </div>
 </template>
 <script>
 import axios from "axios";
 import LikeButton from "../../components/Like/LikeButton.vue";
+import { currentUser } from "../../packs/mixins/currentUser";
 
 export default {
+  mixins: [currentUser],
   components: { LikeButton },
   data() {
     return {

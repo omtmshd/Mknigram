@@ -34,8 +34,7 @@ class Api::V1::UsersController < ApiController
   end
 
   def current
-    @user = current_user
-    render json: @user
+    render json: current_user
   end
 
   def following_status
