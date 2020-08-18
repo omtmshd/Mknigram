@@ -15,7 +15,11 @@ export default {
         body: "",
         post_image: String,
         category_ids: [],
-        categories: [],
+        categories: [
+          { id: "", name: "" },
+          { id: "", name: "" },
+          { id: "", name: "" },
+        ],
       },
       errors: "",
     };

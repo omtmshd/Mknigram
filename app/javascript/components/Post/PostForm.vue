@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="$emit('submit')">
+  <v-form @submit.prevent="$emit('submit')">
     <div v-if="errors.length != 0">
       <ul v-for="e in errors" :key="e">
         <li>
@@ -7,18 +7,10 @@
         </li>
       </ul>
     </div>
-    <div>
-      <label>タイトル</label>
-      <input v-model="post.title" type="text" />
-    </div>
-    <div>
-      <label>レシピ</label>
-      <input v-model="post.body" type="text" />
-    </div>
-    <div>
-      <label>写真</label>
-      <input ref="myFiles" id="file" type="file" @change="selectedFile" />
-    </div>
+
+    <v-text-field v-model="post.title" label="タイトル" required></v-text-field>
+    <v-text-field v-model="post.body" label="レシピ" required></v-text-field>
+    <v-file-input @change="selectedFile" label="写真"></v-file-input>
     <v-select
       v-model="post.categories[0]"
       :items="parents"
@@ -29,7 +21,6 @@
       @change="setChildren()"
       label="メインカテゴリー"
     />
-
     <v-select
       v-model="post.categories[1]"
       :items="children"
@@ -41,7 +32,6 @@
       @change="setGrandchildren()"
       label="サブカテゴリー"
     />
-
     <v-select
       v-model="post.categories[2]"
       :items="grandchildren"
@@ -53,8 +43,8 @@
       label="サブカテゴリー2"
     />
 
-    <button type="submit">投稿する</button>
-  </form>
+    <v-btn class="mr-4" type="submit">投稿する</v-btn>
+  </v-form>
 </template>
 <script>
 import axios from "axios";
@@ -66,7 +56,11 @@ export default {
       body: "",
       post_image: String,
       category_ids: [],
-      categories: [{}, {}, {}],
+      categories: [
+        { id: "", name: "" },
+        { id: "", name: "" },
+        { id: "", name: "" },
+      ],
     },
     errors: "",
   },
@@ -81,7 +75,8 @@ export default {
     this.setParents();
   },
   updated() {
-    if (this.children.length == 0 && this.post.id > 0) {
+    // 編集画面で1度だけ実行
+    if (this.post.id > 0 && this.children.length == 0) {
       this.setChildren();
       this.setGrandchildren();
     }
@@ -89,7 +84,7 @@ export default {
   methods: {
     // ファイルを代入
     selectedFile(e) {
-      this.post.post_image = this.$refs.myFiles.files[0];
+      this.post.post_image = e;
     },
     // 第1層カテゴリー取得
     setParents() {
@@ -99,23 +94,27 @@ export default {
     },
     // 子カテゴリー取得
     setChildren() {
-      axios
-        .get(`/api/v1/categories/${this.post.categories[0].id}/children.json`)
-        .then((response) => (this.children = response.data));
-      if (this.grandchildren.length != []) {
-        this.post.categories[2].id = -1;
-        this.post.categories[2].name = "";
-        this.grandchildren = [];
+      if (Number(this.post.categories[0].id) > 0) {
+        axios
+          .get(`/api/v1/categories/${this.post.categories[0].id}/children.json`)
+          .then((response) => (this.children = response.data));
+        if (this.grandchildren.length != []) {
+          // 孫カテゴリー初期化
+          this.post.categories[2] = { id: "", name: "" };
+          this.grandchildren = [];
+        }
       }
     },
     // 孫カテゴリー取得
     setGrandchildren() {
-      axios
-        .get(`/api/v1/categories/${this.post.categories[1].id}/children.json`)
-        .then((response) => (this.grandchildren = response.data));
+      if (Number(this.post.categories[1].id) > 0) {
+        axios
+          .get(`/api/v1/categories/${this.post.categories[1].id}/children.json`)
+          .then((response) => (this.grandchildren = response.data));
+      }
     },
   },
 };
 </script>
-<style>
+<style scoped>
 </style>
