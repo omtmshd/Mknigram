@@ -15,7 +15,11 @@ export default {
         body: "",
         post_image: String,
         category_ids: [],
-        categories: [],
+        categories: [
+          { id: "", name: "" },
+          { id: "", name: "" },
+          { id: "", name: "" },
+        ],
       },
       errors: "",
     };
@@ -28,6 +32,15 @@ export default {
       axios
         .get(`/api/v1/posts/${this.$route.params.id}.json`)
         .then((response) => (this.post = response.data));
+      if (this.post.categories[0] != true) {
+        this.post.categories[0] = { id: "", name: "" };
+        if (this.post.categories[1] != true) {
+          this.post.categories[1] = { id: "", name: "" };
+          if (this.post.categories[2] != true) {
+            this.post.categories[2] = { id: "", name: "" };
+          }
+        }
+      }
     },
     updatePost() {
       // フォームデータ

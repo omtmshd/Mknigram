@@ -8,33 +8,6 @@
 
 if Rails.env == 'development'
 
-  100.times do |n|
-    name  = "example-#{n + 1}"
-    email = "example-#{n + 1}@example.com"
-    password = 'password'
-    user = User.create!(
-      name: name,
-      email: email,
-      profile: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus venenatis aliquet leo, quis elementum enim hendrerit eu. Donec blandit velit sed orc.',
-      password: password,
-      password_confirmation: password
-    )
-    title = "カレー#{n + 1}"
-    body = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse non ultrices ipsum, aliquet tempor velit. In ut consectetur est, et vehicula tellus. Duis feugiat leo ligula, eget porta mi tristique sit amet. Mauris rhoncus ultrices augue id.'
-    user.posts.create(
-      title: title,
-      body: body,
-      post_image: open("#{Rails.root}/db/fixtures/img.jpg")
-    )
-  end
-
-  users = User.all
-  user  = users.first
-  following = users[2..50]
-  followers = users[3..40]
-  following.each { |followed| user.follow(followed) }
-  followers.each { |follower| follower.follow(user) }
-
   categories = [
     { level1: '野菜料理', level1_children: [
       { level2: 'よく使う野菜', level2_children: %w[にんじん じゃがいも たまねぎ キャベツ] },
@@ -209,6 +182,34 @@ if Rails.env == 'development'
       end
     end
   end
+
+  100.times do |n|
+    name  = "example-#{n + 1}"
+    email = "example-#{n + 1}@example.com"
+    password = 'password'
+    user = User.create!(
+      name: name,
+      email: email,
+      profile: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus venenatis aliquet leo, quis elementum enim hendrerit eu. Donec blandit velit sed orc.',
+      password: password,
+      password_confirmation: password
+    )
+    title = "カレー#{n + 1}"
+    body = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse non ultrices ipsum, aliquet tempor velit. In ut consectetur est, et vehicula tellus. Duis feugiat leo ligula, eget porta mi tristique sit amet. Mauris rhoncus ultrices augue id.'
+    user.posts.create(
+      title: title,
+      body: body,
+      post_image: open("#{Rails.root}/db/fixtures/img.jpg"),
+      category_ids: [1, 2, 3]
+    )
+  end
+
+  users = User.all
+  user  = users.first
+  following = users[2..50]
+  followers = users[3..40]
+  following.each { |followed| user.follow(followed) }
+  followers.each { |follower| follower.follow(user) }
 
 end
 if Rails.env == 'production'
