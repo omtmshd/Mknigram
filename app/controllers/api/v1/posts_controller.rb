@@ -1,5 +1,5 @@
 class Api::V1::PostsController < ApiController
-  before_action :authenticate_user!, only: %i[create update destroy]
+  before_action :authenticate_user!
   before_action :set_post, only: %i[show update destroy]
 
   rescue_from ActiveRecord::RecordNotFound do |_exception|
@@ -7,11 +7,11 @@ class Api::V1::PostsController < ApiController
   end
 
   def index
-    render json: Post.all
+    render json: Post.all.to_json(include: [:user, categories: { only: %i[id name] }])
   end
 
   def show
-    render json: @post.to_json(include: [categories: { only: %i[id name] }])
+    render json: @post.to_json(include: [:user, categories: { only: %i[id name] }])
   end
 
   def create

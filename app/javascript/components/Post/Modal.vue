@@ -13,8 +13,8 @@
 
           <div class="modal-footer">
             <slot name="footer">
-              <button class="modal-default-button" @click="$emit('ok')">OK</button>
-              <button class="modal-default-button" @click="$emit('cancel')">Cancel</button>
+              <v-btn small @click="$emit('ok')">削除</v-btn>
+              <v-btn small @click="$emit('cancel')">キャンセル</v-btn>
             </slot>
           </div>
         </div>
@@ -64,19 +64,6 @@ export default {};
 .modal-body {
   margin: 20px 0;
 }
-
-.modal-default-button {
-  float: right;
-}
-
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
 
 .modal-enter {
   opacity: 0;

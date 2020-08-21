@@ -1,7 +1,12 @@
 <template>
   <div>
-    <div v-if="isLiked" @click="deleteLike()">いいねを取り消す {{ count }}</div>
-    <div v-else @click="registerLike()">いいねする {{ count }}</div>
+    <v-btn icon color="red lighten-1" v-if="isLiked" @click.stop="deleteLike()">
+      <v-icon>mdi-thumb-up</v-icon>
+    </v-btn>
+    <v-btn icon v-else @click.stop="registerLike()">
+      <v-icon>mdi-thumb-up</v-icon>
+    </v-btn>
+    {{ count }}
   </div>
 </template>
 
