@@ -19,7 +19,11 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "@mdi/font": "^5.5.55",
+    "@mdi/js": "^5.5.55",
     "cz-conventional-changelog": "^3.2.0",
+    "file-loader": "^6.0.0",
+    "material-design-icons-iconfont": "^5.0.1",
     "webpack-dev-server": "^3.11.0"
   },
   "config": {

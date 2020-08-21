@@ -1,50 +1,59 @@
 <template>
-  <v-form @submit.prevent="$emit('submit')">
-    <div v-if="errors.length != 0">
-      <ul v-for="e in errors" :key="e">
-        <li>
-          <font color="red">{{ e }}</font>
-        </li>
-      </ul>
-    </div>
+  <v-container>
+    <v-form @submit.prevent="$emit('submit')">
+      <div v-if="errors.length != 0">
+        <ul v-for="e in errors" :key="e">
+          <li>
+            <font color="red">{{ e }}</font>
+          </li>
+        </ul>
+      </div>
+      <v-file-input @change="selectedFile" label="写真"></v-file-input>
+      <v-img
+        v-if="image !== 'not'"
+        :src="image"
+        aspect-ratio="1.7"
+        max-width="400"
+        min-width="400"
+        contain
+      ></v-img>
+      <v-text-field v-model="post.title" label="タイトル" required></v-text-field>
+      <v-text-field v-model="post.body" label="レシピ" required></v-text-field>
+      <v-select
+        v-model="post.categories[0]"
+        :items="parents"
+        item-text="name"
+        item-value="id"
+        chips
+        return-object
+        @change="setChildren()"
+        label="メインカテゴリー"
+      />
+      <v-select
+        v-model="post.categories[1]"
+        :items="children"
+        item-text="name"
+        item-value="id"
+        chips
+        return-object
+        no-data-text="カテゴリーがありません"
+        @change="setGrandchildren()"
+        label="サブカテゴリー"
+      />
+      <v-select
+        v-model="post.categories[2]"
+        :items="grandchildren"
+        item-text="name"
+        item-value="id"
+        chips
+        return-object
+        no-data-text="カテゴリーがありません"
+        label="サブカテゴリー2"
+      />
 
-    <v-text-field v-model="post.title" label="タイトル" required></v-text-field>
-    <v-text-field v-model="post.body" label="レシピ" required></v-text-field>
-    <v-file-input @change="selectedFile" label="写真"></v-file-input>
-    <v-select
-      v-model="post.categories[0]"
-      :items="parents"
-      item-text="name"
-      item-value="id"
-      chips
-      return-object
-      @change="setChildren()"
-      label="メインカテゴリー"
-    />
-    <v-select
-      v-model="post.categories[1]"
-      :items="children"
-      item-text="name"
-      item-value="id"
-      chips
-      return-object
-      no-data-text="カテゴリーがありません"
-      @change="setGrandchildren()"
-      label="サブカテゴリー"
-    />
-    <v-select
-      v-model="post.categories[2]"
-      :items="grandchildren"
-      item-text="name"
-      item-value="id"
-      chips
-      return-object
-      no-data-text="カテゴリーがありません"
-      label="サブカテゴリー2"
-    />
-
-    <v-btn class="mr-4" type="submit">投稿する</v-btn>
-  </v-form>
+      <v-btn class="mr-4" type="submit">投稿する</v-btn>
+    </v-form>
+  </v-container>
 </template>
 <script>
 import axios from "axios";
@@ -54,7 +63,7 @@ export default {
     post: {
       title: "",
       body: "",
-      post_image: String,
+      post_image: "",
       category_ids: [],
       categories: [
         { id: "", name: "" },
@@ -69,6 +78,7 @@ export default {
       parents: [],
       children: [],
       grandchildren: [],
+      image: "not",
     };
   },
   created() {
@@ -85,6 +95,7 @@ export default {
     // ファイルを代入
     selectedFile(e) {
       this.post.post_image = e;
+      this.image = window.URL.createObjectURL(e);
     },
     // 第1層カテゴリー取得
     setParents() {

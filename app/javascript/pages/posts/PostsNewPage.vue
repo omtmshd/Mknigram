@@ -66,8 +66,7 @@ export default {
         .then((response) => {
           let p = response.data;
           this.$router.push({
-            name: "PostsShowPage",
-            params: { id: p.id },
+            path: "/",
           });
         })
         .catch((error) => {

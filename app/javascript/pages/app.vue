@@ -1,6 +1,8 @@
 <template>
   <v-app id="app">
-    <router-view></router-view>
+    <v-main>
+      <router-view></router-view>
+    </v-main>
   </v-app>
 </template>
 
@@ -9,7 +11,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import PostsIndexPage from "./posts/PostsIndexPage.vue";
-import PostsShowPage from "./posts/PostsShowPage.vue";
 import PostsNewPage from "./posts/PostsNewPage.vue";
 import PostsEditPage from "./posts/PostsEditPage.vue";
 
@@ -22,11 +23,6 @@ import UsersFollowersPage from "./users/UsersFollowersPage.vue";
 const router = new VueRouter({
   routes: [
     { path: "/", component: PostsIndexPage },
-    {
-      path: "/posts/:id(\\d+)",
-      name: "PostsShowPage",
-      component: PostsShowPage,
-    },
     { path: "/posts/new", name: "PostsNewPage", component: PostsNewPage },
     {
       path: "/posts/:id(\\d+)/edit",
@@ -61,8 +57,12 @@ Vue.use(VueRouter);
 
 export default {
   router,
+  icons: {
+    iconfont: "mdiSvg",
+  },
 };
 </script>
 
 <style scoped>
 </style>
+

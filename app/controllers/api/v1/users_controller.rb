@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApiController
-  # before_action :authenticate_user!, only: %i[index edit update destroy following followers]
+  before_action :authenticate_user!
   before_action :set_user, only: %i[update show following followers following_status]
 
   rescue_from ActiveRecord::RecordNotFound do |_exception|
