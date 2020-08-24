@@ -1,5 +1,5 @@
 <template>
-  <post-form :post="post" :errors="errors" @submit="updatePost"></post-form>
+  <post-form :post="post" :errors="errors" @submit="updatePost" @changeFile="changeFile()"></post-form>
 </template>
 
 <script>
@@ -22,6 +22,7 @@ export default {
         ],
       },
       errors: "",
+      fileChange: false,
     };
   },
   created() {
@@ -42,12 +43,17 @@ export default {
         }
       }
     },
+    chageFile() {
+      this.fileChange = true;
+    },
     updatePost() {
       // フォームデータ
       let formData = new FormData();
       formData.append("post[title]", this.post.title);
       formData.append("post[body]", this.post.body);
-      formData.append("post[post_image]", this.post.post_image);
+      if (this.fileChange === true) {
+        formData.append("post[post_image]", this.post.post_image);
+      }
       // メインが選択済みである場合、代入
       if (this.post.categories[0].id > 0) {
         this.post.category_ids = [this.post.categories[0].id];

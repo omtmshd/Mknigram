@@ -1,18 +1,18 @@
 class Api::V1::UsersController < ApiController
   before_action :authenticate_user!
-  before_action :set_user, only: %i[update show following followers following_status]
+  before_action :set_user, only: %i[update show following]
 
   rescue_from ActiveRecord::RecordNotFound do |_exception|
     render json: { error: '404 not found' }, status: 404
   end
 
   def index
-    users = User.select(:id, :name, :profile, :profile_image)
+    users = User.all.to_json
     render json: users
   end
 
   def show
-    render json: @user
+    render json: @user.to_json(include: [posts: {include: [:user, categories: { only: %i[id name] }]}])
   end
 
   def update
@@ -23,24 +23,14 @@ class Api::V1::UsersController < ApiController
     end
   end
 
-  def following
-    @users = @user.following
-    render json: @users
-  end
-
-  def followers
-    @users = @user.followers
-    render json: @users
-  end
-
   def current
     render json: current_user
   end
 
-  def following_status
-    @follow = current_user.following.include?(@user)
-    render json: @follow
+  def following
+    render json: @user.to_json(include: [:following, :followers])
   end
+
 
   private
 
