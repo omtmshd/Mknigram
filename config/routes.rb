@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       resources :users, only: %i[show update index] do
         get :current, on: :collection
         member do
-          get :following, :followers, :following_status
+          get :following
         end
       end
       resources :categories, only: %i[index] do

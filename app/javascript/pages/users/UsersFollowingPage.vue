@@ -1,30 +1,52 @@
 <template>
   <div>
-    <p>{{Object.keys(users).length}}</p>
-    <div v-for="u in users" :key="u.id">
-      <p>{{ u.id }}</p>
-      <p>{{ u.name }}</p>
-      <p>{{ u.profile }}</p>
-      <div v-if="u.profile_image">{{ u.profile_image }}</div>
-      <div v-else>
-        <img src="/assets/default.png" />
-      </div>
+    <user-show :user="user"></user-show>
+    <div class="text-h6 text-center text-decoration-underline">フォロー中</div>
+    <div v-if="user.following.length !== 0">
+      <user-index :users="user.following"></user-index>
+    </div>
+    <div v-else>
+      <v-container>
+        <div class="text-subtitle-1 text-center">フォロー中のユーザーがいません</div>
+      </v-container>
     </div>
   </div>
 </template>
 <script>
 import axios from "axios";
 
+import UserShow from "../../components/User/UserShow.vue";
+import UserIndex from "../../components/User/UserIndex.vue";
+
 export default {
+  components: {
+    UserShow,
+    UserIndex,
+  },
   data() {
     return {
-      users: {},
+      user: {
+        profile_image: {
+          url: "",
+        },
+        posts: [],
+        following: [],
+        followers: [],
+      },
     };
   },
-  mounted() {
-    axios
-      .get(`/api/v1/users/${this.$route.params.id}/following.json`)
-      .then((response) => (this.users = response.data));
+  created() {
+    this.setUser().then((result) => {
+      this.user = result;
+    });
+  },
+  methods: {
+    setUser: async function () {
+      const res = await axios.get(
+        `/api/v1/users/${this.$route.params.id}/following.json`
+      );
+      return res.data;
+    },
   },
 };
 </script>

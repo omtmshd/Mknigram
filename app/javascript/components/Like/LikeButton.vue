@@ -32,7 +32,7 @@ export default {
     },
   },
   // Vueインスタンスの作成・初期化直後に実行される
-  mounted() {
+  created() {
     this.fetchLikeByPostId().then((result) => {
       this.likeList = result;
     });

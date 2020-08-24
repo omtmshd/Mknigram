@@ -14,13 +14,13 @@
             <v-card-text>{{ post.body }}</v-card-text>
             <v-divider class="mx-4"></v-divider>
             <v-card-actions>
-              <v-avatar @click.stop="showUser(post.user.id)">
-                <img v-if="post.user.profile_image.url != null" src="post.user.profile_image.url" />
-                <v-icon v-else color="yellow lighten-1" dark>mdi-account-circle</v-icon>
+              <v-avatar size="62" @click.stop="showUser(post.user.id)">
+                <img v-if="post.user.profile_image.url != null" :src="post.user.profile_image.url" />
+                <v-icon v-else size="62" color="yellow lighten-1" dark>mdi-account-circle</v-icon>
               </v-avatar>
               <v-spacer></v-spacer>
               <template v-if="current_user.id === post.user.id">
-                <v-btn icon @click.stop="deleteTarget = post.id; showModal = true">
+                <v-btn icon @click.stop="showModal = true">
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
                 <modal
@@ -60,19 +60,13 @@ export default {
   data() {
     return {
       showModal: false,
-      deleteTarget: -1,
       errors: "",
     };
   },
   methods: {
     deletePost() {
-      if (this.deleteTarget <= 0) {
-        console.warn("deleteTarget should be grater than zero.");
-        return;
-      }
-
       axios
-        .delete(`/api/v1/posts/${this.deleteTarget}`)
+        .delete(`/api/v1/posts/?post_id=${this.post.id}`)
         .then((response) => {
           this.$router.push({ path: "/" });
         })
