@@ -6,17 +6,17 @@
     <router-link
       :to="{ name: 'UsersFollowersPage', params: { id: userId } }"
     >フォロワー{{ followersCount }}</router-link>
-    <template v-if="current_user.id !== userId">
+    <template v-if="currentUser.id !== userId">
       <br />
       <div class="text-caption text-right" v-if="followedStatus">フォローされています</div>
       <v-card-actions>
         <br />
         <v-spacer></v-spacer>
         <template v-if="followingStatus">
-          <v-btn small @click.stop="userUnfollow()">フォロー解除</v-btn>
+          <v-btn text small @click.stop="userUnfollow()">フォロー解除</v-btn>
         </template>
         <template v-else>
-          <v-btn small @click.stop="userFollow()">フォローする</v-btn>
+          <v-btn text small @click.stop="userFollow()">フォローする</v-btn>
         </template>
       </v-card-actions>
     </template>
@@ -55,14 +55,14 @@ export default {
     // フォロしているか
     followingStatus() {
       const result = this.user.followers.find((v) => {
-        return v.id === this.current_user.id;
+        return v.id === this.currentUser.id;
       });
       return Boolean(result);
     },
     // フォローされているか
     followedStatus() {
       const result = this.user.following.find((v) => {
-        return v.id === this.current_user.id;
+        return v.id === this.currentUser.id;
       });
       return Boolean(result);
     },
@@ -84,7 +84,7 @@ export default {
     userFollow: async function () {
       const res = await axios.post("/api/v1/relationships.json", {
         followed_id: this.userId,
-        follower_id: this.current_user.id,
+        follower_id: this.currentUser.id,
       });
       this.setUser().then((result) => {
         this.user = result;

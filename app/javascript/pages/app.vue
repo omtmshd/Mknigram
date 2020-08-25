@@ -1,7 +1,12 @@
 <template>
-  <v-app id="app">
+  <v-app class="mx-auto">
+    <layout-header></layout-header>
     <v-main>
-      <router-view></router-view>
+      <v-container fluid>
+        <v-card color="#FFFDE7" class="mx-auto">
+          <router-view></router-view>
+        </v-card>
+      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -9,6 +14,8 @@
 <script>
 import Vue from "vue";
 import VueRouter from "vue-router";
+
+import LayoutHeader from "../components/layout/LayoutHeader.vue";
 
 import PostsIndexPage from "./posts/PostsIndexPage.vue";
 import PostsNewPage from "./posts/PostsNewPage.vue";
@@ -56,6 +63,7 @@ const router = new VueRouter({
 Vue.use(VueRouter);
 
 export default {
+  components: { LayoutHeader },
   router,
   icons: {
     iconfont: "mdiSvg",

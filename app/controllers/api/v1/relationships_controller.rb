@@ -1,6 +1,6 @@
 class Api::V1::RelationshipsController < ApiController
   before_action :authenticate_user!
-  before_action :set_user, only: %i[create, destroy]
+  before_action :set_user, only: %i[create destroy]
 
   rescue_from ActiveRecord::RecordNotFound do |_exception|
     render json: { error: '404 not found' }, status: 404

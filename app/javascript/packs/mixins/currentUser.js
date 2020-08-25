@@ -3,15 +3,19 @@ import axios from "axios";
 export const currentUser = {
   data() {
     return {
-      current_user: {
+      currentUser: {
         id: Number,
-        name: String
+        name: String,
+        profile: String,
+        profile_image: {
+          url: ""
+        }
       },
     };
   },
   created() {
     axios
       .get(`/api/v1/users/current.json`)
-      .then((response) => (this.current_user = response.data));
+      .then((response) => (this.currentUser = response.data));
   },
 };
