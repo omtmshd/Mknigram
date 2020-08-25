@@ -2,6 +2,7 @@
   <v-container>
     <div class="text-center">
       <v-pagination
+        color="#43A047"
         v-model="page"
         :length="length"
         :total-visible="5"
@@ -9,7 +10,7 @@
         next-icon="mdi-menu-right"
       ></v-pagination>
     </div>
-    <v-row>
+    <v-row justify="center">
       <div v-for="p in displayPosts" :key="p.index">
         <post-show :post="p" v-show="showPost === p.id" @from-child="closeModal"></post-show>
         <v-col>
@@ -26,10 +27,10 @@
               <v-card-actions>
                 <v-avatar size="62" @click.stop="showUser(p.user.id)">
                   <img v-if="p.user.profile_image.url != null" :src="p.user.profile_image.url" />
-                  <v-icon v-else size="62" color="yellow lighten-1" dark>mdi-account-circle</v-icon>
+                  <v-icon v-else size="62" color="#FFEE58" dark>mdi-account-circle</v-icon>
                 </v-avatar>
                 <v-spacer></v-spacer>
-                <like-button :post-id="p.id" :user-id="current_user.id"></like-button>
+                <like-button :post-id="p.id" :user-id="currentUser.id"></like-button>
               </v-card-actions>
             </v-container>
           </v-card>
@@ -38,6 +39,7 @@
     </v-row>
     <div class="text-center">
       <v-pagination
+        color="#43A047"
         v-model="page"
         :length="length"
         :total-visible="5"

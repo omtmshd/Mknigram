@@ -12,11 +12,11 @@
           </div>
           <v-avatar size="62">
             <img v-if="image !== 'not'" :src="image" />
-            <v-icon v-else size="62" color="yellow lighten-1" dark>mdi-account-circle</v-icon>
+            <v-icon v-else size="62" color="#FFEE58" dark>mdi-account-circle</v-icon>
           </v-avatar>
           <v-file-input label="プロフィール画像" @change="selectedFile"></v-file-input>
           <v-textarea v-model="user.profile" label="プロフィール" required></v-textarea>
-          <v-btn class="mr-4" type="submit">更新</v-btn>
+          <v-btn text class="mr-4" type="submit">更新</v-btn>
         </v-form>
       </v-container>
     </v-card>

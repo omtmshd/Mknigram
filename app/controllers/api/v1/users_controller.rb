@@ -12,7 +12,7 @@ class Api::V1::UsersController < ApiController
   end
 
   def show
-    render json: @user.to_json(include: [posts: {include: [:user, categories: { only: %i[id name] }]}])
+    render json: @user.to_json(include: [posts: { include: [:user, categories: { only: %i[id name] }] }])
   end
 
   def update
@@ -24,13 +24,12 @@ class Api::V1::UsersController < ApiController
   end
 
   def current
-    render json: current_user
+    render json: current_user.to_json(only: %i[id name profile profile_image])
   end
 
   def following
-    render json: @user.to_json(include: [:following, :followers])
+    render json: @user.to_json(include: %i[following followers])
   end
-
 
   private
 

@@ -2,7 +2,7 @@
   <div id="overlay" @click.prevent="clickEvent">
     <div id="content">
       <v-container>
-        <v-card class="mx-auto" max-width="400" min-width="400">
+        <v-card class="mx-auto" max-width="400" min-width="300">
           <v-container>
             <v-img :src="post.post_image.url" aspect-ratio="1.7" contain></v-img>
             <v-card-title>{{ post.title }}</v-card-title>
@@ -16,10 +16,10 @@
             <v-card-actions>
               <v-avatar size="62" @click.stop="showUser(post.user.id)">
                 <img v-if="post.user.profile_image.url != null" :src="post.user.profile_image.url" />
-                <v-icon v-else size="62" color="yellow lighten-1" dark>mdi-account-circle</v-icon>
+                <v-icon v-else size="62" color="#FFEE58" dark>mdi-account-circle</v-icon>
               </v-avatar>
               <v-spacer></v-spacer>
-              <template v-if="current_user.id === post.user.id">
+              <template v-if="currentUser.id === post.user.id">
                 <v-btn icon @click.stop="showModal = true">
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
@@ -34,7 +34,7 @@
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
               </template>
-              <like-button :post-id="post.id" :user-id="current_user.id"></like-button>
+              <like-button :post-id="post.id" :user-id="currentUser.id"></like-button>
             </v-card-actions>
           </v-container>
         </v-card>

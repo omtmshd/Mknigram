@@ -10,8 +10,6 @@
               </li>
             </ul>
           </div>
-          {{image}}
-          <v-file-input @change="selectedFile" label="写真"></v-file-input>
           <v-img
             v-if="image !== 'not'"
             :src="image"
@@ -20,6 +18,7 @@
             min-width="400"
             contain
           ></v-img>
+          <v-file-input @change="selectedFile" label="写真"></v-file-input>
           <v-text-field v-model="post.title" label="タイトル" required></v-text-field>
           <v-textarea v-model="post.body" label="レシピ" required></v-textarea>
           <v-select
@@ -54,7 +53,7 @@
             label="サブカテゴリー2"
           />
 
-          <v-btn class="mr-4" type="submit">投稿する</v-btn>
+          <v-btn text class="mr-4" type="submit">投稿する</v-btn>
         </v-form>
       </v-container>
     </v-card>

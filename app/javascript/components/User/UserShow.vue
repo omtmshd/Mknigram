@@ -1,18 +1,18 @@
 <template>
   <v-container>
-    <v-card class="mx-auto" max-width="400" min-width="400">
+    <v-card class="mx-auto" max-width="400" min-width="300">
       <v-container>
         <v-card-actions>
           <v-avatar size="62">
             <img v-if="user.profile_image.url != null" :src="user.profile_image.url" />
-            <v-icon v-else size="62" color="yellow lighten-1" dark>mdi-account-circle</v-icon>
+            <v-icon v-else size="62" color="#FFEE58" dark>mdi-account-circle</v-icon>
           </v-avatar>
           <v-spacer></v-spacer>
           <user-follow-form :user-id="this.$route.params.id" :follow-data="followData" @set="set()"></user-follow-form>
         </v-card-actions>
         <v-card-title>{{ user.name}}</v-card-title>
         <v-card-text>{{ user.profile }}</v-card-text>
-        <template v-if="current_user.id === user.id">
+        <template v-if="currentUser.id === user.id">
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn icon @click.stop="editUser()">

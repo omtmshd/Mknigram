@@ -2,6 +2,7 @@
   <v-container>
     <div class="text-center">
       <v-pagination
+        color="#43A047"
         v-model="page"
         :length="length"
         :total-visible="5"
@@ -9,7 +10,7 @@
         next-icon="mdi-menu-right"
       ></v-pagination>
     </div>
-    <v-row>
+    <v-row justify="center">
       <div v-for="user in displayUsers" :key="user.id">
         <v-col>
           <v-card class="mx-auto" max-width="350" min-width="350" @click="showUser(user.id)">
@@ -17,7 +18,7 @@
               <v-card-actions>
                 <v-avatar size="62">
                   <img v-if="user.profile_image.url != null" :src="user.profile_image.url" />
-                  <v-icon v-else size="62" color="yellow lighten-1" dark>mdi-account-circle</v-icon>
+                  <v-icon v-else size="62" color="#FFEE58" dark>mdi-account-circle</v-icon>
                 </v-avatar>
                 <v-spacer></v-spacer>
                 <user-follow-form :user-id="user.id"></user-follow-form>
@@ -31,6 +32,7 @@
     </v-row>
     <div class="text-center">
       <v-pagination
+        color="#43A047"
         v-model="page"
         :length="length"
         :total-visible="5"
