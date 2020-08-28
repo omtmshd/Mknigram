@@ -1,6 +1,6 @@
 class Post < ApplicationRecord
   belongs_to :user
-  has_many :post_category
+  has_many :post_category, dependent: :destroy
   has_many :categories, through: :post_category
   has_many :likes, dependent: :destroy
 

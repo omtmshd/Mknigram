@@ -7,11 +7,23 @@ class Api::V1::PostsController < ApiController
   end
 
   def index
-    render json: Post.all.to_json(include: [:user, categories: { only: %i[id name] }])
+    render json: Post.all.to_json(
+      only: %i[id title body post_image],
+      include: [
+        user: { only: %i[id name profile_image] },
+        categories: { only: %i[id name] }
+      ]
+    )
   end
 
   def show
-    render json: @post.to_json(include: [:user, categories: { only: %i[id name] }])
+    render json: @post.to_json(
+      only: %i[id title body post_image],
+      include: [
+        user: { only: %i[id name profile_image] },
+        categories: { only: %i[id name] }
+      ]
+    )
   end
 
   def create
@@ -24,7 +36,7 @@ class Api::V1::PostsController < ApiController
   end
 
   def update
-    if @post.update_attributes(post_params)
+    if @post.update_attributes(post_params) && @post.user_id == current_user.id
       head :no_content
     else
       render json: { errors: @post.errors.full_messages }, status: :unprocessable_entity
@@ -32,8 +44,7 @@ class Api::V1::PostsController < ApiController
   end
 
   def destroy
-    @post.destroy!
-    head :no_content
+    head :no_content if @post.destroy! && @post.user_id == current_user.id
   end
 
   private

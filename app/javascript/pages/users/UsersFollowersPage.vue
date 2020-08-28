@@ -1,9 +1,8 @@
 <template>
   <div>
-    <user-show :user="user" :followData="user.followers.length" @set="setFollowers()"></user-show>
-    <div class="text-h6 text-center text-decoration-underline">フォロワー</div>
+    <user-show :user="user" @set-follow="updateUser()"></user-show>
     <div v-if="user.followers.length !== 0">
-      <user-index :users="user.followers"></user-index>
+      <user-index :users="user.followers" :page-label="pageLabel" @set-follow="updateUser()"></user-index>
     </div>
     <div v-else>
       <v-container>
@@ -14,6 +13,8 @@
 </template>
 <script>
 import axios from "axios";
+import { csrfToken } from "rails-ujs";
+axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken();
 
 import UserShow from "../../components/User/UserShow.vue";
 import UserIndex from "../../components/User/UserIndex.vue";
@@ -33,11 +34,13 @@ export default {
         following: [],
         followers: [],
       },
+      pageLabel: "フォロワー",
     };
   },
   created() {
-    this.setFollowers();
+    this.updateUser();
   },
+  watch: { $route: "updateUser" },
   methods: {
     setUser: async function () {
       const res = await axios.get(
@@ -45,7 +48,7 @@ export default {
       );
       return res.data;
     },
-    setFollowers() {
+    updateUser() {
       this.setUser().then((result) => {
         this.user = result;
       });

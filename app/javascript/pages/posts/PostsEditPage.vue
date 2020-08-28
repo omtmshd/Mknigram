@@ -1,9 +1,11 @@
 <template>
-  <post-form :post="post" :errors="errors" @submit="updatePost" @changeFile="changeFile()"></post-form>
+  <post-form :post="post" :errors="errors" @submit="updatePost" @change-file="changeFile()"></post-form>
 </template>
 
 <script>
 import axios from "axios";
+import { csrfToken } from "rails-ujs";
+axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken();
 import PostForm from "../../components/Post/PostForm.vue";
 
 export default {
@@ -87,7 +89,6 @@ export default {
           },
         })
         .then((response) => {
-          let p = response.data;
           this.$router.push({
             path: "/",
           });

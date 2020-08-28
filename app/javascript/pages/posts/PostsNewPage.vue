@@ -4,6 +4,8 @@
 
 <script>
 import axios from "axios";
+import { csrfToken } from "rails-ujs";
+axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken();
 import PostForm from "../../components/Post/PostForm.vue";
 
 export default {

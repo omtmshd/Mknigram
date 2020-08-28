@@ -1,8 +1,10 @@
 <template>
-  <user-index :users="users"></user-index>
+  <user-index :users="users" :page-label="pageLabel"></user-index>
 </template>
 <script>
 import axios from "axios";
+import { csrfToken } from "rails-ujs";
+axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken();
 
 import UserIndex from "../../components/User/UserIndex.vue";
 
@@ -11,6 +13,7 @@ export default {
   data() {
     return {
       users: [],
+      pageLabel: "ユーザー一覧",
     };
   },
   created() {

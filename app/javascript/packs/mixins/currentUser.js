@@ -1,12 +1,14 @@
-import axios from "axios";
+import axios from 'axios'
+import { csrfToken } from 'rails-ujs'
+axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken()
 
 export const currentUser = {
   data() {
     return {
       currentUser: {
-        id: Number,
-        name: String,
-        profile: String,
+        id: "",
+        name: "",
+        profile: "",
         profile_image: {
           url: ""
         }
