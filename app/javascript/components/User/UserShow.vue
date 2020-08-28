@@ -1,16 +1,20 @@
 <template>
   <v-container>
-    <v-card class="mx-auto" max-width="400" min-width="300">
+    <v-card class="mx-auto" max-width="300" min-width="300">
       <v-container>
-        <v-card-actions>
-          <v-avatar size="62">
-            <img v-if="user.profile_image.url != null" :src="user.profile_image.url" />
-            <v-icon v-else size="62" color="#FFEE58" dark>mdi-account-circle</v-icon>
-          </v-avatar>
-          <v-spacer></v-spacer>
-          <user-follow-form :user-id="this.$route.params.id" :follow-data="followData" @set="set()"></user-follow-form>
-        </v-card-actions>
-        <v-card-title>{{ user.name}}</v-card-title>
+        <v-row justify="center" align="center">
+          <v-col cols="4">
+            <v-avatar size="62">
+              <img v-if="user.profile_image.url != null" :src="user.profile_image.url" />
+              <v-icon v-else size="62" color="#90A4AE" dark>mdi-account-circle</v-icon>
+            </v-avatar>
+          </v-col>
+          <v-col cols="7">
+            <strong>{{ user.name}}</strong>
+          </v-col>
+        </v-row>
+        <v-divider></v-divider>
+        <user-follow-form :user-id="this.$route.params.id" @set-follow="setFollow()"></user-follow-form>
         <v-card-text>{{ user.profile }}</v-card-text>
         <template v-if="currentUser.id === user.id">
           <v-card-actions>
@@ -26,6 +30,8 @@
 </template>
 <script>
 import axios from "axios";
+import { csrfToken } from "rails-ujs";
+axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken();
 
 import UserFollowForm from "./UserFollowForm.vue";
 import { currentUser } from "../../packs/mixins/currentUser";
@@ -42,15 +48,10 @@ export default {
       },
       posts: [],
     },
-    followData: {
-      type: Number,
-      required: false,
-      default: -1,
-    },
   },
   methods: {
-    set() {
-      this.$emit("set");
+    setFollow() {
+      this.$emit("set-follow");
     },
     editUser() {
       this.$router.push({

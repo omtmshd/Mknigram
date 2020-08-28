@@ -94,6 +94,10 @@
   </header>
 </template>
 <script>
+import axios from "axios";
+import { csrfToken } from "rails-ujs";
+axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken();
+
 import AssetsImage from "../../../assets/images/background_9.jpg";
 import { currentUser } from "../../packs/mixins/currentUser";
 

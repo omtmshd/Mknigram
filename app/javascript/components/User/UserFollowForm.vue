@@ -1,29 +1,38 @@
 <template>
-  <div>
-    <router-link
-      :to="{ name: 'UsersFollowingPage', params: { id: userId } }"
-    >フォロー中{{ followingCount }}</router-link>
-    <router-link
-      :to="{ name: 'UsersFollowersPage', params: { id: userId } }"
-    >フォロワー{{ followersCount }}</router-link>
-    <template v-if="currentUser.id !== userId">
-      <br />
-      <div class="text-caption text-right" v-if="followedStatus">フォローされています</div>
-      <v-card-actions>
-        <br />
-        <v-spacer></v-spacer>
-        <template v-if="followingStatus">
-          <v-btn text small @click.stop="userUnfollow()">フォロー解除</v-btn>
-        </template>
-        <template v-else>
-          <v-btn text small @click.stop="userFollow()">フォローする</v-btn>
-        </template>
-      </v-card-actions>
-    </template>
-  </div>
+  <v-row justify="end" align="center" no-gutters>
+    <v-col cols="6">
+      <v-btn color="#2E7D32" text @click.stop="showFollowing()">フォロー中 &nbsp;({{ followingCount }})</v-btn>
+    </v-col>
+    <v-col cols="6">
+      <v-btn color="#2E7D32" text @click.stop="showFollowers()">フォロワー &nbsp;({{ followersCount }})</v-btn>
+    </v-col>
+    <v-col cols="12">
+      <template v-if="currentUser.id !== userId">
+        <v-row justify="end" align="center" no-gutters>
+          <v-col cols="7" md="6" lg="6" xl="6">
+            <v-chip class="ma-2" x-small>フォローされています</v-chip>
+          </v-col>
+          <v-col cols="5" md="6" lg="6" xl="6">
+            <v-btn
+              v-if="followingStatus"
+              block
+              color="#FFF59D"
+              rounded
+              small
+              @click.stop="userUnfollow()"
+            >フォロー解除</v-btn>
+
+            <v-btn v-else block color="#FFF59D" rounded small @click.stop="userFollow()">フォローする</v-btn>
+          </v-col>
+        </v-row>
+      </template>
+    </v-col>
+  </v-row>
 </template>
 <script>
 import axios from "axios";
+import { csrfToken } from "rails-ujs";
+axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken();
 
 import { currentUser } from "../../packs/mixins/currentUser";
 
@@ -31,11 +40,6 @@ export default {
   mixins: [currentUser],
   props: {
     userId: "",
-    followData: {
-      type: Number,
-      required: false,
-      default: -1,
-    },
   },
   data() {
     return {
@@ -68,42 +72,44 @@ export default {
     },
   },
   created() {
-    this.setUser().then((result) => {
-      this.user = result;
-    });
+    this.setUser();
   },
+  watch: { $route: "setUser" },
   methods: {
     // ユーザーデータ取得
     setUser: async function () {
       const res = await axios.get(
-        `/api/v1/users/${this.userId}/following.json`
+        `/api/v1/users/${this.userId}/follow_data.json`
       );
-      return res.data;
+      this.user = res.data;
     },
     // フォローする
     userFollow: async function () {
-      const res = await axios.post("/api/v1/relationships.json", {
+      await axios.post("/api/v1/relationships.json", {
         followed_id: this.userId,
-        follower_id: this.currentUser.id,
       });
-      this.setUser().then((result) => {
-        this.user = result;
-      });
-      if (this.followData >= 0) {
-        this.$emit("set");
-      }
+
+      this.setUser();
+      this.$emit("set-follow");
     },
     // フォロー解除
     userUnfollow: async function () {
-      const res = await axios.delete(
-        `/api/v1/relationships/${this.userId}.json`
-      );
-      this.setUser().then((result) => {
-        this.user = result;
+      await axios.delete(`/api/v1/relationships/${this.userId}.json`);
+
+      this.setUser();
+      this.$emit("set-follow");
+    },
+    showFollowing() {
+      this.$router.push({
+        name: "UsersFollowingPage",
+        params: { id: this.userId },
       });
-      if (this.followData >= 0) {
-        this.$emit("set");
-      }
+    },
+    showFollowers() {
+      this.$router.push({
+        name: "UsersFollowersPage",
+        params: { id: this.userId },
+      });
     },
   },
 };

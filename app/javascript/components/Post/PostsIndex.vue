@@ -12,27 +12,36 @@
     </div>
     <v-row justify="center">
       <div v-for="p in displayPosts" :key="p.index">
-        <post-show :post="p" v-show="showPost === p.id" @from-child="closeModal"></post-show>
+        <post-show
+          :post="p"
+          v-show="showPost === p.id"
+          @from-child="closeModal"
+          @update-posts="updatePosts()"
+        ></post-show>
         <v-col>
-          <v-card class="mx-auto" max-width="300" min-width="300">
-            <v-container @click.prevent="openModal(p.id)">
-              <v-img :src="p.post_image.url" aspect-ratio="1.7" contain></v-img>
-              <v-card-title>{{ p.title }}</v-card-title>
-              <v-breadcrumbs :items="p.categories" text="name">
-                <template v-slot:item="{ item }">
-                  <v-breadcrumbs-item>{{ item.name }}</v-breadcrumbs-item>
-                </template>
-              </v-breadcrumbs>
-              <v-divider class="mx-4"></v-divider>
-              <v-card-actions>
-                <v-avatar size="62" @click.stop="showUser(p.user.id)">
-                  <img v-if="p.user.profile_image.url != null" :src="p.user.profile_image.url" />
-                  <v-icon v-else size="62" color="#FFEE58" dark>mdi-account-circle</v-icon>
-                </v-avatar>
-                <v-spacer></v-spacer>
-                <like-button :post-id="p.id" :user-id="currentUser.id"></like-button>
-              </v-card-actions>
-            </v-container>
+          <v-card @click.prevent="openModal(p.id)" class="mx-auto" width="320">
+            <v-img
+              :src="p.post_image.url"
+              aspect-ratio="1.7778"
+              class="white--text align-end"
+              gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.3)"
+            >
+              <v-card-title v-text="p.title"></v-card-title>
+            </v-img>
+            <v-breadcrumbs :items="p.categories" text="name">
+              <template v-slot:item="{ item }">
+                <v-breadcrumbs-item>{{ item.name }}</v-breadcrumbs-item>
+              </template>
+            </v-breadcrumbs>
+            <v-divider class="mx-4"></v-divider>
+            <v-card-actions>
+              <v-avatar size="56" @click.stop="showUser(p.user.id)">
+                <img v-if="p.user.profile_image.url != null" :src="p.user.profile_image.url" />
+                <v-icon v-else size="56" color="#90A4AE" dark>mdi-account-circle</v-icon>
+              </v-avatar>
+              <v-spacer></v-spacer>
+              <like-button :post-id="p.id" :user-id="currentUser.id"></like-button>
+            </v-card-actions>
           </v-card>
         </v-col>
       </div>
@@ -92,6 +101,9 @@ export default {
         name: "UsersShowPage",
         params: { id: i },
       });
+    },
+    updatePosts() {
+      this.$emit("update-posts");
     },
   },
 };

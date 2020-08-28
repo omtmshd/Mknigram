@@ -1,13 +1,15 @@
 <template>
-  <v-app class="mx-auto">
+  <v-app class="mx-auto" id="display">
     <layout-header></layout-header>
-    <v-main>
-      <v-container fluid>
-        <v-card color="#FFFDE7" class="mx-auto">
-          <router-view></router-view>
-        </v-card>
-      </v-container>
-    </v-main>
+    <v-container class="mx-auto">
+      <v-row justify="center">
+        <v-col cols="12" md="11" lg="11" xl="11">
+          <v-main>
+            <router-view></router-view>
+          </v-main>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-app>
 </template>
 
@@ -72,5 +74,10 @@ export default {
 </script>
 
 <style scoped>
+#display {
+  width: 100%;
+  height: 100%;
+  background-color: #f2efed;
+}
 </style>
 
