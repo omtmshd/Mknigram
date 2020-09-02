@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn icon color="red lighten-1" v-if="isLiked" @click.stop="deleteLike()">
+    <v-btn icon color="#FDD835" v-if="isLiked" @click.stop="deleteLike()">
       <v-icon>mdi-thumb-up</v-icon>
     </v-btn>
     <v-btn icon v-else @click.stop="registerLike()">
@@ -12,8 +12,6 @@
 
 <script>
 import axios from "axios";
-import { csrfToken } from "rails-ujs";
-axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken();
 
 export default {
   props: ["postId", "userId"],
@@ -34,14 +32,14 @@ export default {
     },
   },
   // Vueインスタンスの作成・初期化直後に実行される
-  created() {
+  mounted() {
     this.fetchLikeByPostId().then((result) => {
       this.likeList = result;
     });
   },
   methods: {
     // rails側のindexアクション
-    fetchLikeByPostId: async function () {
+    async fetchLikeByPostId() {
       const res = await axios.get(`/api/v1/likes/?post_id=${this.postId}`);
       if (res.status !== 200) {
         process.exit();
@@ -49,8 +47,18 @@ export default {
       return res.data;
     },
     // rails側のcreateアクション
-    registerLike: async function () {
-      const res = await axios.post("/api/v1/likes", { post_id: this.postId });
+    async registerLike() {
+      const res = await axios.post(
+        "/api/v1/likes",
+        { post_id: this.postId },
+        {
+          headers: {
+            "access-token": localStorage.getItem("access-token"),
+            uid: localStorage.getItem("uid"),
+            client: localStorage.getItem("client"),
+          },
+        }
+      );
       if (res.status !== 201) {
         process.exit();
       }
@@ -59,9 +67,15 @@ export default {
       });
     },
     // rails側のdestroyアクション
-    deleteLike: async function () {
+    async deleteLike() {
       const likeId = this.findLikeId();
-      const res = await axios.delete(`/api/v1/likes/${likeId}`);
+      const res = await axios.delete(`/api/v1/likes/${likeId}`, {
+        headers: {
+          "access-token": localStorage.getItem("access-token"),
+          uid: localStorage.getItem("uid"),
+          client: localStorage.getItem("client"),
+        },
+      });
       if (res.status !== 200) {
         process.exit();
       }

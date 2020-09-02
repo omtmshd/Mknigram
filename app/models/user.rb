@@ -1,6 +1,11 @@
-class User < ApplicationRecord
+# frozen_string_literal: true
+
+class User < ActiveRecord::Base
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+  include DeviseTokenAuth::Concerns::User
 
   validates :name, presence: true, length: { maximum: 15 }
   validates :profile, length: { maximum: 150 }
@@ -24,6 +29,7 @@ class User < ApplicationRecord
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
   has_many :likes, dependent: :destroy
+  has_many :liked_posts, through: :likes, source: :post
 
   mount_uploader :profile_image, ProfileImageUploader
 
@@ -35,5 +41,13 @@ class User < ApplicationRecord
   # ユーザーをフォロー解除する
   def unfollow(other_user)
     active_relationships.find_by(followed_id: other_user.id).destroy
+  end
+
+  def following?(other_user)
+    following.include?(other_user)
+  end
+
+  def followed?(other_user)
+    followers.include?(other_user)
   end
 end
