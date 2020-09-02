@@ -32,13 +32,17 @@ module Myapp
     # Don't generate system test files.
     config.generators.system_tests = nil
 
-    # deviseの日本語化
-    config.i18n.default_locale = :ja
-
-    # 認証トークンをremoteフォームに埋め込む
-    config.action_view.embed_authenticity_token_in_remote_forms = true
-
     # オートロードの設定
     config.autoload_paths << Rails.root.join('app', 'uploaders')
+
+    config.middleware.use Rack::Cors do
+      allow do
+        origins '*'
+        resource '/api/v1/*',
+          :headers => :any,
+          :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
+          :methods => [:get, :post, :options, :delete, :put]
+      end
+    end
   end
 end

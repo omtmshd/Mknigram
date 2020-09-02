@@ -3,8 +3,6 @@
 </template>
 <script>
 import axios from "axios";
-import { csrfToken } from "rails-ujs";
-axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken();
 
 import UserIndex from "../../components/User/UserIndex.vue";
 
@@ -16,13 +14,13 @@ export default {
       pageLabel: "ユーザー一覧",
     };
   },
-  created() {
+  mounted() {
     this.setUsers().then((result) => {
       this.users = result;
     });
   },
   methods: {
-    setUsers: async function () {
+    async setUsers() {
       const res = await axios.get("/api/v1/users.json");
       return res.data;
     },

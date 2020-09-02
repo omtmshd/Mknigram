@@ -1,5 +1,5 @@
-class Api::V1::PostsController < ApiController
-  before_action :authenticate_user!
+class Api::V1::PostsController < ApplicationController
+  before_action :authenticate_api_user!, only: %i[create update destroy]
   before_action :set_post, only: %i[show update destroy]
 
   rescue_from ActiveRecord::RecordNotFound do |_exception|
@@ -36,7 +36,7 @@ class Api::V1::PostsController < ApiController
   end
 
   def update
-    if @post.update_attributes(post_params) && @post.user_id == current_user.id
+    if @post.update_attributes(post_params) && @post.user_id == current_api_user.id
       head :no_content
     else
       render json: { errors: @post.errors.full_messages }, status: :unprocessable_entity
@@ -44,7 +44,7 @@ class Api::V1::PostsController < ApiController
   end
 
   def destroy
-    head :no_content if @post.destroy! && @post.user_id == current_user.id
+    head :no_content if @post.destroy! && @post.user_id == current_api_user.id
   end
 
   private
@@ -54,7 +54,7 @@ class Api::V1::PostsController < ApiController
   end
 
   def post_params
-    params.require(:post).permit(:title, :body, :post_image, category_ids: []).merge(user_id: current_user.id)
+    params.require(:post).permit(:title, :body, :post_image, category_ids: []).merge(user_id: current_api_user.id)
   end
 
   def render_status_404(exception)

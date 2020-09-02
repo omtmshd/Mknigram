@@ -1,45 +1,51 @@
 <template>
-  <div id="overlay" @click.prevent="clickEvent">
+  <div id="overlay" @click.prevent="clickEvent()">
     <div id="content">
       <v-container>
-        <v-card class="mx-auto" :width="cardWidth">
+        <v-card class="mx-auto" :width="imageWidth">
           <v-img
             :src="post.post_image.url"
-            aspect-ratio="1.7778"
+            aspect-ratio="1.2"
             class="white--text align-end"
             gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.3)"
           >
             <v-card-title v-text="post.title"></v-card-title>
           </v-img>
+
           <v-breadcrumbs :items="post.categories" text="name">
             <template v-slot:item="{ item }">
               <v-breadcrumbs-item>{{ item.name }}</v-breadcrumbs-item>
             </template>
           </v-breadcrumbs>
+
           <v-card-text>{{ post.body }}</v-card-text>
+
           <v-divider class="mx-4"></v-divider>
+
           <v-card-actions>
             <v-avatar size="56" @click.stop="showUser(post.user.id)">
-              <img v-if="post.user.profile_image.url != null" :src="post.user.profile_image.url" />
+              <img v-if="post.user.profile_image.url !== null" :src="post.user.profile_image.url" />
               <v-icon v-else size="56" color="#90A4AE" dark>mdi-account-circle</v-icon>
             </v-avatar>
             <v-spacer></v-spacer>
-            <template v-if="currentUser.id === post.user.id">
-              <v-btn icon @click.stop="showModal = true">
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-              <modal
-                v-if="showModal"
-                @cancel="showModal = false"
-                @ok="deletePost(); showModal = false;"
-              >
-                <div slot="body">本当に削除しますか？</div>
-              </modal>
-              <v-btn icon @click.stop="editPost()">
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
+            <template v-if="currentUser !== null">
+              <template v-if="currentUser.id === post.user.id">
+                <v-btn icon @click.stop="showModal = true">
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+                <post-delete-modal
+                  v-if="showModal"
+                  @cancel="showModal = false"
+                  @ok="deletePost(); showModal = false;"
+                >
+                  <div slot="body">本当に削除しますか？</div>
+                </post-delete-modal>
+                <v-btn icon @click.stop="editPost()">
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+              </template>
+              <like-button :post-id="post.id" :user-id="currentUser.id"></like-button>
             </template>
-            <like-button :post-id="post.id" :user-id="currentUser.id"></like-button>
           </v-card-actions>
         </v-card>
       </v-container>
@@ -49,17 +55,15 @@
 
 <script>
 import axios from "axios";
-import { csrfToken } from "rails-ujs";
-axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken();
 
-import Modal from "../../components/Post/Modal.vue";
-import LikeButton from "../../components/Like/LikeButton.vue";
+import PostDeleteModal from "./PostDeleteModal.vue";
+import LikeButton from "../Like/LikeButton.vue";
 import { currentUser } from "../../packs/mixins/currentUser";
 
 export default {
   mixins: [currentUser],
   components: {
-    Modal,
+    PostDeleteModal,
     LikeButton,
   },
   props: { post: {} },
@@ -72,7 +76,13 @@ export default {
   methods: {
     deletePost() {
       axios
-        .delete(`/api/v1/posts/${this.post.id}`)
+        .delete(`/api/v1/posts/${this.post.id}`, {
+          headers: {
+            "access-token": localStorage.getItem("access-token"),
+            uid: localStorage.getItem("uid"),
+            client: localStorage.getItem("client"),
+          },
+        })
         .then((response) => {
           this.$emit("update-posts");
         })
@@ -100,18 +110,18 @@ export default {
     },
   },
   computed: {
-    cardWidth() {
+    imageWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          return "320";
+          return "300";
         case "sm":
-          return "320";
+          return "300";
         case "md":
-          return "500";
+          return "560";
         case "lg":
-          return "500px";
+          return "560";
         case "xl":
-          return "500px";
+          return "560";
       }
     },
   },
@@ -119,4 +129,25 @@ export default {
 </script>
 
 <style scoped>
+#content {
+  z-index: 10;
+}
+#overlay {
+  /*　要素を重ねた時の順番　*/
+
+  z-index: 1;
+
+  /*　画面全体を覆う設定　*/
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  /*　画面の中央に要素を表示させる設定　*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>

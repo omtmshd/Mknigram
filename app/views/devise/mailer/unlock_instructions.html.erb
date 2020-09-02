@@ -1,7 +1,0 @@
-<p>Hello <%= @resource.email %>!</p>
-
-<p>ログインの試みが過度に失敗したため、アカウントがロックされました。</p>
-
-<p>以下のリンクをクリックして、アカウントのロックを解除してください。</p>
-
-<p><%= link_to 'アカウントのロックを解除', unlock_url(@resource, unlock_token: @token) %></p>

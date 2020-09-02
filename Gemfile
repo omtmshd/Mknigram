@@ -53,11 +53,9 @@ end
 gem 'ancestry'
 gem 'carrierwave'
 gem 'devise'
-gem 'devise-i18n'
-gem 'devise-i18n-views'
+gem 'devise_token_auth'
 gem 'factory_bot_rails'
-gem 'font-awesome-rails'
-gem 'mini_magick'
+gem 'rack-cors', :require => 'rack/cors'
 gem 'rails-i18n'
 gem 'rubocop', require: false
 gem 'rubocop-rails', require: false

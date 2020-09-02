@@ -14,7 +14,7 @@ export default {
       categories: {},
     };
   },
-  created() {
+  mounted() {
     axios
       .get("/api/v1/categories.json")
       .then((response) => (this.categories = response.data));

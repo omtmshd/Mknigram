@@ -1,5 +1,4 @@
-class Api::V1::CategoriesController < ApiController
-  before_action :authenticate_user!
+class Api::V1::CategoriesController < ApplicationController
   before_action :set_post, only: %i[post]
 
   def index

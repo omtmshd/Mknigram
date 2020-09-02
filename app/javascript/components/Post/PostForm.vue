@@ -13,7 +13,7 @@
           <v-card class="mx-auto" width="320">
             <v-img
               :src="image"
-              aspect-ratio="1.7778"
+              aspect-ratio="1.2"
               class="white--text align-end"
               gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.3)"
             >
@@ -104,7 +104,7 @@
               />
               <v-row justify="end">
                 <v-col cols="4">
-                  <v-btn rounded color="#FFF59D" class="mr-4" type="submit">投稿する</v-btn>
+                  <v-btn rounded color="#FFF176" class="mr-4" type="submit">投稿する</v-btn>
                 </v-col>
               </v-row>
             </v-col>
@@ -116,8 +116,6 @@
 </template>
 <script>
 import axios from "axios";
-import { csrfToken } from "rails-ujs";
-axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken();
 
 export default {
   props: {
@@ -142,15 +140,14 @@ export default {
       image: "",
     };
   },
-  created() {
+  mounted() {
     this.setParents();
-  },
-  updated() {
-    // 編集画面で1度だけ実行
-    if (this.post.id > 0 && this.children.length === 0) {
+    if (this.post.id > 0) {
       this.setChildren();
       this.setGrandchildren();
     }
+  },
+  updated() {
     // 編集画面で画像をセット
     if (this.post.id > 0 && this.image !== this.post.post_image.url) {
       this.image = this.post.post_image.url;
@@ -171,7 +168,7 @@ export default {
     },
     // 子カテゴリー取得
     setChildren() {
-      if (this.post.categories[0].id > 0) {
+      if (this.post.categories[0] !== null) {
         axios
           .get(`/api/v1/categories/${this.post.categories[0].id}/children.json`)
           .then((response) => (this.children = response.data));
@@ -179,7 +176,7 @@ export default {
     },
     // 孫カテゴリー取得
     setGrandchildren() {
-      if (this.post.categories[1].id > 0) {
+      if (this.post.categories[1] !== null) {
         axios
           .get(`/api/v1/categories/${this.post.categories[1].id}/children.json`)
           .then((response) => (this.grandchildren = response.data));

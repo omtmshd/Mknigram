@@ -1,7 +1,7 @@
 <template>
-  <v-app class="mx-auto" id="display">
+  <v-app>
     <layout-header></layout-header>
-    <v-container class="mx-auto">
+    <v-container class="mx-auto" fill-height>
       <v-row justify="center">
         <v-col cols="12" md="11" lg="11" xl="11">
           <v-main>
@@ -19,7 +19,8 @@ import VueRouter from "vue-router";
 
 import LayoutHeader from "../components/layout/LayoutHeader.vue";
 
-import PostsIndexPage from "./posts/PostsIndexPage.vue";
+import PostsFollowingPage from "./posts/PostsFollowingPage.vue";
+import PostsSearchPage from "./posts/PostsSearchPage.vue";
 import PostsNewPage from "./posts/PostsNewPage.vue";
 import PostsEditPage from "./posts/PostsEditPage.vue";
 
@@ -29,9 +30,13 @@ import UsersEditPage from "./users/UsersEditPage.vue";
 import UsersFollowingPage from "./users/UsersFollowingPage.vue";
 import UsersFollowersPage from "./users/UsersFollowersPage.vue";
 
+import LoginPage from "./login/LoginPage.vue";
+import SignUpPage from "./login/SignUpPage.vue";
+
 const router = new VueRouter({
   routes: [
-    { path: "/", component: PostsIndexPage },
+    { path: "/", component: PostsFollowingPage },
+    { path: "/posts/search", component: PostsSearchPage },
     { path: "/posts/new", name: "PostsNewPage", component: PostsNewPage },
     {
       path: "/posts/:id(\\d+)/edit",
@@ -59,6 +64,16 @@ const router = new VueRouter({
       name: "UsersFollowersPage",
       component: UsersFollowersPage,
     },
+    {
+      path: "/sign_in",
+      name: "LoginPage",
+      component: LoginPage,
+    },
+    {
+      path: "/sign_up",
+      name: "SignUpPage",
+      component: SignUpPage,
+    },
   ],
 });
 
@@ -74,10 +89,8 @@ export default {
 </script>
 
 <style scoped>
-#display {
-  width: 100%;
-  height: 100%;
-  background-color: #f2efed;
+.container {
+  padding: 0;
 }
 </style>
 
