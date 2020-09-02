@@ -1,5 +1,5 @@
-class Api::V1::UsersController < ApiController
-  before_action :authenticate_user!
+class Api::V1::UsersController < ApplicationController
+  before_action :authenticate_api_user!, only: %i[update]
   before_action :set_user, only: %i[update show following follow_data]
 
   rescue_from ActiveRecord::RecordNotFound do |_exception|
@@ -27,7 +27,7 @@ class Api::V1::UsersController < ApiController
   end
 
   def update
-    if @user.update_attributes(user_params) && @user.id == current_user.id
+    if @user.update_attributes(user_params) && @user.id == current_api_user.id
       head :no_content
     else
       render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
@@ -37,7 +37,7 @@ class Api::V1::UsersController < ApiController
   # フォロー、フォロワーデータ取得
   def following
     render json: @user.to_json(
-      only: %i[id name profile profile_image current_user],
+      only: %i[id name profile profile_image current_api_user],
       include: [
         following: { only: %i[id name profile profile_image] },
         followers: { only: %i[id name profile profile_image] }
@@ -57,7 +57,7 @@ class Api::V1::UsersController < ApiController
   end
 
   def current
-    render json: current_user.to_json(only: %i[id name profile profile_image])
+    render json: current_api_user.to_json(only: %i[id name profile profile_image])
   end
 
   private

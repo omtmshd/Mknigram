@@ -1,6 +1,4 @@
 import axios from 'axios'
-import { csrfToken } from 'rails-ujs'
-axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken()
 
 export const currentUser = {
   data() {
@@ -16,8 +14,20 @@ export const currentUser = {
     };
   },
   created() {
-    axios
-      .get(`/api/v1/users/current.json`)
-      .then((response) => (this.currentUser = response.data));
+    this.setCurrentUser()
   },
+  watch: { $route: "setCurrentUser" },
+  methods: {
+    setCurrentUser() {
+      axios
+        .get(`/api/v1/users/current.json`, {
+          headers: {
+            'access-token': localStorage.getItem('access-token'),
+            uid: localStorage.getItem('uid'),
+            client: localStorage.getItem('client'),
+          },
+        })
+        .then((response) => (this.currentUser = response.data));
+    }
+  }
 };

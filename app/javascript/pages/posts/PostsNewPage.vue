@@ -4,8 +4,7 @@
 
 <script>
 import axios from "axios";
-import { csrfToken } from "rails-ujs";
-axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken();
+
 import PostForm from "../../components/Post/PostForm.vue";
 
 export default {
@@ -63,6 +62,9 @@ export default {
         .post("/api/v1/posts", formData, {
           headers: {
             "content-type": "multipart/form-data",
+            "access-token": localStorage.getItem("access-token"),
+            uid: localStorage.getItem("uid"),
+            client: localStorage.getItem("client"),
           },
         })
         .then((response) => {

@@ -33,7 +33,7 @@
 
     <div class="text-center">
       <v-pagination
-        color="#43A047"
+        color="#FDD835"
         v-model="page"
         :length="length"
         :total-visible="5"
@@ -45,11 +45,9 @@
 </template>
 <script>
 import UserFollowForm from "./UserFollowForm.vue";
-import { currentUser } from "../../packs/mixins/currentUser";
 
 export default {
   components: { UserFollowForm },
-  mixins: [currentUser],
   props: {
     users: {
       type: Array,

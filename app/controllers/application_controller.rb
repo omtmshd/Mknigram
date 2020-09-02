@@ -1,7 +1,14 @@
 class ApplicationController < ActionController::Base
+
+  protect_from_forgery unless: -> { request.format.json? }
+  include DeviseTokenAuth::Concerns::SetUserByToken
+  skip_before_action :verify_authenticity_token, if: :devise_controller?
+
+  respond_to :json
+
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  protected
+  private
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name])

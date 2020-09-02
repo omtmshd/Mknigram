@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-card>
     <user-show :user="user" @set-follow="updateUser()"></user-show>
     <div v-if="user.following.length !== 0">
       <user-index :users="user.following" :page-label="pageLabel" @set-follow="updateUser()"></user-index>
@@ -9,12 +9,10 @@
         <div class="text-subtitle-1 text-center">フォロー中のユーザーがいません</div>
       </v-container>
     </div>
-  </div>
+  </v-card>
 </template>
 <script>
 import axios from "axios";
-import { csrfToken } from "rails-ujs";
-axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken();
 
 import UserShow from "../../components/User/UserShow.vue";
 import UserIndex from "../../components/User/UserIndex.vue";
@@ -37,12 +35,12 @@ export default {
       pageLabel: "フォロー中",
     };
   },
-  created() {
+  mounted() {
     this.updateUser();
   },
   watch: { $route: "updateUser" },
   methods: {
-    setUser: async function () {
+    async setUser() {
       const res = await axios.get(
         `/api/v1/users/${this.$route.params.id}/following.json`
       );
