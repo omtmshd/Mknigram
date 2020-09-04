@@ -77,7 +77,7 @@ if Rails.env == 'development'
       { level2: 'そうめん', level2_children: %w[そうめんチャンプルー にゅうめん アレンジそうめん] },
       { level2: '中華麺', level2_children: %w[焼きそば ラーメン アレンジ焼きそば ジャージャー麺 冷やし中華] },
       { level2: 'アジアの麺', level2_children: ['ビーフン', 'フォー', 'ビビン麺/冷麺'] },
-      { level2: '手打ち麺', level2_children: ['手打ちうどん', '手打ち蕎麦/中華麺'] }
+      { level2: '手打ち麺', level2_children: ['手打ちうどん', '手打ち蕎麦中華麺'] }
     ] },
     { level1: '汁物/スープ', level1_children: [
       { level2: 'お味噌汁' },

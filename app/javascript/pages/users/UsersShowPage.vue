@@ -1,7 +1,20 @@
 <template>
   <div>
+    <v-dialog v-model="dialogFollowing" scrollable :width="dialogWidth">
+      <user-following-modal :current-user="currentUser"></user-following-modal>
+    </v-dialog>
+    <v-dialog v-model="dialogFollowers" scrollable :width="dialogWidth">
+      <user-followers-modal :current-user="currentUser"></user-followers-modal>
+    </v-dialog>
+
     <v-card>
-      <user-show :user="user" @set-follow="updateUser()"></user-show>
+      <user-show
+        :user="user"
+        :current-user="currentUser"
+        @show-following="dialogFollowing = true"
+        @show-followers="dialogFollowers = true"
+      ></user-show>
+
       <template>
         <v-tabs v-model="tabsKey" centered color="#43A047">
           <v-tab v-for="t in tabasItem" :key="t.index">{{ t }}</v-tab>
@@ -10,14 +23,11 @@
 
       <v-tabs-items v-model="tabsKey">
         <v-tab-item>
-          <v-card-text v-if="user.posts.length === 0" class="subtitle-2 text-center">投稿はありません</v-card-text>
-
-          <posts-index-image v-else :posts-data="user.posts" @update-posts="updateUser()"></posts-index-image>
+          <user-posts :current-user="currentUser"></user-posts>
         </v-tab-item>
-        <v-tab-item>
-          <v-card-text v-if="likesPosts.length === 0" class="subtitle-2 text-center">いいねした投稿はありません</v-card-text>
 
-          <posts-index-image v-else :posts-data="likesPosts" @update-posts="updateLikes()"></posts-index-image>
+        <v-tab-item>
+          <like-posts :current-user="currentUser"></like-posts>
         </v-tab-item>
       </v-tabs-items>
     </v-card>
@@ -25,14 +35,22 @@
 </template>
 <script>
 import axios from "axios";
+import { currentUser } from "../../packs/mixins/currentUser";
 
 import UserShow from "../../components/User/UserShow.vue";
-import PostsIndexImage from "../../components/Post/PostsIndexImage.vue";
+import UserFollowingModal from "../../components/User/UserFollowingModal.vue";
+import UserFollowersModal from "../../components/User/UserFollowersModal.vue";
+import UserPosts from "../../components/Post/UserPosts.vue";
+import LikePosts from "../../components/Post/LikePosts.vue";
 
 export default {
+  mixins: [currentUser],
   components: {
     UserShow,
-    PostsIndexImage,
+    UserFollowingModal,
+    UserFollowersModal,
+    UserPosts,
+    LikePosts,
   },
   data() {
     return {
@@ -40,40 +58,43 @@ export default {
         profile_image: {
           url: "",
         },
-        posts: [],
       },
+
       tabsKey: null,
       tabasItem: ["投稿", "いいね"],
-      likesPosts: [],
+
+      dialogFollowing: false,
+      dialogFollowers: false,
     };
   },
   mounted() {
-    this.updateUser();
-    this.updateLikes();
+    this.setUser();
   },
-  watch: { $route: "updateUser" },
+  watch: {
+    $route: "setUser",
+  },
   methods: {
-    async setUser() {
-      const res = await axios.get(
-        `/api/v1/users/${this.$route.params.id}.json`
-      );
-      return res.data;
-    },
-    updateUser() {
-      this.setUser().then((result) => {
-        this.user = result;
+    setUser() {
+      axios.get(`/api/v1/users/${this.$route.params.id}`).then(({ data }) => {
+        this.user = data;
       });
+      this.dialogFollowing = this.dialogFollowers = false;
     },
-    async setUserLikes() {
-      const res = await axios.get(
-        `/api/v1/likes/${this.$route.params.id}/posts.json`
-      );
-      return res.data;
-    },
-    updateLikes() {
-      this.setUserLikes().then((result) => {
-        this.likesPosts = result;
-      });
+  },
+  computed: {
+    dialogWidth() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return "330";
+        case "sm":
+          return "400";
+        case "md":
+          return "600";
+        case "lg":
+          return "600";
+        case "xl":
+          return "600";
+      }
     },
   },
 };

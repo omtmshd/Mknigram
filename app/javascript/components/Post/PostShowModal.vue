@@ -1,5 +1,5 @@
 <template>
-  <div id="overlay" @click.prevent="clickEvent()">
+  <div id="overlay" @click.prevent="clickEvent">
     <div id="content">
       <v-container>
         <v-card class="mx-auto" :width="imageWidth">
@@ -23,7 +23,7 @@
           <v-divider class="mx-4"></v-divider>
 
           <v-card-actions>
-            <v-avatar size="56" @click.stop="showUser(post.user.id)">
+            <v-avatar size="56" @click.stop="showUser">
               <img v-if="post.user.profile_image.url !== null" :src="post.user.profile_image.url" />
               <v-icon v-else size="56" color="#90A4AE" dark>mdi-account-circle</v-icon>
             </v-avatar>
@@ -36,11 +36,11 @@
                 <post-delete-modal
                   v-if="showModal"
                   @cancel="showModal = false"
-                  @ok="deletePost(); showModal = false;"
+                  @ok="deletePost; showModal = false;"
                 >
                   <div slot="body">本当に削除しますか？</div>
                 </post-delete-modal>
-                <v-btn icon @click.stop="editPost()">
+                <v-btn icon @click.stop="editPost">
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
               </template>
@@ -58,15 +58,13 @@ import axios from "axios";
 
 import PostDeleteModal from "./PostDeleteModal.vue";
 import LikeButton from "../Like/LikeButton.vue";
-import { currentUser } from "../../packs/mixins/currentUser";
 
 export default {
-  mixins: [currentUser],
   components: {
     PostDeleteModal,
     LikeButton,
   },
-  props: { post: {} },
+  props: { post: {}, currentUser: {} },
   data() {
     return {
       showModal: false,
@@ -96,11 +94,13 @@ export default {
     clickEvent() {
       this.$emit("from-child");
     },
-    showUser(i) {
-      this.$router.push({
-        name: "UsersShowPage",
-        params: { id: i },
-      });
+    showUser() {
+      if (this.$route.path !== `/users/${this.post.user.id}`) {
+        this.$router.push({
+          name: "UsersShowPage",
+          params: { id: this.post.user.id },
+        });
+      }
     },
     editPost() {
       this.$router.push({

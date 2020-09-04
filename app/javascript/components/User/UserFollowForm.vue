@@ -5,7 +5,7 @@
         color="#43A047"
         class="text-decoration-underline"
         text
-        @click.stop="showFollowing()"
+        @click.stop="$emit('show-following')"
       >フォロー中 ({{ followingCount }})</v-btn>
     </v-col>
     <v-col cols="6">
@@ -13,7 +13,7 @@
         color="#43A047"
         class="text-decoration-underline"
         text
-        @click.stop="showFollowers()"
+        @click.stop="$emit('show-followers')"
       >フォロワー ({{ followersCount }})</v-btn>
     </v-col>
     <v-col cols="12">
@@ -29,10 +29,10 @@
               color="#FFF176"
               rounded
               small
-              @click.stop="userUnfollow()"
+              @click.stop="userUnfollow"
             >フォロー解除</v-btn>
 
-            <v-btn v-else block color="#FFF176" rounded small @click.stop="userFollow()">フォローする</v-btn>
+            <v-btn v-else block color="#FFF176" rounded small @click.stop="userFollow">フォローする</v-btn>
           </v-col>
         </v-row>
       </template>
@@ -42,12 +42,10 @@
 <script>
 import axios from "axios";
 
-import { currentUser } from "../../packs/mixins/currentUser";
-
 export default {
-  mixins: [currentUser],
   props: {
     userId: "",
+    currentUser: {},
   },
   data() {
     return {
@@ -88,16 +86,15 @@ export default {
   watch: { $route: "setUser" },
   methods: {
     // ユーザーデータ取得
-    async setUser() {
-      const res = await axios.get(
-        `/api/v1/users/${this.userId}/follow_data.json`
-      );
-      this.user = res.data;
+    setUser() {
+      axios.get(`/api/v1/users/${this.userId}/follow_data`).then(({ data }) => {
+        this.user = data;
+      });
     },
     // フォローする
     async userFollow() {
       await axios.post(
-        "/api/v1/relationships.json",
+        "/api/v1/relationships",
         {
           followed_id: this.userId,
         },
@@ -109,34 +106,20 @@ export default {
           },
         }
       );
-
       this.setUser();
-      this.$emit("set-follow");
+      this.$emit("user-reset");
     },
     // フォロー解除
     async userUnfollow() {
-      await axios.delete(`/api/v1/relationships/${this.userId}.json`, {
+      await axios.delete(`/api/v1/relationships/${this.userId}`, {
         headers: {
           "access-token": localStorage.getItem("access-token"),
           uid: localStorage.getItem("uid"),
           client: localStorage.getItem("client"),
         },
       });
-
       this.setUser();
-      this.$emit("set-follow");
-    },
-    showFollowing() {
-      this.$router.push({
-        name: "UsersFollowingPage",
-        params: { id: this.userId },
-      });
-    },
-    showFollowers() {
-      this.$router.push({
-        name: "UsersFollowersPage",
-        params: { id: this.userId },
-      });
+      this.$emit("user-reset");
     },
   },
 };

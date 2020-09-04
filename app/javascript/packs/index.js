@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import InfiniteLoading from 'vue-infinite-loading'
 
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import '@mdi/font/css/materialdesignicons.css'
@@ -8,7 +8,7 @@ import "vuetify/dist/vuetify.min.css";
 
 import App from '../pages/app.vue'
 
-Vue.use(Vuex)
+Vue.use(InfiniteLoading)
 Vue.use(Vuetify);
 const vuetify = new Vuetify();
 

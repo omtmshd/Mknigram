@@ -1,54 +1,32 @@
 <template>
   <div>
-    <v-row justify="center">
-      <div v-for="p in displayPosts" :key="p.index">
-        <post-show-modal
-          :post="p"
-          v-show="showPost === p.id"
-          @from-child="closeModal"
-          @update-posts="updatePosts()"
-        ></post-show-modal>
-        <v-col>
-          <v-card
-            @click.prevent="openModal(p.id)"
-            class="mx-auto"
-            :width="imageWidth"
-            :height="imageHight"
-          >
-            <v-img
-              :src="p.post_image.url"
-              aspect-ratio="1.2"
-              gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.3)"
-            ></v-img>
-          </v-card>
-        </v-col>
-      </div>
-    </v-row>
-    <div class="text-center">
-      <v-pagination
-        color="#FDD835"
-        v-model="page"
-        :length="length"
-        :total-visible="5"
-        prev-icon="mdi-menu-left"
-        next-icon="mdi-menu-right"
-      ></v-pagination>
-    </div>
+    <post-show-modal
+      :post="post"
+      :current-user="currentUser"
+      v-show="showPost === post.id"
+      @from-child="closeModal"
+      @update-posts="$emit('update-posts')"
+    ></post-show-modal>
+    <v-col>
+      <v-card @click.prevent="openModal()" class="mx-auto" :width="imageWidth" :height="imageHight">
+        <v-img
+          :src="post.post_image.url"
+          aspect-ratio="1.2"
+          gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.3)"
+        ></v-img>
+      </v-card>
+    </v-col>
   </div>
 </template>
 <script>
 import LikeButton from "../Like/LikeButton.vue";
 import PostShowModal from "./PostShowModal.vue";
-import { currentUser } from "../../packs/mixins/currentUser";
 
 export default {
-  mixins: [currentUser],
   components: { LikeButton, PostShowModal },
   props: {
-    postsData: {
-      type: Array,
-      default: [],
-    },
+    post: {},
+    currentUser: {},
   },
   data() {
     return {
@@ -59,13 +37,6 @@ export default {
     };
   },
   computed: {
-    displayPosts() {
-      this.length = Math.ceil(this.postsData.length / this.pageSize);
-      return this.postsData.slice(
-        this.pageSize * (this.page - 1),
-        this.pageSize * this.page
-      );
-    },
     imageWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
@@ -96,20 +67,11 @@ export default {
     },
   },
   methods: {
-    openModal(i) {
-      this.showPost = i;
+    openModal() {
+      this.showPost = this.post.id;
     },
     closeModal() {
       this.showPost = -1;
-    },
-    showUser(i) {
-      this.$router.push({
-        name: "UsersShowPage",
-        params: { id: i },
-      });
-    },
-    updatePosts() {
-      this.$emit("update-posts");
     },
   },
 };

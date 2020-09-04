@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       resources :users, only: %i[show update index] do
         get :current, on: :collection
         member do
-          get :following, :follow_data
+          get :following, :followers, :follow_data, :posts
         end
       end
       resources :likes, only: %i[index create destroy] do

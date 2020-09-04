@@ -46,7 +46,7 @@ export default {
   methods: {
     async loginForm() {
       const res = await axios
-        .post("/api//v1/auth/sign_in.json", this.user)
+        .post("/api//v1/auth/sign_in", this.user)
         .then((response) => {
           // レスポンスで返ってきた、認証に必要な情報をlocalStorageに保存
           localStorage.setItem(

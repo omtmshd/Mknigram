@@ -2,7 +2,6 @@
   "name": "myapp",
   "private": true,
   "dependencies": {
-    "@nuxtjs/auth": "^4.9.1",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
@@ -13,11 +12,11 @@
     "serialize-javascript": "^4.0.0",
     "turbolinks": "^5.2.0",
     "vue": "^2.6.11",
+    "vue-infinite-loading": "^2.4.5",
     "vue-loader": "^15.9.3",
     "vue-router": "^3.4.2",
     "vue-template-compiler": "^2.6.11",
-    "vuetify": "^2.3.8",
-    "vuex": "^3.5.1"
+    "vuetify": "^2.3.8"
   },
   "version": "0.1.0",
   "devDependencies": {

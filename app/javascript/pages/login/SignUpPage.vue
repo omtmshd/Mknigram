@@ -74,7 +74,7 @@ export default {
   methods: {
     async signUp() {
       const res = await axios
-        .post("/api/v1/auth.json", this.user)
+        .post("/api/v1/auth", this.user)
         .then((response) => {
           // レスポンスで返ってきた、認証に必要な情報をlocalStorageに保存
           localStorage.setItem(

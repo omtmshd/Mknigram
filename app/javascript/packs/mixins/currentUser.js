@@ -20,7 +20,7 @@ export const currentUser = {
   methods: {
     setCurrentUser() {
       axios
-        .get(`/api/v1/users/current.json`, {
+        .get(`/api/v1/users/current`, {
           headers: {
             'access-token': localStorage.getItem('access-token'),
             uid: localStorage.getItem('uid'),

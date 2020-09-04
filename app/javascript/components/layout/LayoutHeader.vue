@@ -38,31 +38,19 @@
             <v-divider></v-divider>
 
             <v-list nav>
-              <v-list-item link @click="postsIndex()">
+              <v-list-item link @click="postsIndex">
                 <v-list-item-icon>
                   <v-icon color="#FFF176">mdi-home</v-icon>
                 </v-list-item-icon>
               </v-list-item>
 
-              <v-list-item link @click="usersEdit()">
+              <v-list-item link @click="usersEdit">
                 <v-list-item-icon>
                   <v-icon color="#FFF176">mdi-account-edit</v-icon>
                 </v-list-item-icon>
               </v-list-item>
 
-              <v-list-item link @click="usersFollowing()">
-                <v-list-item-icon>
-                  <v-icon color="#FFF176">mdi-account-arrow-right</v-icon>
-                </v-list-item-icon>
-              </v-list-item>
-
-              <v-list-item link @click="usersFollowers()">
-                <v-list-item-icon>
-                  <v-icon color="#FFF176">mdi-account-arrow-left</v-icon>
-                </v-list-item-icon>
-              </v-list-item>
-
-              <v-list-item link @click="usersIndex()">
+              <v-list-item link @click="usersIndex">
                 <v-list-item-icon>
                   <v-icon color="#FFF176">mdi-account-group</v-icon>
                 </v-list-item-icon>
@@ -76,17 +64,17 @@
             </v-list>
           </template>
           <template v-else>
-            <v-list-item link @click="postsIndex()">
+            <v-list-item link @click="postsIndex">
               <v-list-item-icon>
                 <v-icon color="#FFF176">mdi-home</v-icon>
               </v-list-item-icon>
             </v-list-item>
-            <v-list-item link @click="usersIndex()">
+            <v-list-item link @click="usersIndex">
               <v-list-item-icon>
                 <v-icon color="#FFF176">mdi-account-group</v-icon>
               </v-list-item-icon>
             </v-list-item>
-            <v-list-item link @click="logIn()">
+            <v-list-item link @click="logIn">
               <v-list-item-icon>
                 <v-icon color="#FFF176">mdi-login-variant</v-icon>
               </v-list-item-icon>
@@ -96,7 +84,7 @@
 
         <v-list nav>
           <template v-if="currentUser !== null">
-            <v-list-item link @click="postsNew()">
+            <v-list-item link @click="postsNew">
               <v-list-item-content>
                 <v-list-item-title>レシピを書く</v-list-item-title>
               </v-list-item-content>
@@ -115,12 +103,12 @@
             </v-list-item>
           </template>
           <template v-else>
-            <v-list-item link @click="logIn()">
+            <v-list-item link @click="logIn">
               <v-list-item-content>
                 <v-list-item-title>ログイン</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item link @click="signIn()">
+            <v-list-item link @click="signIn">
               <v-list-item-content>
                 <v-list-item-title>新規登録</v-list-item-title>
               </v-list-item-content>
@@ -132,7 +120,7 @@
     <user-logout-modal
       v-if="showModal"
       @cancel="showModal = false"
-      @ok="logOut(); showModal = false;"
+      @ok="logOut; showModal = false;"
     >
       <div slot="body">本当にログアウトしますか？</div>
     </user-logout-modal>
@@ -182,26 +170,7 @@ export default {
         this.drawer = false;
       }
     },
-    usersFollowers() {
-      if (this.$route.path !== `/users/${this.currentUser.id}/followers`) {
-        this.$router.push({
-          name: "UsersFollowersPage",
-          params: { id: this.currentUser.id },
-        });
-      } else {
-        this.drawer = false;
-      }
-    },
-    usersFollowing() {
-      if (this.$route.path !== `/users/${this.currentUser.id}/following`) {
-        this.$router.push({
-          name: "UsersFollowingPage",
-          params: { id: this.currentUser.id },
-        });
-      } else {
-        this.drawer = false;
-      }
-    },
+
     usersIndex() {
       if (this.$route.name !== "UsersIndexPage") {
         this.$router.push({
@@ -223,7 +192,7 @@ export default {
     },
     async logOut() {
       await axios
-        .delete("/api/v1/auth/sign_out.json", {
+        .delete("/api/v1/auth/sign_out", {
           headers: {
             "access-token": localStorage.getItem("access-token"),
             uid: localStorage.getItem("uid"),

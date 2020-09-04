@@ -32,7 +32,7 @@ export default {
   methods: {
     setPost() {
       axios
-        .get(`/api/v1/posts/${this.$route.params.id}.json`)
+        .get(`/api/v1/posts/${this.$route.params.id}`)
         .then((response) => (this.post = response.data));
       if (this.post.categories[0] != true) {
         this.post.categories[0] = { id: "", name: "" };
