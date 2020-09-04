@@ -91,9 +91,7 @@ export default {
   },
   methods: {
     async setUser() {
-      const res = await axios.get(
-        `/api/v1/users/${this.$route.params.id}.json`
-      );
+      const res = await axios.get(`/api/v1/users/${this.$route.params.id}`);
       return res.data;
     },
     selectedFile(e) {

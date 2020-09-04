@@ -7,7 +7,7 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def index
-    render json: Post.all.to_json(
+    render json: Post.all.limit(5).offset(params[:data_id]).to_json(
       only: %i[id title body post_image],
       include: [
         user: { only: %i[id name profile_image] },

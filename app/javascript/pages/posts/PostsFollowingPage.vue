@@ -1,30 +1,53 @@
 <template>
-  <posts-index-show :posts-data="posts" @update-posts="updatePosts()"></posts-index-show>
+  <div>
+    <posts-index-show
+      v-for="post in postsData"
+      :key="post.index"
+      :post="post"
+      :current-user="currentUser"
+      @update-posts="updatePosts()"
+    ></posts-index-show>
+    <infinite-loading @infinite="infiniteHandler" spinner="spiral">
+      <div slot="spinner"></div>
+      <div slot="no-more"></div>
+      <div slot="no-results"></div>
+    </infinite-loading>
+  </div>
 </template>
 <script>
 import axios from "axios";
 
+import { currentUser } from "../../packs/mixins/currentUser";
+
 import PostsIndexShow from "../../components/Post/PostsIndexShow.vue";
 
 export default {
+  mixins: [currentUser],
   components: { PostsIndexShow },
   data() {
     return {
-      posts: [],
+      postsData: [],
+      postsNumber: 0,
     };
   },
-  mounted() {
-    this.updatePosts();
-  },
   methods: {
-    async setPosts() {
-      const res = await axios.get("/api/v1/posts.json");
-      return res.data;
-    },
     updatePosts() {
-      this.setPosts().then((result) => {
-        this.posts = result;
-      });
+      this.postsData = [];
+      this.postsNumber = 0;
+      this.infiniteHandler();
+    },
+    infiniteHandler($state) {
+      axios
+        .get(`/api/v1/posts?data_id=${this.postsNumber}`)
+        .then(({ data }) => {
+          this.postsNumber += 5;
+          this.postsData.push(...data);
+          if (5 > data.length) {
+            $state.complete();
+          } else {
+            $state.loaded();
+          }
+        });
     },
   },
 };

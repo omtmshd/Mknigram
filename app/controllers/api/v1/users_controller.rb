@@ -1,28 +1,19 @@
 class Api::V1::UsersController < ApplicationController
   before_action :authenticate_api_user!, only: %i[update]
-  before_action :set_user, only: %i[update show following follow_data]
+  before_action :set_user, only: %i[update show following followers follow_data posts]
 
   rescue_from ActiveRecord::RecordNotFound do |_exception|
     render json: { error: '404 not found' }, status: 404
   end
 
+  # すべてのUserを9個ずつ返す
   def index
-    users = User.all.to_json(only: %i[id name profile profile_image])
-    render json: users
+    render json: User.all.limit(9).offset(params[:data_id]).to_json(only: %i[id name profile profile_image])
   end
 
   def show
     render json: @user.to_json(
-      only: %i[id name profile profile_image],
-      include: [
-        posts: {
-          only: %i[id title body post_image],
-          include: [
-            user: { only: %i[id profile_image] },
-            categories: { only: %i[id name] }
-          ]
-        }
-      ]
+      only: %i[id name profile profile_image]
     )
   end
 
@@ -34,14 +25,17 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  # フォロー、フォロワーデータ取得
+  # フォロー中のユーザーデータ取得
   def following
-    render json: @user.to_json(
-      only: %i[id name profile profile_image current_api_user],
-      include: [
-        following: { only: %i[id name profile profile_image] },
-        followers: { only: %i[id name profile profile_image] }
-      ]
+    render json: @user.following.to_json(
+      only: %i[id name profile profile_image]
+    )
+  end
+
+  # フォロワーユーザーデータ取得
+  def followers
+    render json: @user.followers.to_json(
+      only: %i[id name profile profile_image]
     )
   end
 
@@ -56,8 +50,20 @@ class Api::V1::UsersController < ApplicationController
     )
   end
 
+  # ログインユーザーを返す
   def current
     render json: current_api_user.to_json(only: %i[id name profile profile_image])
+  end
+
+  # Userと紐付いたPostを9個ずつ返す
+  def posts
+    render json: @user.posts.limit(9).offset(params[:data_id]).to_json(
+      only: %i[id title body post_image],
+      include: [
+        user: { only: %i[id name profile_image] },
+        categories: { only: %i[id name] }
+      ]
+    )
   end
 
   private

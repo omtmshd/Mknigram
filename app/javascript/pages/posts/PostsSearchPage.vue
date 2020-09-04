@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     async setPosts() {
-      const res = await axios.get("/api/v1/posts.json");
+      const res = await axios.get("/api/v1/posts");
       return res.data;
     },
     updatePosts() {

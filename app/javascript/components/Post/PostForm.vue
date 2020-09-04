@@ -67,7 +67,7 @@
                 item-text="name"
                 item-value="id"
                 return-object
-                @change="selectParents()"
+                @change="selectParents"
                 label="メインカテゴリー"
                 color="#FDD835"
                 item-color="#FDD835"
@@ -82,7 +82,7 @@
                 item-value="id"
                 return-object
                 no-data-text="カテゴリーがありません"
-                @change="selectChildren()"
+                @change="selectChildren"
                 label="サブカテゴリー"
                 color="#FDD835"
                 item-color="#FDD835"
@@ -163,14 +163,14 @@ export default {
     // 第1層カテゴリー取得
     setParents() {
       axios
-        .get("/api/v1/categories/parents.json")
+        .get("/api/v1/categories/parents")
         .then((response) => (this.parents = response.data));
     },
     // 子カテゴリー取得
     setChildren() {
       if (this.post.categories[0] !== null) {
         axios
-          .get(`/api/v1/categories/${this.post.categories[0].id}/children.json`)
+          .get(`/api/v1/categories/${this.post.categories[0].id}/children`)
           .then((response) => (this.children = response.data));
       }
     },
@@ -178,7 +178,7 @@ export default {
     setGrandchildren() {
       if (this.post.categories[1] !== null) {
         axios
-          .get(`/api/v1/categories/${this.post.categories[1].id}/children.json`)
+          .get(`/api/v1/categories/${this.post.categories[1].id}/children`)
           .then((response) => (this.grandchildren = response.data));
       }
     },
