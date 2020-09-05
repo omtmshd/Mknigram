@@ -20,7 +20,8 @@ import VueRouter from "vue-router";
 import LayoutHeader from "../components/layout/LayoutHeader.vue";
 
 import PostsFollowingPage from "./posts/PostsFollowingPage.vue";
-import PostsSearchPage from "./posts/PostsSearchPage.vue";
+import PostsCategoriesPage from "./posts/PostsCategoriesPage.vue";
+
 import PostsNewPage from "./posts/PostsNewPage.vue";
 import PostsEditPage from "./posts/PostsEditPage.vue";
 
@@ -34,7 +35,11 @@ import SignUpPage from "./login/SignUpPage.vue";
 const router = new VueRouter({
   routes: [
     { path: "/", component: PostsFollowingPage },
-    { path: "/posts/search", component: PostsSearchPage },
+    {
+      path: "/posts/:id(\\d+)/categories",
+      name: "PostsCategoriesPage",
+      component: PostsCategoriesPage,
+    },
     { path: "/posts/new", name: "PostsNewPage", component: PostsNewPage },
     {
       path: "/posts/:id(\\d+)/edit",

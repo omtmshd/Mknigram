@@ -26,13 +26,22 @@
             <v-btn
               v-if="followingStatus"
               block
-              color="#FFF176"
+              class="white--text"
+              color="#37474F"
               rounded
               small
               @click.stop="userUnfollow"
             >フォロー解除</v-btn>
 
-            <v-btn v-else block color="#FFF176" rounded small @click.stop="userFollow">フォローする</v-btn>
+            <v-btn
+              v-else
+              block
+              color="#37474F"
+              class="white--text"
+              rounded
+              small
+              @click.stop="userFollow"
+            >フォローする</v-btn>
           </v-col>
         </v-row>
       </template>
