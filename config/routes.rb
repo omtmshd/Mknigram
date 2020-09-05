@@ -8,19 +8,28 @@ Rails.application.routes.draw do
       }
     end
     namespace :v1 do
-      resources :posts, only: %i[index show create update destroy]
+
+      resources :posts, only: %i[index show create update destroy] do
+        member do
+          get :categories
+        end
+      end
+
       resources :relationships, only: %i[create destroy]
+
       resources :users, only: %i[show update index] do
         get :current, on: :collection
         member do
           get :following, :followers, :follow_data, :posts
         end
       end
+
       resources :likes, only: %i[index create destroy] do
         member do
           get :posts, :users
         end
       end
+
       resources :categories, only: %i[index] do
         get :parents, on: :collection
         member do

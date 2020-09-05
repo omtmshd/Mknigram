@@ -47,6 +47,17 @@ class Api::V1::PostsController < ApplicationController
     head :no_content if @post.destroy! && @post.user_id == current_api_user.id
   end
 
+  def categories
+    @posts = Category.find(params[:id]).posts
+    render json: @posts.limit(5).offset(params[:data_id]).to_json(
+      only: %i[id title body post_image],
+      include: [
+        user: { only: %i[id name profile_image] },
+        categories: { only: %i[id name] }
+      ]
+    )
+  end
+
   private
 
   def set_post

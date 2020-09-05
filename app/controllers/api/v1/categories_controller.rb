@@ -1,8 +1,26 @@
 class Api::V1::CategoriesController < ApplicationController
   before_action :set_post, only: %i[post]
 
+  # 全カテゴリーと第4層カテゴリーの空配列取得
   def index
-    render json: Category.all.to_json(only: %i[id name])
+    render json: Category.where(ancestry: nil).to_json(
+      only: %i[id name],
+      include: [
+        children: {
+          only: %i[id name],
+          include: [
+            children: {
+              only: %i[id name],
+              include: [
+                children: {
+                  only: []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    )
   end
 
   def parents
