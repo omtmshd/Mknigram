@@ -49,7 +49,7 @@ test:
 #
 production:
   <<: *default
-  database: exampledb
-  username: root
-  password: hide1031
-  host: example-rds-mysql-server-1.cj6pvfgwq1es.ap-northeast-1.rds.amazonaws.com
+  host: <%= Rails.application.credentials.rds[:host] %>
+  database: <%= Rails.application.credentials.rds[:database] %>
+  username: <%= Rails.application.credentials.rds[:username] %>
+  password: <%= Rails.application.credentials.rds[:password] %>
