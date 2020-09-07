@@ -1,9 +1,8 @@
-web:
-  ports:
-    - 80:80
-  environment:
-    PRODUCTION: 'true'
-
-cache:
-  environment:
-    TTL: '500'
+version: '3'
+services:
+  db:
+    environment:
+      PRODUCTION: 'true'
+  web:
+    environment:
+      PRODUCTION: 'true'
