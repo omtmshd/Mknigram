@@ -49,7 +49,7 @@ test:
 #
 production:
   <<: *default
-  database: myapp_production
-  username: myapp
-  password: password
-  host: db
+  database: exampledb
+  username: root
+  password: hide1031
+  host: example-rds-mysql-server-1.cj6pvfgwq1es.ap-northeast-1.rds.amazonaws.com
