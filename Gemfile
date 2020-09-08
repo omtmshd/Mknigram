@@ -50,6 +50,10 @@ group :test do
   gem 'selenium-webdriver'
 end
 
+group :production, :staging do
+    gem 'unicorn'
+end
+
 gem 'ancestry'
 gem 'carrierwave'
 gem 'devise'
