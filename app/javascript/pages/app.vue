@@ -75,9 +75,6 @@ Vue.use(VueRouter);
 export default {
   components: { LayoutHeader },
   router,
-  icons: {
-    iconfont: "mdiSvg",
-  },
 };
 </script>
 
