@@ -5,27 +5,27 @@
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "4.2.2",
-    "axios": "^0.19.2",
+    "@rails/webpacker": "5.2.1",
+    "axios": "^0.20.0",
     "popper.js": "^1.16.1",
     "rails-ujs": "^5.2.4-3",
     "serialize-javascript": "^4.0.0",
     "turbolinks": "^5.2.0",
-    "vue": "^2.6.11",
+    "vue": "^2.6.12",
     "vue-infinite-loading": "^2.4.5",
     "vue-loader": "^15.9.3",
-    "vue-router": "^3.4.2",
-    "vue-template-compiler": "^2.6.11",
-    "vuetify": "^2.3.8"
+    "vue-router": "^3.4.3",
+    "vue-template-compiler": "^2.6.12",
+    "vuetify": "^2.3.10"
   },
   "version": "0.1.0",
   "devDependencies": {
     "@mdi/font": "^5.5.55",
     "@mdi/js": "^5.5.55",
-    "cz-conventional-changelog": "^3.2.0",
-    "file-loader": "^6.0.0",
-    "material-design-icons-iconfont": "^5.0.1",
-    "webpack-dev-server": "^3.11.0"
+    "cz-conventional-changelog": "^3.3.0",
+    "file-loader": "^6.1.0",
+    "material-design-icons-iconfont": "^6.1.0",
+    "webpack-dev-server": "^2.11.1"
   },
   "config": {
     "commitizen": {

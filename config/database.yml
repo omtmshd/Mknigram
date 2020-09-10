@@ -51,4 +51,5 @@ production:
   <<: *default
   database: myapp_production
   username: root
-  password:
+  password: hide1031
+  host: mk-db.cj6pvfgwq1es.ap-northeast-1.rds.amazonaws.com
