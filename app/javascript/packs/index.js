@@ -2,6 +2,9 @@ import Vue from 'vue'
 
 import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import "@mdi/font/css/materialdesignicons.css";
+
 
 import App from '../pages/app.vue'
 
@@ -14,6 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({
     el,
     vuetify,
+    icons: {
+      iconfont: "mdi",
+    },
     render: h => h(App)
   })
 

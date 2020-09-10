@@ -16,8 +16,7 @@
 <script>
 import Vue from "vue";
 import VueRouter from "vue-router";
-import InfiniteLoading from 'vue-infinite-loading'
-import '@mdi/font/css/materialdesignicons.css'
+import InfiniteLoading from "vue-infinite-loading";
 
 import LayoutHeader from "../components/layout/LayoutHeader.vue";
 
@@ -73,14 +72,11 @@ const router = new VueRouter({
 });
 
 Vue.use(VueRouter);
-Vue.use(InfiniteLoading)
+Vue.use(InfiniteLoading);
 
 export default {
   components: { LayoutHeader },
   router,
-  icons: {
-     iconfont: "mdiSvg",
-  },
 };
 </script>
 
