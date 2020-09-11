@@ -56,6 +56,7 @@ end
 
 gem 'ancestry'
 gem 'carrierwave'
+gem 'fog-aws'
 gem 'devise'
 gem 'devise_token_auth'
 gem 'factory_bot_rails'
