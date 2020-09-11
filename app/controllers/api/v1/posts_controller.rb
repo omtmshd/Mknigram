@@ -6,6 +6,7 @@ class Api::V1::PostsController < ApplicationController
     render json: { error: '404 not found' }, status: 404
   end
 
+  # 5個ずつデータを取得
   def index
     render json: Post.all.limit(5).offset(params[:data_id]).to_json(
       only: %i[id title body post_image],
@@ -47,6 +48,7 @@ class Api::V1::PostsController < ApplicationController
     head :no_content if @post.destroy! && @post.user_id == current_api_user.id
   end
 
+  # カテゴリー検索（5ずつ）
   def categories
     @posts = Category.find(params[:id]).posts
     render json: @posts.limit(5).offset(params[:data_id]).to_json(

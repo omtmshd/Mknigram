@@ -14,13 +14,7 @@ class Api::V1::CategoriesController < ApplicationController
               include: [
                 children: {
                   only: []
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    )
+    }]}]}])
   end
 
   def parents
