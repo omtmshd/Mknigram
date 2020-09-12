@@ -94,6 +94,13 @@
             <v-list-item-title>レシピを書く</v-list-item-title>
           </v-list-item>
 
+          <v-list-item link @click="likesPosts">
+            <v-list-item-action>
+              <v-icon>mdi-crown-outline</v-icon>
+            </v-list-item-action>
+            <v-list-item-title>人気のレシピ</v-list-item-title>
+          </v-list-item>
+
           <v-divider></v-divider>
         </template>
         <v-list-item link @click="searchPosts(0)">
@@ -112,11 +119,7 @@
         </v-list>
       </v-list>
     </v-navigation-drawer>
-    <user-logout-modal
-      v-if="showModal"
-      @cancel="showModal = false"
-      @ok="logOut; showModal = false;"
-    >
+    <user-logout-modal v-if="showModal" @cancel="showModal = false" @ok="logOut">
       <div slot="body">本当にログアウトしますか？</div>
     </user-logout-modal>
   </header>
@@ -153,6 +156,15 @@ export default {
     postsIndex() {
       if (this.$route.path !== "/") {
         this.$router.push({ path: "/" });
+      } else {
+        this.drawer = false;
+      }
+    },
+    likesPosts() {
+      if (this.$route.name !== "PostsLikesPage") {
+        this.$router.push({
+          name: "PostsLikesPage",
+        });
       } else {
         this.drawer = false;
       }
@@ -223,6 +235,7 @@ export default {
             return error;
           }
         );
+      this.showModal = false;
       this.$router.push({ name: "LoginPage" });
     },
     logIn() {
