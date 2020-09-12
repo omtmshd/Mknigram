@@ -40,9 +40,9 @@ export default {
       axios
         .get(`/api/v1/posts?data_id=${this.postsNumber}`)
         .then(({ data }) => {
-          this.postsNumber += 5;
+          this.postsNumber += 10;
           this.postsData.push(...data);
-          if (5 > data.length) {
+          if (10 > data.length) {
             $state.complete();
           } else {
             $state.loaded();

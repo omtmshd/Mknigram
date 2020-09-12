@@ -6,9 +6,9 @@ class Api::V1::PostsController < ApplicationController
     render json: { error: '404 not found' }, status: 404
   end
 
-  # 5個ずつデータを取得
+  # 10個ずつデータを取得
   def index
-    render json: Post.all.limit(5).offset(params[:data_id]).to_json(
+    render json: Post.all.limit(10).offset(params[:data_id]).to_json(
       only: %i[id title body post_image],
       include: [
         user: { only: %i[id name profile_image] },
@@ -48,10 +48,21 @@ class Api::V1::PostsController < ApplicationController
     head :no_content if @post.destroy! && @post.user_id == current_api_user.id
   end
 
-  # カテゴリー検索（5ずつ）
+  # カテゴリー検索（10ずつ）
   def categories
     @posts = Category.find(params[:id]).posts
-    render json: @posts.limit(5).offset(params[:data_id]).to_json(
+    render json: @posts.limit(10).offset(params[:data_id]).to_json(
+      only: %i[id title body post_image],
+      include: [
+        user: { only: %i[id name profile_image] },
+        categories: { only: %i[id name] }
+      ]
+    )
+  end
+
+  # いいねが多い順に10個ずつ取得
+  def likes
+    render json: Post.find(Like.group(:post_id).order('count(post_id) desc').limit(10).offset(params[:data_id]).pluck(:note_id)).to_json(
       only: %i[id title body post_image],
       include: [
         user: { only: %i[id name profile_image] },

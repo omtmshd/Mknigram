@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     namespace :v1 do
 
       resources :posts, only: %i[index show create update destroy] do
+        get :likes, on: :collection
         member do
           get :categories
         end
