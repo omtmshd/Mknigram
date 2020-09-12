@@ -1,6 +1,9 @@
 <template>
   <div>
     <v-row justify="center" class="mx-auto">
+      <div v-for="post in userPosts" :key="post.index">
+        <v-img :srd="post.post_image.url" width="0" hight="0"></v-img>
+      </div>
       <posts-index-image
         v-for="userPost in userPosts"
         :key="userPost.index"

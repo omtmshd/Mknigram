@@ -1,14 +1,10 @@
 <template>
-  <v-app id="display">
+  <v-app>
     <layout-header></layout-header>
-    <v-container class="mx-auto" fill-height>
-      <v-row justify="center">
-        <v-col cols="12">
-          <v-main>
-            <router-view></router-view>
-          </v-main>
-        </v-col>
-      </v-row>
+    <v-container id="display" fill-height fluid>
+      <v-main>
+        <router-view></router-view>
+      </v-main>
     </v-container>
   </v-app>
 </template>
@@ -32,7 +28,6 @@ import UsersShowPage from "./users/UsersShowPage.vue";
 import UsersEditPage from "./users/UsersEditPage.vue";
 
 import LoginPage from "./login/LoginPage.vue";
-import SignUpPage from "./login/SignUpPage.vue";
 
 const router = new VueRouter({
   routes: [
@@ -69,11 +64,6 @@ const router = new VueRouter({
       name: "LoginPage",
       component: LoginPage,
     },
-    {
-      path: "/sign_up",
-      name: "SignUpPage",
-      component: SignUpPage,
-    },
   ],
 });
 
@@ -96,6 +86,8 @@ export default {
 #display {
   width: 100%;
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 </style>
 

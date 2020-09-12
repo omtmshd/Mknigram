@@ -1,6 +1,9 @@
 <template>
   <div>
     <div :width="cardWidth" v-if="dsplayPc">
+      <div v-for="post in postsData" :key="post.index">
+        <v-img :srd="post.post_image.url" width="0" hight="0"></v-img>
+      </div>
       <v-row>
         <v-col cols="8">
           <v-card max-height="100vh" class="overflow-y-auto">
@@ -174,6 +177,9 @@
         </v-row>
 
         <div>
+          <div v-for="post in postsData" :key="post.index">
+            <v-img :srd="post.post_image.url" width="0" hight="0"></v-img>
+          </div>
           <posts-index-show
             v-for="post in postsData"
             :key="post.index"

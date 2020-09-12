@@ -1,24 +1,21 @@
 <template>
-  <header>
-    <v-app-bar app dark>
+  <header id="header">
+    <v-app-bar app color="white">
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
       <v-toolbar-title>Mknigram</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
-      <v-btn icon v-if="currentUser !== null" @click="postsNew">
-        <v-icon>mdi-tooltip-edit-outline</v-icon>
-      </v-btn>
-
-      <v-menu bottom left>
+      <v-menu bottom left v-if="currentUser !== null">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn dark icon v-bind="attrs" v-on="on">
+          <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
+
         <v-card>
-          <template v-if="currentUser !== null">
+          <v-container>
             <v-list>
               <v-list-item two-line @click="usersShow">
                 <v-list-item-avatar size="30">
@@ -59,50 +56,36 @@
                 <v-list-item-title>ログアウト</v-list-item-title>
               </v-list-item>
             </v-list>
-          </template>
-          <template v-else>
-            <v-list-item link @click="logIn">
-              <v-list-item-action>
-                <v-icon>mdi-login-variant</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>ログイン</v-list-item-title>
-            </v-list-item>
-            <v-list-item link @click="signIn">
-              <v-list-item-action>
-                <v-icon>mdi-account-plus</v-icon>
-              </v-list-item-action>
-              <v-list-item-title>新規登録</v-list-item-title>
-            </v-list-item>
-          </template>
+          </v-container>
         </v-card>
       </v-menu>
+      <v-btn v-else text @click="logIn">ログイン</v-btn>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" temporary app>
       <v-list nav>
-        <template v-if="currentUser !== null">
-          <v-list-item link @click="postsIndex">
-            <v-list-item-action>
-              <v-icon>mdi-home</v-icon>
-            </v-list-item-action>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item>
+        <v-list-item v-if="currentUser !== null" link @click="postsNew">
+          <v-list-item-action>
+            <v-icon>mdi-tooltip-edit-outline</v-icon>
+          </v-list-item-action>
+          <v-list-item-title>レシピを書く</v-list-item-title>
+        </v-list-item>
 
-          <v-list-item link @click="postsNew">
-            <v-list-item-action>
-              <v-icon>mdi-tooltip-edit-outline</v-icon>
-            </v-list-item-action>
-            <v-list-item-title>レシピを書く</v-list-item-title>
-          </v-list-item>
+        <v-list-item link @click="postsIndex">
+          <v-list-item-action>
+            <v-icon>mdi-moon-new</v-icon>
+          </v-list-item-action>
+          <v-list-item-title>最近のレシピ</v-list-item-title>
+        </v-list-item>
 
-          <v-list-item link @click="likesPosts">
-            <v-list-item-action>
-              <v-icon>mdi-crown-outline</v-icon>
-            </v-list-item-action>
-            <v-list-item-title>人気のレシピ</v-list-item-title>
-          </v-list-item>
+        <v-list-item link @click="likesPosts">
+          <v-list-item-action>
+            <v-icon>mdi-crown-outline</v-icon>
+          </v-list-item-action>
+          <v-list-item-title>人気のレシピ</v-list-item-title>
+        </v-list-item>
 
-          <v-divider></v-divider>
-        </template>
+        <v-divider></v-divider>
+
         <v-list-item link @click="searchPosts(0)">
           <v-list-item-title>カテゴリーから探す</v-list-item-title>
         </v-list-item>
@@ -245,15 +228,8 @@ export default {
         this.drawer = false;
       }
     },
-    signIn() {
-      if (this.$route.name !== "SignUpPage") {
-        this.$router.push({ name: "SignUpPage" });
-      } else {
-        this.drawer = false;
-      }
-    },
   },
 };
 </script>
-<style scoped>
+<style>
 </style>
