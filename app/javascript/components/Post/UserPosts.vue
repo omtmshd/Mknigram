@@ -46,11 +46,11 @@ export default {
           `/api/v1/users/${this.$route.params.id}/posts?data_id=${this.userPostsNumber}`
         )
         .then(({ data }) => {
-          if (9 > data.length) {
+          if (15 > data.length) {
             this.userPosts.push(...data);
             $state.complete();
           } else {
-            this.userPostsNumber += 9;
+            this.userPostsNumber += 15;
             this.userPosts.push(...data);
             $state.loaded();
           }

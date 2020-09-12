@@ -1,14 +1,14 @@
 <template>
   <div>
-    <post-show-modal
-      :post="post"
-      :current-user="currentUser"
-      v-show="showPost === post.id"
-      @from-child="closeModal"
-      @update-posts="$emit('update-posts')"
-    ></post-show-modal>
+    <v-dialog v-model="dialog" scrollable :width="dialogWidth">
+      <post-show-modal
+        :post="post"
+        :current-user="currentUser"
+        @update-posts="$emit('update-posts')"
+      ></post-show-modal>
+    </v-dialog>
     <v-col>
-      <v-card @click.prevent="openModal()" class="mx-auto" :width="imageWidth" :height="imageHight">
+      <v-card @click.prevent="showDialog" class="mx-auto" :width="imageWidth" :height="imageHight">
         <v-img
           :src="post.post_image.url"
           aspect-ratio="1.2"
@@ -30,10 +30,7 @@ export default {
   },
   data() {
     return {
-      page: 1, //現在のページ
-      pageSize: 30, //1ページに入るpostの数
-      length: 0, //ページ数
-      showPost: -1,
+      dialog: false,
     };
   },
   computed: {
@@ -65,13 +62,24 @@ export default {
           return "280";
       }
     },
+    dialogWidth() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return "300";
+        case "sm":
+          return "300";
+        case "md":
+          return "560";
+        case "lg":
+          return "560";
+        case "xl":
+          return "560";
+      }
+    },
   },
   methods: {
-    openModal() {
-      this.showPost = this.post.id;
-    },
-    closeModal() {
-      this.showPost = -1;
+    showDialog() {
+      this.dialog = true;
     },
   },
 };

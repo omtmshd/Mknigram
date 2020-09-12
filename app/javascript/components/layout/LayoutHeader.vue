@@ -7,9 +7,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-toolbar-title v-if="currentUser === null">ログインしてください</v-toolbar-title>
-
-      <v-btn icon @click="postsNew()">
+      <v-btn icon v-if="currentUser !== null" @click="postsNew">
         <v-icon>mdi-tooltip-edit-outline</v-icon>
       </v-btn>
 
@@ -64,9 +62,15 @@
           </template>
           <template v-else>
             <v-list-item link @click="logIn">
+              <v-list-item-action>
+                <v-icon>mdi-login-variant</v-icon>
+              </v-list-item-action>
               <v-list-item-title>ログイン</v-list-item-title>
             </v-list-item>
             <v-list-item link @click="signIn">
+              <v-list-item-action>
+                <v-icon>mdi-account-plus</v-icon>
+              </v-list-item-action>
               <v-list-item-title>新規登録</v-list-item-title>
             </v-list-item>
           </template>
@@ -92,23 +96,20 @@
 
           <v-divider></v-divider>
         </template>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>カテゴリーから探す</v-list-item-title>
-          </v-list-item-content>
+        <v-list-item link @click="searchPosts(0)">
+          <v-list-item-title>カテゴリーから探す</v-list-item-title>
         </v-list-item>
-        <v-treeview
-          dense
-          color="warning"
-          activatable
-          :items="categories"
-          :load-children="searchPosts"
-          :active.sync="active"
-          :open.sync="open"
-          expand-icon="mdi-chevron-down"
-          open-on-click
-          transition
-        ></v-treeview>
+        <v-list dense nav>
+          <v-list-item v-for="c in categories" :key="c.id" link @click="searchPosts(c.id)">
+            <v-list-item-title>
+              {{ c.name }}
+              <span class="text--secondary">({{c.posts_count}}品)</span>
+            </v-list-item-title>
+            <v-list-item-action>
+              <v-icon>mdi-chevron-right</v-icon>
+            </v-list-item-action>
+          </v-list-item>
+        </v-list>
       </v-list>
     </v-navigation-drawer>
     <user-logout-modal
@@ -123,7 +124,6 @@
 <script>
 import axios from "axios";
 
-import AssetsImage from "../../../assets/images/background_img.jpg";
 import { currentUser } from "../../packs/mixins/currentUser";
 import UserLogoutModal from "../User/UserLogoutModal.vue";
 
@@ -132,18 +132,14 @@ export default {
   components: { UserLogoutModal },
   data() {
     return {
-      assetsImage: AssetsImage,
       drawer: false,
       showModal: false,
       categories: [],
-      active: [],
-      open: [],
     };
   },
   mounted() {
     this.getCategories();
   },
-  watch: { $route: "resetCategories" },
   methods: {
     postsNew() {
       if (this.$route.name !== "PostsNewPage") {
@@ -192,17 +188,13 @@ export default {
       }
     },
     getCategories() {
-      axios.get("/api/v1/categories").then(({ data }) => {
+      axios.get("/api/v1/categories/parents").then(({ data }) => {
         this.categories = data;
       });
     },
-    resetCategories() {
-      this.active = [];
-      this.open = [];
-    },
-    searchPosts(item) {
-      if (this.$route.path !== `/posts/${item.id}/categories`) {
-        this.$router.push(`/posts/${item.id}/categories`);
+    searchPosts(i) {
+      if (this.$route.path !== `/posts/${i}/categories`) {
+        this.$router.push(`/posts/${i}/categories`);
       }
     },
     async logOut() {

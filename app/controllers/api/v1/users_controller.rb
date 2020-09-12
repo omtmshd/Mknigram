@@ -55,9 +55,9 @@ class Api::V1::UsersController < ApplicationController
     render json: current_api_user.to_json(only: %i[id name profile profile_image])
   end
 
-  # Userと紐付いたPostを9個ずつ返す
+  # Userと紐付いたPostを15個ずつ返す
   def posts
-    render json: @user.posts.limit(9).offset(params[:data_id]).to_json(
+    render json: @user.posts.limit(15).offset(params[:data_id]).to_json(
       only: %i[id title body post_image],
       include: [
         user: { only: %i[id name profile_image] },

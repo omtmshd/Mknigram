@@ -1,7 +1,7 @@
 class Api::V1::CategoriesController < ApplicationController
   before_action :set_post, only: %i[post]
 
-  # 全カテゴリーと第4層カテゴリーの空配列取得
+  # 全カテゴリー取得
   def index
     render json: Category.where(ancestry: nil).to_json(
       only: %i[id name],
@@ -10,20 +10,51 @@ class Api::V1::CategoriesController < ApplicationController
           only: %i[id name],
           include: [
             children: {
-              only: %i[id name],
-              include: [
-                children: {
-                  only: []
-    }]}]}])
+              only: %i[id name]
+    }]}])
   end
 
   def parents
-    render json: Category.where(ancestry: nil).to_json(only: %i[id name])
+    render json: Category.where(ancestry: nil).to_json(
+      methods: [:posts_count],
+      only: %i[id name]
+    )
   end
 
+  # 子カテゴリーがあれば返し、なければ兄弟カテゴリーを返す。
   def children
-    child = Category.find(params[:id]).children
-    render json: child.to_json(only: %i[id name]) if child
+    category = Category.find(params[:id])
+    if category.has_children?
+      render json: category.to_json(
+        methods: [:posts_count],
+        only: %i[id name],
+        include: [
+          children: {
+            methods: [:posts_count],
+            only: %i[id name]
+          },
+          parent: {
+            methods: [:posts_count],
+            only: %i[id name]
+          }
+        ]
+      )
+    else
+      render json: category.to_json(
+        methods: [:posts_count],
+        only: %i[id name],
+        include: [
+          siblings: {
+            methods: [:posts_count],
+            only: %i[id name]
+          },
+          parent: {
+            methods: [:posts_count],
+            only: %i[id name]
+          }
+        ]
+      )
+    end
   end
 
   def post
