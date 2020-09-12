@@ -22,6 +22,7 @@ import LayoutHeader from "../components/layout/LayoutHeader.vue";
 
 import PostsFollowingPage from "./posts/PostsFollowingPage.vue";
 import PostsCategoriesPage from "./posts/PostsCategoriesPage.vue";
+import PostsLikesPage from "./posts/PostsLikesPage.vue";
 
 import PostsNewPage from "./posts/PostsNewPage.vue";
 import PostsEditPage from "./posts/PostsEditPage.vue";
@@ -40,6 +41,11 @@ const router = new VueRouter({
       path: "/posts/:id(\\d+)/categories",
       name: "PostsCategoriesPage",
       component: PostsCategoriesPage,
+    },
+    {
+      path: "/posts/likes",
+      name: "PostsLikesPage",
+      component: PostsLikesPage,
     },
     { path: "/posts/new", name: "PostsNewPage", component: PostsNewPage },
     {

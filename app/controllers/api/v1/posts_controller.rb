@@ -62,7 +62,7 @@ class Api::V1::PostsController < ApplicationController
 
   # いいねが多い順に10個ずつ取得
   def likes
-    render json: Post.find(Like.group(:post_id).order('count(post_id) desc').limit(10).offset(params[:data_id]).pluck(:note_id)).to_json(
+    render json: Post.find(Like.group(:post_id).order('count(post_id) desc').limit(10).offset(params[:data_id]).pluck(:post_id)).to_json(
       only: %i[id title body post_image],
       include: [
         user: { only: %i[id name profile_image] },
