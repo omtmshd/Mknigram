@@ -51,5 +51,5 @@ production:
   <<: *default
   database: myapp_production
   username: root
-  password: ENV['PRO_DB_PASSWORD']
+  password: <%= ENV['PRO_DB_PASSWORD']%>
   host: mk-db.cj6pvfgwq1es.ap-northeast-1.rds.amazonaws.com
