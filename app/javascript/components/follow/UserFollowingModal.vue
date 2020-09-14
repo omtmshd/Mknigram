@@ -18,7 +18,7 @@
 <script>
 import axios from "axios";
 
-import UserIndex from "./UserIndex.vue";
+import UserIndex from "../User/UserIndex.vue";
 
 export default {
   components: {

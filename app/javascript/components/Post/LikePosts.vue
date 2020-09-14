@@ -44,20 +44,21 @@ export default {
       this.infiniteId += 1;
     },
     infiniteUserLikes($state) {
-      axios
-        .get(
-          `/api/v1/likes/${this.$route.params.id}/posts?data_id=${this.likePostsNumber}`
-        )
-        .then(({ data }) => {
-          if (9 > data.length) {
+      if (this.likePostsNumber > -1) {
+        axios
+          .get(
+            `/api/v1/likes/${this.$route.params.id}/posts?data_id=${this.likePostsNumber}`
+          )
+          .then(({ data }) => {
             this.likePosts.push(...data);
-            $state.complete();
-          } else {
-            this.likePostsNumber += 9;
-            this.likePosts.push(...data);
+            if (15 > data.length) {
+              this.likePostsNumber = -1;
+            } else {
+              this.likePostsNumber += 15;
+            }
             $state.loaded();
-          }
-        });
+          });
+      }
     },
   },
 };

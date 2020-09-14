@@ -1,18 +1,14 @@
 <template>
   <div>
-    <h4 class="text-h4 text-center">ユーザー一覧</h4>
-    <v-row justify="center">
-      <v-col cols="12" md="7" lg="7" xl="7">
-        <v-expansion-panels accordion>
-          <user-index v-for="user in users" :key="user.id" :user="user" :current-user="currentUser"></user-index>
-        </v-expansion-panels>
-        <infinite-loading @infinite="infiniteUsers" spinner="spiral">
-          <div slot="spinner"></div>
-          <div slot="no-more"></div>
-          <div slot="no-results"></div>
-        </infinite-loading>
-      </v-col>
-    </v-row>
+    <v-container class="mx-auto px-0">
+      <user-index v-for="user in users" :key="user.id" :user="user" :current-user="currentUser"></user-index>
+
+      <infinite-loading @infinite="infiniteUsers" spinner="spiral">
+        <div slot="spinner"></div>
+        <div slot="no-more"></div>
+        <div slot="no-results"></div>
+      </infinite-loading>
+    </v-container>
   </div>
 </template>
 <script>

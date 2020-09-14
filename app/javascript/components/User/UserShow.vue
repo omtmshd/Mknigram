@@ -1,6 +1,9 @@
 <template>
   <v-container>
-    <v-card flat class="mx-auto" max-width="300" min-width="300">
+    <v-dialog v-model="dialog" width="350">
+      <user-edit-modal @close="dialogClose"></user-edit-modal>
+    </v-dialog>
+    <v-card flat class="mx-auto" :width="cardWidth" color="rgba(255,255,255,.85)">
       <v-container>
         <v-row justify="center" align="center">
           <v-col cols="4">
@@ -15,17 +18,18 @@
         </v-row>
         <v-divider></v-divider>
         <user-follow-form
+          :user-page="true"
           :user-id="this.$route.params.id"
           :current-user="currentUser"
           @show-following="$emit('show-following')"
           @show-followers="$emit('show-followers')"
         ></user-follow-form>
         <v-card-text>{{ user.profile }}</v-card-text>
-        <template v-if="loginUser">
+        <template v-if="currentUser !== null && currentUser.id === user.id">
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn icon @click.stop="editUser">
-              <v-icon color="#FDD835">mdi-pencil</v-icon>
+              <v-icon color="#263238">mdi-account-edit</v-icon>
             </v-btn>
           </v-card-actions>
         </template>
@@ -36,11 +40,13 @@
 <script>
 import axios from "axios";
 
-import UserFollowForm from "./UserFollowForm.vue";
+import UserFollowForm from "../follow/UserFollowForm.vue";
+import UserEditModal from "../User/UserEditModal.vue";
 
 export default {
   components: {
     UserFollowForm,
+    UserEditModal,
   },
   props: {
     user: {
@@ -50,17 +56,18 @@ export default {
     },
     currentUser: {},
   },
-  computed: {
-    loginUser() {
-      return this.currentUser !== null && this.currentUser.id === this.user.id;
-    },
+  data() {
+    return {
+      dialog: false,
+    };
   },
   methods: {
     editUser() {
-      this.$router.push({
-        name: "UsersEditPage",
-        params: { id: this.user.id },
-      });
+      this.dialog = true;
+    },
+    dialogClose() {
+      this.dialog = false;
+      this.$emit("user-reset");
     },
     showUser() {
       if (this.$route.path !== `/users/${this.user.id}`) {
@@ -68,6 +75,22 @@ export default {
           name: "UsersShowPage",
           params: { id: this.user.id },
         });
+      }
+    },
+  },
+  computed: {
+    cardWidth() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return "330";
+        case "sm":
+          return "400";
+        case "md":
+          return "400";
+        case "lg":
+          return "400";
+        case "xl":
+          return "400";
       }
     },
   },

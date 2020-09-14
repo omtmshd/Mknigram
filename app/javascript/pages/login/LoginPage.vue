@@ -15,12 +15,12 @@
   </div>
 </template>
 <script>
-import imagePc2 from "../../../assets/images/back_pc_2.jpg";
-import imagePc6 from "../../../assets/images/back_pc_6.jpg";
-import imagePc9 from "../../../assets/images/back_pc_9.jpg";
-import imageSp4 from "../../../assets/images/back_sp_4.jpg";
-import imageSp5 from "../../../assets/images/back_sp_5.jpg";
-import imageSp6 from "../../../assets/images/back_sp_6.jpg";
+import ImagePc2 from "../../../assets/images/back_pc_2.jpg";
+import ImagePc6 from "../../../assets/images/back_pc_6.jpg";
+import ImagePc9 from "../../../assets/images/back_pc_9.jpg";
+import ImageSp4 from "../../../assets/images/back_sp_4.jpg";
+import ImageSp5 from "../../../assets/images/back_sp_5.jpg";
+import ImageSp6 from "../../../assets/images/back_sp_6.jpg";
 
 import loginForm from "../../components/login/LoginForm.vue";
 import SignUp from "../../components/login/SignUp.vue";
@@ -32,8 +32,8 @@ export default {
   },
   data() {
     return {
-      pcImages: [imagePc2, imagePc6, imagePc9],
-      spImages: [imageSp4, imageSp5, imageSp6],
+      pcImages: [ImagePc2, ImagePc6, ImagePc9],
+      spImages: [ImageSp4, ImageSp5, ImageSp6],
       dialogLogin: true,
       dialogSignUp: false,
     };

@@ -1,10 +1,13 @@
 <template>
-  <v-app>
+  <v-app id="appfull">
     <layout-header></layout-header>
-    <v-container id="display" fill-height fluid>
-      <v-main>
-        <router-view></router-view>
-      </v-main>
+
+    <v-container fill-height fluid id="display">
+      <v-container fill-height fluid id="cover">
+        <v-main>
+          <router-view></router-view>
+        </v-main>
+      </v-container>
     </v-container>
   </v-app>
 </template>
@@ -25,7 +28,6 @@ import PostsEditPage from "./posts/PostsEditPage.vue";
 
 import UsersIndexPage from "./users/UsersIndexPage.vue";
 import UsersShowPage from "./users/UsersShowPage.vue";
-import UsersEditPage from "./users/UsersEditPage.vue";
 
 import LoginPage from "./login/LoginPage.vue";
 
@@ -55,11 +57,6 @@ const router = new VueRouter({
       component: UsersShowPage,
     },
     {
-      path: "/users/:id(\\d+)/edit",
-      name: "UsersEditPage",
-      component: UsersEditPage,
-    },
-    {
       path: "/sign_in",
       name: "LoginPage",
       component: LoginPage,
@@ -83,11 +80,29 @@ export default {
 .col-12 {
   padding: 0;
 }
-#display {
+#appfull {
   width: 100%;
-  height: 100%;
+}
+#display {
   margin: 0;
   padding: 0;
+  background-image: url("../../assets/images/back_img_2.jpg");
+  background-size: cover;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  z-index: 0;
+  overflow: hidden;
+}
+#cover {
+  margin: 0;
+  padding: 0;
+  background-size: cover;
+  background-color: rgba(255, 255, 255, 0.35);
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  z-index: 1;
 }
 </style>
 

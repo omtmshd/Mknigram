@@ -15,11 +15,11 @@ class Api::V1::LikesController < ApplicationController
     head :ok
   end
 
-  # ユーザーがいいねしている投稿を返す
+  # ユーザーがいいねしている投稿を返す(15個ずつ)
   def posts
     @user = User.find(params[:id])
     @posts = @user.liked_posts
-    render json: @posts.limit(9).offset(params[:data_id]).to_json(
+    render json: @posts.limit(15).offset(params[:data_id]).to_json(
       only: %i[id title body post_image],
       include: [
         user: { only: %i[id name profile_image] },

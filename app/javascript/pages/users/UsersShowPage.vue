@@ -7,27 +7,32 @@
       <user-followers-modal :current-user="currentUser"></user-followers-modal>
     </v-dialog>
 
-    <v-card>
-      <user-show
-        :user="user"
-        :current-user="currentUser"
-        @show-following="dialogFollowing = true"
-        @show-followers="dialogFollowers = true"
-      ></user-show>
-
-      <template>
-        <v-tabs v-model="tabsKey" centered color="#43A047">
-          <v-tab v-for="t in tabasItem" :key="t.index">{{ t }}</v-tab>
-        </v-tabs>
-      </template>
+    <user-show
+      :user="user"
+      :current-user="currentUser"
+      @user-reset="setUser"
+      @show-following="dialogFollowing = true"
+      @show-followers="dialogFollowers = true"
+    ></user-show>
+    <v-card color="rgba(255,255,255,0)" flat :max-width="cardWidth" class="mx-auto">
+      <v-tabs
+        v-model="tabsKey"
+        centered
+        color="#263238"
+        background-color="rgba(255,255,255,0)"
+        @change="likePostsReset"
+      >
+        <v-tab href="#tab-1">投稿</v-tab>
+        <v-tab href="#tab-2">いいね</v-tab>
+      </v-tabs>
 
       <v-tabs-items v-model="tabsKey">
-        <v-tab-item>
+        <v-tab-item value="tab-1" eager>
           <user-posts :current-user="currentUser"></user-posts>
         </v-tab-item>
 
-        <v-tab-item>
-          <like-posts :current-user="currentUser"></like-posts>
+        <v-tab-item value="tab-2" eager>
+          <like-posts :current-user="currentUser" ref="posts_reset"></like-posts>
         </v-tab-item>
       </v-tabs-items>
     </v-card>
@@ -38,8 +43,8 @@ import axios from "axios";
 import { currentUser } from "../../packs/mixins/currentUser";
 
 import UserShow from "../../components/User/UserShow.vue";
-import UserFollowingModal from "../../components/User/UserFollowingModal.vue";
-import UserFollowersModal from "../../components/User/UserFollowersModal.vue";
+import UserFollowingModal from "../../components/follow/UserFollowingModal.vue";
+import UserFollowersModal from "../../components/follow/UserFollowersModal.vue";
 import UserPosts from "../../components/Post/UserPosts.vue";
 import LikePosts from "../../components/Post/LikePosts.vue";
 
@@ -60,8 +65,7 @@ export default {
         },
       },
 
-      tabsKey: null,
-      tabasItem: ["投稿", "いいね"],
+      tabsKey: "tab-1",
 
       dialogFollowing: false,
       dialogFollowers: false,
@@ -79,6 +83,10 @@ export default {
         this.user = data;
       });
       this.dialogFollowing = this.dialogFollowers = false;
+      this.tabsKey = "tab-1";
+    },
+    likePostsReset() {
+      this.$refs.posts_reset.$emit("updatePosts");
     },
   },
   computed: {
@@ -96,8 +104,25 @@ export default {
           return "600";
       }
     },
+    cardWidth() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return "335";
+        case "sm":
+          return "665";
+        case "md":
+          return "1030";
+        case "lg":
+          return "1030";
+        case "xl":
+          return "1030";
+      }
+    },
   },
 };
 </script>
 <style scoped>
+.theme--light.v-tabs-items {
+  background-color: rgba(255, 255, 255, 0.4);
+}
 </style>

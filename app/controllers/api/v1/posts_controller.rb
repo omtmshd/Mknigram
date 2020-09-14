@@ -12,7 +12,6 @@ class Api::V1::PostsController < ApplicationController
       only: %i[id title body post_image],
       include: [
         user: { only: %i[id name profile_image] },
-        categories: { only: %i[id name] }
       ]
     )
   end
@@ -55,7 +54,6 @@ class Api::V1::PostsController < ApplicationController
       only: %i[id title body post_image],
       include: [
         user: { only: %i[id name profile_image] },
-        categories: { only: %i[id name] }
       ]
     )
   end
@@ -66,7 +64,6 @@ class Api::V1::PostsController < ApplicationController
       only: %i[id title body post_image],
       include: [
         user: { only: %i[id name profile_image] },
-        categories: { only: %i[id name] }
       ]
     )
   end

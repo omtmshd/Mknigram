@@ -44,20 +44,21 @@ export default {
       this.infiniteId += 1;
     },
     infiniteUserPosts($state) {
-      axios
-        .get(
-          `/api/v1/users/${this.$route.params.id}/posts?data_id=${this.userPostsNumber}`
-        )
-        .then(({ data }) => {
-          if (15 > data.length) {
+      if (this.userPostsNumber > -1) {
+        axios
+          .get(
+            `/api/v1/users/${this.$route.params.id}/posts?data_id=${this.userPostsNumber}`
+          )
+          .then(({ data }) => {
             this.userPosts.push(...data);
-            $state.complete();
-          } else {
-            this.userPostsNumber += 15;
-            this.userPosts.push(...data);
+            if (15 > data.length) {
+              this.userPostsNumber = -1;
+            } else {
+              this.userPostsNumber += 15;
+            }
             $state.loaded();
-          }
-        });
+          });
+      }
     },
   },
 };

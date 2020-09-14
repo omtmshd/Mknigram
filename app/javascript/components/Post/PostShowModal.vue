@@ -14,9 +14,9 @@
           <v-breadcrumbs-item>{{ item.name }}</v-breadcrumbs-item>
         </template>
       </v-breadcrumbs>
-    </v-card-text>
 
-    <v-card-text :style="dialogHeight">{{ post.body }}</v-card-text>
+      <p>{{ post.body }}</p>
+    </v-card-text>
 
     <v-divider class="mx-4"></v-divider>
 
@@ -119,15 +119,15 @@ export default {
     dialogHeight() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          return "max-height: 120px;";
+          return "max-height: 200px;";
         case "sm":
-          return "max-height: 120px;";
+          return "max-height: 200px;";
         case "md":
-          return "max-height: 250px;";
+          return "max-height: 500px;";
         case "lg":
-          return "max-height: 300px;";
+          return "max-height: 500px;";
         case "xl":
-          return "max-height: 300px;";
+          return "max-height: 500px;";
       }
     },
   },
