@@ -2,7 +2,7 @@
   <header id="header">
     <v-app-bar app color="white">
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-
+      <v-icon color="#FBC02D">mdi-fruit-watermelon</v-icon>
       <v-toolbar-title>Mknigram</v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -35,13 +35,6 @@
             <v-divider></v-divider>
 
             <v-list>
-              <v-list-item @click="usersEdit">
-                <v-list-item-action>
-                  <v-icon>mdi-account-edit</v-icon>
-                </v-list-item-action>
-                <v-list-item-title>マイページ編集</v-list-item-title>
-              </v-list-item>
-
               <v-list-item @click="usersIndex">
                 <v-list-item-action>
                   <v-icon>mdi-account-group</v-icon>
@@ -147,16 +140,6 @@ export default {
       if (this.$route.name !== "PostsLikesPage") {
         this.$router.push({
           name: "PostsLikesPage",
-        });
-      } else {
-        this.drawer = false;
-      }
-    },
-    usersEdit() {
-      if (this.$route.name !== "UsersEditPage") {
-        this.$router.push({
-          name: "UsersEditPage",
-          params: { id: this.currentUser.id },
         });
       } else {
         this.drawer = false;

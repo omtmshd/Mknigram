@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-card class="mx-auto" :width="imageWidth">
+    <v-card
+      :width="imageWidth"
+      :class="{'mx-auto': mxAuto, 'ml-12': marginLeft, 'mr-auto': marginRight}"
+    >
       <v-img
         :src="post.post_image.url"
         aspect-ratio="1.2"
@@ -10,11 +13,11 @@
         <v-card-title v-text="post.title"></v-card-title>
       </v-img>
 
-      <v-breadcrumbs :items="post.categories" text="name">
+      <!-- <v-breadcrumbs :items="post.categories" text="name">
         <template v-slot:item="{ item }">
           <v-breadcrumbs-item>{{ item.name }}</v-breadcrumbs-item>
         </template>
-      </v-breadcrumbs>
+      </v-breadcrumbs>-->
 
       <v-card-text>{{ post.body }}</v-card-text>
 
@@ -59,6 +62,9 @@ export default {
   props: {
     post: {},
     currentUser: {},
+    mxAuto: false,
+    marginLeft: false,
+    marginRight: false,
   },
   computed: {
     imageWidth() {
@@ -66,7 +72,7 @@ export default {
         case "xs":
           return "300";
         case "sm":
-          return "560";
+          return "400";
         case "md":
           return "560";
         case "lg":

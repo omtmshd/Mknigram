@@ -3,7 +3,9 @@
     <div v-for="post in postsData" :key="post.index">
       <v-img :srd="post.post_image.url" width="0" hight="0"></v-img>
     </div>
+
     <posts-index-show
+      :mx-auto="true"
       v-for="post in postsData"
       :key="post.index"
       :post="post"

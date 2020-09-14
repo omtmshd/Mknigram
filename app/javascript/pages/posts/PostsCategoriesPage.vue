@@ -4,25 +4,15 @@
       <div v-for="post in postsData" :key="post.index">
         <v-img :srd="post.post_image.url" width="0" hight="0"></v-img>
       </div>
-      <v-row>
-        <v-col cols="8">
-          <v-card max-height="100vh" class="overflow-y-auto">
-            <posts-index-show
-              v-for="post in postsData"
-              :key="post.index"
-              :post="post"
-              :current-user="currentUser"
-              @update-posts="updatePosts"
-            ></posts-index-show>
-            <infinite-loading @infinite="infiniteHandler" :identifier="infiniteId" spinner="spiral">
-              <div slot="spinner"></div>
-              <div slot="no-more"></div>
-              <div slot="no-results"></div>
-            </infinite-loading>
-          </v-card>
-        </v-col>
+      <v-row justify="center">
         <v-col cols="4">
-          <v-card max-height="800" :width="categoryWidth">
+          <v-card
+            max-height="800"
+            :width="categoryWidth"
+            color="rgba(0,0,0,0)"
+            flat
+            class="mr-0 ml-auto"
+          >
             <div v-if="categoryIndex">
               <v-list>
                 <v-list-item link v-if="category.parent" @click="searchPosts(category.parent.id)">
@@ -53,12 +43,14 @@
               </v-list>
             </div>
             <div v-else>
-              <v-list-item>
-                <v-list-item-action>
-                  <v-icon>mdi-pan-down</v-icon>
-                </v-list-item-action>
-                <v-list-item-title>カテゴリーを選択してください</v-list-item-title>
-              </v-list-item>
+              <v-list>
+                <v-list-item>
+                  <v-list-item-action>
+                    <v-icon>mdi-chevron-triple-down</v-icon>
+                  </v-list-item-action>
+                  <v-list-item-title>カテゴリーを選択</v-list-item-title>
+                </v-list-item>
+              </v-list>
             </div>
             <v-divider></v-divider>
             <v-list dense nav>
@@ -96,12 +88,30 @@
             </v-list>
           </v-card>
         </v-col>
+        <v-col cols="8">
+          <v-card max-height="100vh" class="overflow-y-auto" color="rgba(0,0,0,0)" flat>
+            <posts-index-show
+              v-for="post in postsData"
+              :key="post.index"
+              :post="post"
+              :current-user="currentUser"
+              :margin-left="true"
+              :margin-right="true"
+              @update-posts="updatePosts"
+            ></posts-index-show>
+            <infinite-loading @infinite="infiniteHandler" :identifier="infiniteId" spinner="spiral">
+              <div slot="spinner"></div>
+              <div slot="no-more"></div>
+              <div slot="no-results"></div>
+            </infinite-loading>
+          </v-card>
+        </v-col>
       </v-row>
     </div>
     <div v-else>
       <v-container>
         <v-row justify="center">
-          <v-card width="330">
+          <v-card width="330" color="rgba(0,0,0,0)">
             <div v-if="categoryIndex">
               <v-list>
                 <v-list-item link v-if="category.parent" @click="searchPosts(category.parent.id)">
@@ -132,12 +142,14 @@
               </v-list>
             </div>
             <div v-else>
-              <v-list-item>
-                <v-list-item-action>
-                  <v-icon>mdi-pan-down</v-icon>
-                </v-list-item-action>
-                <v-list-item-title>カテゴリーを選択してください</v-list-item-title>
-              </v-list-item>
+              <v-list>
+                <v-list-item>
+                  <v-list-item-action>
+                    <v-icon>mdi-chevron-triple-down</v-icon>
+                  </v-list-item-action>
+                  <v-list-item-title>カテゴリーを選択</v-list-item-title>
+                </v-list-item>
+              </v-list>
             </div>
             <v-divider></v-divider>
             <v-list dense nav>
@@ -181,6 +193,7 @@
             <v-img :srd="post.post_image.url" width="0" hight="0"></v-img>
           </div>
           <posts-index-show
+            :mx-auto="true"
             v-for="post in postsData"
             :key="post.index"
             :post="post"
@@ -321,7 +334,7 @@ export default {
         case "xs":
           return false;
         case "sm":
-          return false;
+          return true;
         case "md":
           return true;
         case "lg":

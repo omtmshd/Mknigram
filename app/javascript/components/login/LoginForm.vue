@@ -1,5 +1,5 @@
 <template>
-  <v-card id="login" flat color="rgba(0,0,0,0)" width="350" height="270">
+  <v-card id="login" flat color="rgba(0,0,0,0)" width="350" min-height="270">
     <v-container>
       <p class="text-lg-left">
         <v-btn text class="mr-4 white--text" @click.stop="$emit('signup-modal')">
@@ -46,8 +46,8 @@ export default {
     };
   },
   methods: {
-    async loginForm() {
-      const res = await axios
+    loginForm() {
+      axios
         .post("/api//v1/auth/sign_in", this.user)
         .then((response) => {
           // レスポンスで返ってきた、認証に必要な情報をlocalStorageに保存
@@ -59,6 +59,7 @@ export default {
           localStorage.setItem("client", response.headers.client);
           localStorage.setItem("uid", response.headers.uid);
           localStorage.setItem("token-type", response.headers["token-type"]);
+          this.$router.push({ path: "/" });
           return response;
         })
         .catch((error) => {
@@ -67,10 +68,6 @@ export default {
             this.errors = error.response.data.errors;
           }
         });
-      if (res.status !== 200) {
-        process.exit();
-      }
-      this.$router.push({ path: "/" });
     },
   },
 };

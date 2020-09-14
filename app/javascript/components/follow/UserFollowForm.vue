@@ -1,52 +1,49 @@
 <template>
-  <v-row justify="end" align="center" no-gutters>
-    <v-col cols="6">
-      <v-btn
-        color="#43A047"
-        class="text-decoration-underline"
-        text
-        @click.stop="$emit('show-following')"
-      >フォロー中 ({{ followingCount }})</v-btn>
-    </v-col>
-    <v-col cols="6">
-      <v-btn
-        color="#43A047"
-        class="text-decoration-underline"
-        text
-        @click.stop="$emit('show-followers')"
-      >フォロワー ({{ followersCount }})</v-btn>
-    </v-col>
-    <v-col cols="12">
-      <template v-if="otherUser">
-        <v-row justify="end" align="center" no-gutters>
-          <v-col cols="7" md="6" lg="6" xl="6">
-            <v-chip v-if="followedStatus" class="ma-2" x-small>フォローされています</v-chip>
-          </v-col>
-          <v-col cols="5" md="6" lg="6" xl="6">
-            <v-btn
-              v-if="followingStatus"
-              block
-              class="white--text"
-              color="#37474F"
-              rounded
-              small
-              @click.stop="userUnfollow"
-            >フォロー解除</v-btn>
+  <span>
+    <v-btn
+      v-if="userPage"
+      color="#29B6F6"
+      class="text-decoration-underline pl-8 pr-1"
+      text
+      small
+      @click.stop="$emit('show-following')"
+    >フォロー中 ({{ followingCount }})</v-btn>
 
-            <v-btn
-              v-else
-              block
-              color="#37474F"
-              class="white--text"
-              rounded
-              small
-              @click.stop="userFollow"
-            >フォローする</v-btn>
-          </v-col>
+    <v-btn
+      v-if="userPage"
+      color="#29B6F6"
+      class="text-decoration-underline px-1"
+      text
+      small
+      @click.stop="$emit('show-followers')"
+    >フォロワー ({{ followersCount }})</v-btn>
+
+    <template v-if="currentUser !== null">
+      <template v-if="Number(currentUser.id) !== Number(userId)">
+        <v-row justify="end" align="center" no-gutters>
+          <v-chip v-if="followedStatus" class="ma-0" x-small>フォローされています</v-chip>
+
+          <v-btn
+            v-if="followingStatus"
+            class="white--text"
+            color="#37474F"
+            rounded
+            small
+            @click.stop="userUnfollow"
+          >フォロー解除</v-btn>
+
+          <v-btn
+            v-else
+            color="#37474F"
+            class="white--text"
+            rounded
+            small
+            @click.stop="userFollow"
+          >フォローする</v-btn>
         </v-row>
       </template>
-    </v-col>
-  </v-row>
+    </template>
+  </span>
 </template>
 <script>
 import axios from "axios";
@@ -55,6 +52,7 @@ export default {
   props: {
     userId: "",
     currentUser: {},
+    userPage: true,
   },
   data() {
     return {
@@ -65,9 +63,6 @@ export default {
     };
   },
   computed: {
-    otherUser() {
-      return this.currentUser !== null && this.currentUser.id !== this.userId;
-    },
     followingCount() {
       return this.user.following.length;
     },
