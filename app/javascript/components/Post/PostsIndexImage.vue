@@ -8,7 +8,7 @@
       ></post-show-modal>
     </v-dialog>
     <v-col>
-      <v-card @click.prevent="showDialog" class="mx-auto" :width="imageWidth" :height="imageHight">
+      <v-card @click.prevent="showDialog" class="mx-auto" :width="imageWidth" :height="imageHeight">
         <v-img
           :src="post.post_image.url"
           aspect-ratio="1.2"
@@ -48,7 +48,7 @@ export default {
           return "336";
       }
     },
-    imageHight() {
+    imageHeight() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
           return "90";

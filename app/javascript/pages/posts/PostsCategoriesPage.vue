@@ -2,7 +2,7 @@
   <div>
     <div :width="cardWidth" v-if="dsplayPc">
       <div v-for="post in postsData" :key="post.index">
-        <v-img :srd="post.post_image.url" width="0" hight="0"></v-img>
+        <v-img :srd="post.post_image.url" width="0" height="0"></v-img>
       </div>
       <v-row justify="center">
         <v-col cols="4">
@@ -17,7 +17,7 @@
               <v-list>
                 <v-list-item link v-if="category.parent" @click="searchPosts(category.parent.id)">
                   <v-list-item-action>
-                    <v-icon>mdi-chevron-left</v-icon>
+                    <v-icon color="#FBC02D">mdi-chevron-left</v-icon>
                   </v-list-item-action>
                   <v-list-item-title>
                     {{category.parent.name}}
@@ -28,7 +28,7 @@
                 </v-list-item>
                 <v-list-item link v-else @click="searchPosts(0)">
                   <v-list-item-action>
-                    <v-icon>mdi-chevron-left</v-icon>
+                    <v-icon color="#FBC02D">mdi-chevron-left</v-icon>
                   </v-list-item-action>
                   <v-list-item-title>カテゴリー一覧</v-list-item-title>
                 </v-list-item>
@@ -46,7 +46,7 @@
               <v-list>
                 <v-list-item>
                   <v-list-item-action>
-                    <v-icon>mdi-chevron-triple-down</v-icon>
+                    <v-icon color="#FBC02D">mdi-chevron-triple-down</v-icon>
                   </v-list-item-action>
                   <v-list-item-title>カテゴリーを選択</v-list-item-title>
                 </v-list-item>
@@ -116,7 +116,7 @@
               <v-list>
                 <v-list-item link v-if="category.parent" @click="searchPosts(category.parent.id)">
                   <v-list-item-action>
-                    <v-icon>mdi-chevron-left</v-icon>
+                    <v-icon color="#FBC02D">mdi-chevron-left</v-icon>
                   </v-list-item-action>
                   <v-list-item-title>
                     {{category.parent.name}}
@@ -127,7 +127,7 @@
                 </v-list-item>
                 <v-list-item link v-else @click="searchPosts(0)">
                   <v-list-item-action>
-                    <v-icon>mdi-chevron-left</v-icon>
+                    <v-icon color="#FBC02D">mdi-chevron-left</v-icon>
                   </v-list-item-action>
                   <v-list-item-title>カテゴリー一覧</v-list-item-title>
                 </v-list-item>
@@ -145,7 +145,7 @@
               <v-list>
                 <v-list-item>
                   <v-list-item-action>
-                    <v-icon>mdi-chevron-triple-down</v-icon>
+                    <v-icon color="#FBC02D">mdi-chevron-triple-down</v-icon>
                   </v-list-item-action>
                   <v-list-item-title>カテゴリーを選択</v-list-item-title>
                 </v-list-item>
@@ -190,7 +190,7 @@
 
         <div>
           <div v-for="post in postsData" :key="post.index">
-            <v-img :srd="post.post_image.url" width="0" hight="0"></v-img>
+            <v-img :srd="post.post_image.url" width="0" height="0"></v-img>
           </div>
           <posts-index-show
             :mx-auto="true"

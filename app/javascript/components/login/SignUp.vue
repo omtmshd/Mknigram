@@ -46,7 +46,7 @@
         <p class="text-lg-right">
           <v-btn text right class="mr-4 white--text" type="submit" absolute>
             新規登録
-            <v-icon>mdi-chevron-right</v-icon>
+            <v-icon>mdi-chevron-double-right</v-icon>
           </v-btn>
         </p>
       </v-form>

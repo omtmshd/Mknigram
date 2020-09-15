@@ -21,7 +21,6 @@
               @change="selectedFile"
               prepend-icon="mdi-camera"
               hide-input
-              chips
               :clearable="false"
               width="350"
             ></v-file-input>
@@ -35,8 +34,8 @@
           width="350"
           required
         ></v-textarea>
-        <p class="text-lg-right">
-          <v-btn text right class="mr-4" @click="editCancel">キャンセル</v-btn>
+        <p>
+          <v-btn text class="mr-4" @click="editCancel">キャンセル</v-btn>
           <v-btn text right class="mr-4" absolute type="submit">保存</v-btn>
         </p>
       </v-form>

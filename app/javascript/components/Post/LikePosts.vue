@@ -2,7 +2,7 @@
   <div>
     <v-row justify="center" class="mx-auto">
       <div v-for="post in likePosts" :key="post.index">
-        <v-img :srd="post.post_image.url" width="0" hight="0"></v-img>
+        <v-img :srd="post.post_image.url" width="0" height="0"></v-img>
       </div>
       <posts-index-image
         v-for="likePost in likePosts"
@@ -23,12 +23,11 @@
 import axios from "axios";
 
 import PostsIndexImage from "./PostsIndexImage.vue";
+import { currentUser } from "../../packs/mixins/currentUser";
 
 export default {
+  mixins: [currentUser],
   components: { PostsIndexImage },
-  props: {
-    currentUser: {},
-  },
   data() {
     return {
       likePosts: [],
