@@ -3,11 +3,9 @@
     <layout-header></layout-header>
 
     <v-container fill-height fluid id="display">
-      <v-container fill-height fluid id="cover">
-        <v-main>
-          <router-view></router-view>
-        </v-main>
-      </v-container>
+      <v-main>
+        <router-view></router-view>
+      </v-main>
     </v-container>
   </v-app>
 </template>
@@ -28,6 +26,8 @@ import PostsEditPage from "./posts/PostsEditPage.vue";
 
 import UsersIndexPage from "./users/UsersIndexPage.vue";
 import UsersShowPage from "./users/UsersShowPage.vue";
+import UserPosts from "../components/Post/UserPosts.vue";
+import LikePosts from "../components/Post/LikePosts.vue";
 
 import LoginPage from "./login/LoginPage.vue";
 
@@ -53,8 +53,11 @@ const router = new VueRouter({
     { path: "/users", name: "UsersIndexPage", component: UsersIndexPage },
     {
       path: "/users/:id(\\d+)",
-      name: "UsersShowPage",
       component: UsersShowPage,
+      children: [
+        { path: "", component: UserPosts, name: "UserPostsPage" },
+        { path: "like", component: LikePosts, name: "LikePostsPage" },
+      ],
     },
     {
       path: "/sign_in",
@@ -93,16 +96,6 @@ export default {
   background-attachment: fixed;
   z-index: 0;
   overflow: hidden;
-}
-#cover {
-  margin: 0;
-  padding: 0;
-  background-size: cover;
-  background-color: rgba(255, 255, 255, 0.35);
-  background-position: bottom;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  z-index: 1;
 }
 </style>
 

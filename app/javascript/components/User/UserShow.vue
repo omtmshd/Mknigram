@@ -70,9 +70,9 @@ export default {
       this.$emit("user-reset");
     },
     showUser() {
-      if (this.$route.path !== `/users/${this.user.id}`) {
+      if (this.$route.path !== `/users/${this.user.id}/`) {
         this.$router.push({
-          name: "UsersShowPage",
+          name: "UserPostsPage",
           params: { id: this.user.id },
         });
       }

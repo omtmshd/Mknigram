@@ -14,28 +14,21 @@
       @show-following="dialogFollowing = true"
       @show-followers="dialogFollowers = true"
     ></user-show>
-    <v-card color="rgba(255,255,255,0)" flat :max-width="cardWidth" class="mx-auto">
-      <v-tabs
-        v-model="tabsKey"
-        centered
-        color="#263238"
-        background-color="rgba(255,255,255,0)"
-        @change="likePostsReset"
-      >
-        <v-tab href="#tab-1">投稿</v-tab>
-        <v-tab href="#tab-2">いいね</v-tab>
-      </v-tabs>
+    <v-container class="mx-auto">
+      <v-card :max-width="cardWidth" class="mx-auto" color="rgba(255, 255, 255, .4)" flat>
+        <v-container class="mx-auto">
+          <v-row align="center" justify="end">
+            <v-btn-toggle v-model="tabs" tile group color="#37474F">
+              <v-btn value="tab-1" @click="postsShow">投稿</v-btn>
 
-      <v-tabs-items v-model="tabsKey">
-        <v-tab-item value="tab-1" eager>
-          <user-posts :current-user="currentUser"></user-posts>
-        </v-tab-item>
+              <v-btn value="tab-2" @click="likePostsShow">いいね</v-btn>
+            </v-btn-toggle>
+          </v-row>
+        </v-container>
 
-        <v-tab-item value="tab-2" eager>
-          <like-posts :current-user="currentUser" ref="posts_reset"></like-posts>
-        </v-tab-item>
-      </v-tabs-items>
-    </v-card>
+        <router-view></router-view>
+      </v-card>
+    </v-container>
   </div>
 </template>
 <script>
@@ -45,8 +38,6 @@ import { currentUser } from "../../packs/mixins/currentUser";
 import UserShow from "../../components/User/UserShow.vue";
 import UserFollowingModal from "../../components/follow/UserFollowingModal.vue";
 import UserFollowersModal from "../../components/follow/UserFollowersModal.vue";
-import UserPosts from "../../components/Post/UserPosts.vue";
-import LikePosts from "../../components/Post/LikePosts.vue";
 
 export default {
   mixins: [currentUser],
@@ -54,8 +45,6 @@ export default {
     UserShow,
     UserFollowingModal,
     UserFollowersModal,
-    UserPosts,
-    LikePosts,
   },
   data() {
     return {
@@ -65,12 +54,13 @@ export default {
         },
       },
 
-      tabsKey: "tab-1",
-
       dialogFollowing: false,
       dialogFollowers: false,
+
+      tabs: "tab-1",
     };
   },
+
   mounted() {
     this.setUser();
   },
@@ -81,12 +71,30 @@ export default {
     setUser() {
       axios.get(`/api/v1/users/${this.$route.params.id}`).then(({ data }) => {
         this.user = data;
+        this.dialogFollowing = this.dialogFollowers = false;
+        if (this.$route.path === `/users/${this.user.id}/`) {
+          this.tabs = "tab-1";
+        }
+        if (this.$route.path === `/users/${this.user.id}/like`) {
+          this.tabs = "tab-2";
+        }
       });
-      this.dialogFollowing = this.dialogFollowers = false;
-      this.tabsKey = "tab-1";
     },
-    likePostsReset() {
-      this.$refs.posts_reset.$emit("updatePosts");
+    postsShow() {
+      if (this.$route.path !== `/users/${this.user.id}/`) {
+        this.$router.push({
+          name: "UserPostsPage",
+          params: { id: this.user.id },
+        });
+      }
+    },
+    likePostsShow() {
+      if (this.$route.path !== `/users/${this.user.id}/like`) {
+        this.$router.push({
+          name: "LikePostsPage",
+          params: { id: this.user.id },
+        });
+      }
     },
   },
   computed: {

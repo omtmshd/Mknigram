@@ -2,7 +2,7 @@
   <span>
     <v-btn
       v-if="userPage"
-      color="#29B6F6"
+      color="#00ACC1"
       class="text-decoration-underline pl-8 pr-1"
       text
       small
@@ -11,7 +11,7 @@
 
     <v-btn
       v-if="userPage"
-      color="#29B6F6"
+      color="#00ACC1"
       class="text-decoration-underline px-1"
       text
       small

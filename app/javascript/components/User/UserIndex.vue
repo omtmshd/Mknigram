@@ -1,7 +1,7 @@
 <template>
-  <v-card width="500" color="rgba(255,255,255,0.8)" class="mx-auto">
+  <v-card width="500" color="rgba(255,255,255,0.8)" class="mx-auto" @click.stop="showUser">
     <v-list-item class="px-1">
-      <v-list-item-avatar class="link" size="56" @click.stop="showUser">
+      <v-list-item-avatar class="link" size="56">
         <img v-if="user.profile_image.url != null" :src="user.profile_image.url" />
         <v-icon v-else size="56" color="#90A4AE" dark>mdi-account-circle</v-icon>
       </v-list-item-avatar>
@@ -48,7 +48,7 @@ export default {
   methods: {
     showUser() {
       this.$router.push({
-        name: "UsersShowPage",
+        name: "UserPostsPage",
         params: { id: this.user.id },
       });
     },

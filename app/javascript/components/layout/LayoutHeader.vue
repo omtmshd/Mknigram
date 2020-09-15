@@ -58,14 +58,14 @@
       <v-list nav>
         <v-list-item v-if="currentUser !== null" link @click="postsNew">
           <v-list-item-action>
-            <v-icon>mdi-tooltip-edit-outline</v-icon>
+            <v-icon>mdi-folder-edit</v-icon>
           </v-list-item-action>
           <v-list-item-title>レシピを書く</v-list-item-title>
         </v-list-item>
 
         <v-list-item link @click="postsIndex">
           <v-list-item-action>
-            <v-icon>mdi-moon-new</v-icon>
+            <v-icon>mdi-egg-easter</v-icon>
           </v-list-item-action>
           <v-list-item-title>最近のレシピ</v-list-item-title>
         </v-list-item>
@@ -81,6 +81,9 @@
 
         <v-list-item link @click="searchPosts(0)">
           <v-list-item-title>カテゴリーから探す</v-list-item-title>
+          <v-list-item-action>
+            <v-icon>mdi-chevron-triple-right</v-icon>
+          </v-list-item-action>
         </v-list-item>
         <v-list dense nav>
           <v-list-item v-for="c in categories" :key="c.id" link @click="searchPosts(c.id)">
@@ -156,9 +159,9 @@ export default {
       }
     },
     usersShow() {
-      if (this.$route.path !== `/users/${this.currentUser.id}`) {
+      if (this.$route.path !== `/users/${this.currentUser.id}/`) {
         this.$router.push({
-          name: "UsersShowPage",
+          name: "UserPostsPage",
           params: { id: this.currentUser.id },
         });
       } else {

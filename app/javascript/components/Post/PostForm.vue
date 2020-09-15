@@ -1,95 +1,90 @@
 <template>
   <v-container>
-    <v-card class="mx-auto">
-      <v-container>
-        <v-form @submit.prevent="$emit('submit')">
-          <div v-if="errors.length != 0">
-            <ul v-for="e in errors" :key="e">
-              <li>
-                <font color="red">{{ e }}</font>
-              </li>
-            </ul>
-          </div>
-          <v-row justify="center">
-            <v-col cols="12" md="6" lg="6" xl="6">
-              <v-card class="mx-auto" width="320">
-                <v-img
-                  :src="image"
-                  aspect-ratio="1.2"
-                  class="white--text align-end"
-                  gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.3)"
-                >
-                  <v-card-title v-text="post.title"></v-card-title>
-                </v-img>
-                <v-breadcrumbs :items="post.categories" text="name">
-                  <template v-slot:item="{ item }">
-                    <v-breadcrumbs-item>{{ item.name }}</v-breadcrumbs-item>
-                  </template>
-                </v-breadcrumbs>
-                <v-card-text>{{ post.body }}</v-card-text>
-              </v-card>
-              <v-row justify="center">
-                <v-col cols="9">
-                  <v-file-input
-                    dense
-                    @change="selectedFile"
-                    label="写真"
-                    prepend-icon="mdi-camera"
-                    chips
-                    :clearable="false"
-                    color="#FDD835"
-                  ></v-file-input>
-                  <v-text-field
-                    counter="20"
-                    dense
-                    v-model="post.title"
-                    label="タイトル"
-                    required
-                    color="#FDD835"
-                    prepend-icon="mdi-chef-hat"
-                  ></v-text-field>
+    <v-form @submit.prevent="$emit('submit')">
+      <div v-if="errors.length != 0">
+        <ul v-for="e in errors" :key="e">
+          <li>
+            <font color="red">{{ e }}</font>
+          </li>
+        </ul>
+      </div>
 
-                  <v-textarea
-                    counter="250"
-                    dense
-                    v-model="post.body"
-                    label="レシピ"
-                    required
-                    rows="2"
-                    color="#FDD835"
-                    prepend-icon="mdi-silverware"
-                  ></v-textarea>
-                </v-col>
-              </v-row>
-            </v-col>
-            <v-col cols="12" md="6" lg="6" xl="6">
-              <v-row justify="center">
-                <v-col cols="9">
-                  <v-treeview
-                    :items="categoriesData"
-                    v-model="post.categories"
-                    selection-type="leaf"
-                    selected-color="#FDD835"
-                    dense
-                    activatable
-                    expand-icon="mdi-chevron-down"
-                    open-on-click
-                    return-object
-                    selectable
-                    transition
-                  ></v-treeview>
-                  <v-row justify="end" align="end">
-                    <v-col cols="4">
-                      <v-btn rounded color="#FFF176" class="mr-4" type="submit">投稿する</v-btn>
-                    </v-col>
-                  </v-row>
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
-        </v-form>
-      </v-container>
-    </v-card>
+      <v-card class="mx-auto" width="550" color="rgba(255,255,255,.85)" flat>
+        <v-img
+          :src="image"
+          aspect-ratio="1.2"
+          class="white--text align-end"
+          gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.3)"
+        >
+          <v-card-title>
+            <v-text-field counter="20" dense dark v-model="post.title" label="タイトル" required></v-text-field>
+
+            <v-spacer></v-spacer>
+
+            <v-file-input
+              style="max-width: 30px;"
+              dark
+              dense
+              @change="selectedFile"
+              label="写真"
+              prepend-icon="mdi-camera"
+              hide-input
+              :clearable="false"
+            ></v-file-input>
+          </v-card-title>
+        </v-img>
+
+        <v-card-text class="py-3">
+          <v-textarea
+            counter="250"
+            dense
+            v-model="post.body"
+            color="black"
+            label="レシピ"
+            required
+            rows="2"
+          ></v-textarea>
+          <v-btn text @click.stop="dialog=true">カテゴリーを選択</v-btn>
+
+          <v-breadcrumbs :items="post.categories" text="name" class="py-1">
+            <template v-slot:item="{ item }">
+              <v-breadcrumbs-item>{{ item.name }}</v-breadcrumbs-item>
+            </template>
+          </v-breadcrumbs>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn dark class="mr-4" type="submit">投稿する</v-btn>
+        </v-card-actions>
+      </v-card>
+      <v-dialog v-model="dialog" width="350" scrollable>
+        <v-card flat>
+          <v-card-text style="max-height: 600px;">
+            <v-treeview
+              :items="categoriesData"
+              v-model="post.categories"
+              selection-type="leaf"
+              selected-color="black"
+              dense
+              activatable
+              expand-icon="mdi-chevron-down"
+              open-on-click
+              return-object
+              selectable
+              transition
+            ></v-treeview>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn text @click.stop="dialog=false">閉じる</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-form>
   </v-container>
 </template>
 <script>
@@ -110,6 +105,7 @@ export default {
     return {
       categoriesData: [],
       image: "",
+      dialog: false,
     };
   },
   mounted() {

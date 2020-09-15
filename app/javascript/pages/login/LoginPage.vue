@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="image in assetsImage" :key="image.index">
-      <v-img :src="image" width="0" hight="0"></v-img>
+      <v-img :src="image" width="0" height="0"></v-img>
     </div>
     <v-carousel cycle height="1000" hide-delimiters :show-arrows="false" dark touchless>
       <v-carousel-item v-for="(slide, i) in assetsImage" :key="i" :src="slide" dark></v-carousel-item>

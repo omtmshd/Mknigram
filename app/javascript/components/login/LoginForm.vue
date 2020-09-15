@@ -25,7 +25,7 @@
         <p class="text-lg-right">
           <v-btn text right class="mr-4 white--text" type="submit" absolute>
             ログイン
-            <v-icon>mdi-chevron-right</v-icon>
+            <v-icon>mdi-chevron-double-right</v-icon>
           </v-btn>
         </p>
       </v-form>

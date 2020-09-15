@@ -109,9 +109,9 @@ export default {
         });
     },
     showUser() {
-      if (this.$route.path !== `/users/${this.post.user.id}`) {
+      if (this.$route.path !== `/users/${this.post.user.id}/`) {
         this.$router.push({
-          name: "UsersShowPage",
+          name: "UserPostsPage",
           params: { id: this.post.user.id },
         });
       }
