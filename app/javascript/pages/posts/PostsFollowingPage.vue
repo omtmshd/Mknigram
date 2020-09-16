@@ -5,7 +5,6 @@
     </div>
 
     <posts-index-show
-      :mx-auto="true"
       v-for="post in postsData"
       :key="post.index"
       :post="post"
@@ -17,6 +16,9 @@
       <div slot="no-more"></div>
       <div slot="no-results"></div>
     </infinite-loading>
+    <v-btn fixed dark fab bottom right color="#263238" @click="$vuetify.goTo(0)">
+      <v-icon>mdi-chevron-double-up</v-icon>
+    </v-btn>
   </div>
 </template>
 <script>
@@ -58,4 +60,8 @@ export default {
 };
 </script>
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: 0.5s;
+}
 </style>

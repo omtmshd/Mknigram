@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-card
-      :width="imageWidth"
-      :class="{'mx-auto': mxAuto, 'ml-12': marginLeft, 'mr-auto': marginRight}"
-    >
+    <v-card color="rgba(255,255,255,0.85)" :width="imageWidth" class="mx-auto">
       <v-img
         :src="post.post_image.url"
         aspect-ratio="1.2"
@@ -12,12 +9,6 @@
       >
         <v-card-title v-text="post.title"></v-card-title>
       </v-img>
-
-      <!-- <v-breadcrumbs :items="post.categories" text="name">
-        <template v-slot:item="{ item }">
-          <v-breadcrumbs-item>{{ item.name }}</v-breadcrumbs-item>
-        </template>
-      </v-breadcrumbs>-->
 
       <v-card-text>{{ post.body }}</v-card-text>
 
@@ -55,16 +46,12 @@
 import axios from "axios";
 import LikeButton from "../Like/LikeButton.vue";
 import PostDeleteModal from "./PostDeleteModal.vue";
-import PostShowModal from "./PostShowModal.vue";
 
 export default {
-  components: { LikeButton, PostShowModal, PostDeleteModal },
+  components: { LikeButton, PostDeleteModal },
   props: {
     post: {},
     currentUser: {},
-    mxAuto: false,
-    marginLeft: false,
-    marginRight: false,
   },
   computed: {
     imageWidth() {

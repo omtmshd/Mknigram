@@ -5,7 +5,7 @@
         <v-img :srd="post.post_image.url" width="0" height="0"></v-img>
       </div>
       <v-row justify="center">
-        <v-col cols="4">
+        <v-col cols="3">
           <v-card
             max-height="800"
             :width="categoryWidth"
@@ -88,17 +88,17 @@
             </v-list>
           </v-card>
         </v-col>
-        <v-col cols="8">
+        <v-col cols="9">
           <v-card max-height="100vh" class="overflow-y-auto" color="rgba(0,0,0,0)" flat>
-            <posts-index-show
-              v-for="post in postsData"
-              :key="post.index"
-              :post="post"
-              :current-user="currentUser"
-              :margin-left="true"
-              :margin-right="true"
-              @update-posts="updatePosts"
-            ></posts-index-show>
+            <v-row justify="start" class="ml-3 mr-auto">
+              <posts-index-image
+                v-for="post in postsData"
+                :key="post.index"
+                :post="post"
+                :current-user="currentUser"
+                @update-posts="updatePosts"
+              ></posts-index-image>
+            </v-row>
             <infinite-loading @infinite="infiniteHandler" :identifier="infiniteId" spinner="spiral">
               <div slot="spinner"></div>
               <div slot="no-more"></div>
@@ -192,14 +192,15 @@
           <div v-for="post in postsData" :key="post.index">
             <v-img :srd="post.post_image.url" width="0" height="0"></v-img>
           </div>
-          <posts-index-show
-            :mx-auto="true"
-            v-for="post in postsData"
-            :key="post.index"
-            :post="post"
-            :current-user="currentUser"
-            @update-posts="updatePosts"
-          ></posts-index-show>
+          <v-row justify="center" class="mx-auto">
+            <posts-index-image
+              v-for="post in postsData"
+              :key="post.index"
+              :post="post"
+              :current-user="currentUser"
+              @update-posts="updatePosts"
+            ></posts-index-image>
+          </v-row>
           <infinite-loading @infinite="infiniteHandler" :identifier="infiniteId" spinner="spiral">
             <div slot="spinner"></div>
             <div slot="no-more"></div>
@@ -215,11 +216,11 @@ import axios from "axios";
 
 import { currentUser } from "../../packs/mixins/currentUser";
 
-import PostsIndexShow from "../../components/Post/PostsIndexShow.vue";
+import PostsIndexImage from "../../components/Post/PostsIndexImage.vue";
 
 export default {
   mixins: [currentUser],
-  components: { PostsIndexShow },
+  components: { PostsIndexImage },
   data() {
     return {
       postsData: [],
