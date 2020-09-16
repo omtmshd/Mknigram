@@ -28,7 +28,7 @@ categories = [
     { level2: 'モツ', level2_children: ['レバー', 'ホルモン', '砂肝' ] }
   ] },
   { level1: '魚介料理', level1_children: [
-    { level2: '魚', level2_children: ['鮭/サーモン', 'いわし', 'さば', 'あじ'、'ぶり'、'さんま'、'鯛'、'マグロ'、'その他お魚'] }
+    { level2: '魚', level2_children: ['鮭/サーモン', 'いわし', 'さば', 'あじ','ぶり','さんま','鯛','マグロ','その他お魚'] },
     { level2: '海老' },
     { level2: 'イカ' },
     { level2: 'たこ' },
@@ -66,7 +66,7 @@ categories = [
     { level2: 'そうめん' },
     { level2: 'ラーメン' },
     { level2: '焼きそば' },
-    { level2: '冷やし中華' },
+    { level2: '冷やし中華' }
   ] }
 ]
 
