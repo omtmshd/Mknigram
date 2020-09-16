@@ -49,7 +49,12 @@ class Api::V1::PostsController < ApplicationController
 
   # カテゴリー検索（10ずつ）
   def categories
-    @posts = Category.find(params[:id]).posts
+    @category = Category.find(params[:id])
+    if @category.children?
+      @posts = Post.where(id: PostCategory.where(category_id: @category.descendant_ids).pluck(:post_id))
+    else
+      @posts = @category.posts
+    end
     render json: @posts.limit(10).offset(params[:data_id]).to_json(
       only: %i[id title body post_image],
       include: [
