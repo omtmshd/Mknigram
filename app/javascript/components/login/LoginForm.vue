@@ -1,7 +1,7 @@
 <template>
   <v-card id="login" flat color="rgba(0,0,0,0)" width="350" min-height="270">
     <v-container>
-      <p class="text-lg-left">
+      <p>
         <v-btn text class="mr-4 white--text" @click.stop="$emit('signup-modal')">
           <v-icon>mdi-chevron-left</v-icon>新規登録
         </v-btn>
@@ -22,7 +22,10 @@
           required
         ></v-text-field>
         <v-text-field v-model="user.password" label="パスワード" prepend-icon="mdi-lock" dark required></v-text-field>
-        <p class="text-lg-right">
+        <p>
+          <v-btn text left class="ml-0 white--text" @click="testUser" absolute>
+            <v-icon>mdi-account-arrow-right</v-icon>テストユーザー
+          </v-btn>
           <v-btn text right class="mr-4 white--text" type="submit" absolute>
             ログイン
             <v-icon>mdi-chevron-double-right</v-icon>
@@ -46,6 +49,10 @@ export default {
     };
   },
   methods: {
+    testUser() {
+      this.user.email = "test@gmail.com";
+      this.user.password = "password";
+    },
     loginForm() {
       axios
         .post("/api//v1/auth/sign_in", this.user)
