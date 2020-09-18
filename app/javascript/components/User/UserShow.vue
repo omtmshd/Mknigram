@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-dialog v-model="dialog" width="350">
-      <user-edit-modal @close="dialogClose"></user-edit-modal>
+      <user-edit-modal @close="dialogClose" :user="user"></user-edit-modal>
     </v-dialog>
     <v-card flat class="mx-auto" :width="cardWidth" color="rgba(255,255,255,.85)">
       <v-container>
@@ -24,7 +24,7 @@
           @show-following="$emit('show-following')"
           @show-followers="$emit('show-followers')"
         ></user-follow-form>
-        <v-card-text>{{ user.profile }}</v-card-text>
+        <v-card-text v-if="user.profile">{{ user.profile }}</v-card-text>
         <template v-if="currentUser !== null && currentUser.id === user.id">
           <v-card-actions>
             <v-spacer></v-spacer>
