@@ -69,7 +69,7 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def user_params
-    params.fetch(:user).permit(:profile_image, :profile)
+    params.require(:user).permit(:profile_image, :profile)
   end
 
   def set_user
