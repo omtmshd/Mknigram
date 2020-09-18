@@ -47,32 +47,6 @@ export default {
       this.dialogSignUp = false;
       this.dialogLogin = true;
     },
-    async loginForm() {
-      const res = await axios
-        .post("/api//v1/auth/sign_in", this.user)
-        .then((response) => {
-          // レスポンスで返ってきた、認証に必要な情報をlocalStorageに保存
-          localStorage.setItem(
-            "access-token",
-            response.headers["access-token"]
-          );
-          localStorage.setItem("expiry", response.headers.expiry);
-          localStorage.setItem("client", response.headers.client);
-          localStorage.setItem("uid", response.headers.uid);
-          localStorage.setItem("token-type", response.headers["token-type"]);
-          return response;
-        })
-        .catch((error) => {
-          console.error(error);
-          if (error.response.data && error.response.data.errors) {
-            this.errors = error.response.data.errors;
-          }
-        });
-      if (res.status !== 200) {
-        process.exit();
-      }
-      this.$router.push({ path: "/" });
-    },
   },
   computed: {
     assetsImage() {
