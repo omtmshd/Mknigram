@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_20_054356) do
+ActiveRecord::Schema.define(version: 2020_09_20_164040) do
 
   create_table "categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -28,6 +28,23 @@ ActiveRecord::Schema.define(version: 2020_09_20_054356) do
     t.index ["post_id"], name: "index_likes_on_post_id"
     t.index ["user_id", "post_id"], name: "unique_user_post", unique: true
     t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "list_folders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_list_folders_on_user_id"
+  end
+
+  create_table "lists", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "list_folder_id", null: false
+    t.bigint "post_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["list_folder_id"], name: "index_lists_on_list_folder_id"
+    t.index ["post_id"], name: "index_lists_on_post_id"
   end
 
   create_table "post_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -93,6 +110,9 @@ ActiveRecord::Schema.define(version: 2020_09_20_054356) do
 
   add_foreign_key "likes", "posts"
   add_foreign_key "likes", "users"
+  add_foreign_key "list_folders", "users"
+  add_foreign_key "lists", "list_folders"
+  add_foreign_key "lists", "posts"
   add_foreign_key "post_categories", "categories"
   add_foreign_key "post_categories", "posts"
   add_foreign_key "posts", "users"
