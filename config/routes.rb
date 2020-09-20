@@ -37,7 +37,13 @@ Rails.application.routes.draw do
           get :children, :post
         end
       end
+
+      namespace :admin do
+        resources :users, only: %i[index show destroy]
+      end
     end
   end
+
+  resources :admin, only: %i[index]
 
 end

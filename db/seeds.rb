@@ -85,6 +85,12 @@ categories.each.with_index(1) do |category, i|
   end
 end
 
+User.create!(name:  "管理者",
+  email: ENV['ADMIN_EMAIL'],
+  password:  ENV['ADMIN_PASSWORD'],
+  password_confirmation: ENV['ADMIN_PASSWORD'],
+  admin: true)
+
 
 if Rails.env == 'development'
   100.times do |n|
