@@ -10,8 +10,6 @@ class Api::V1::Admin::UsersController < ApplicationController
     render json: @user
   end
 
-  def
-
   def destroy
     head :no_content if @user.destroy!
   end
