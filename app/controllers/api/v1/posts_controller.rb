@@ -11,7 +11,8 @@ class Api::V1::PostsController < ApplicationController
     render json: Post.all.limit(10).offset(params[:data_id]).to_json(
       only: %i[id title body post_image],
       include: [
-        user: { only: %i[id name profile_image] }
+        user: { only: %i[id name profile_image] },
+        categories: { only: %i[id name]}
       ]
     )
   end
@@ -58,7 +59,8 @@ class Api::V1::PostsController < ApplicationController
     render json: @posts.limit(10).offset(params[:data_id]).to_json(
       only: %i[id title body post_image],
       include: [
-        user: { only: %i[id name profile_image] }
+        user: { only: %i[id name profile_image] },
+        categories: { only: %i[id name]}
       ]
     )
   end
@@ -68,7 +70,8 @@ class Api::V1::PostsController < ApplicationController
     render json: Post.find(Like.group(:post_id).order('count(post_id) desc').limit(10).offset(params[:data_id]).pluck(:post_id)).to_json(
       only: %i[id title body post_image],
       include: [
-        user: { only: %i[id name profile_image] }
+        user: { only: %i[id name profile_image] },
+        categories: { only: %i[id name]}
       ]
     )
   end

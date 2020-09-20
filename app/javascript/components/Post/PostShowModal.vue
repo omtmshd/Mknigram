@@ -9,9 +9,17 @@
       <v-card-title v-text="post.title"></v-card-title>
     </v-img>
     <v-card-text :style="dialogHeight">
-      <v-breadcrumbs :items="post.categories" text="name">
+      <v-breadcrumbs :items="post.categories" text="name" class="px-0 py-1">
         <template v-slot:item="{ item }">
-          <v-breadcrumbs-item>{{ item.name }}</v-breadcrumbs-item>
+          <v-breadcrumbs-item>
+            <v-btn
+              small
+              text
+              class="px-0"
+              color="#616161"
+              @click.stop="categorySearch(item.id)"
+            >{{ item.name }}</v-btn>
+          </v-breadcrumbs-item>
         </template>
       </v-breadcrumbs>
 
@@ -21,10 +29,11 @@
     <v-divider class="mx-4"></v-divider>
 
     <v-card-actions>
-      <v-avatar size="56" @click.stop="showUser">
+      <v-avatar size="42" @click.stop="showUser">
         <img v-if="post.user.profile_image.url !== null" :src="post.user.profile_image.url" />
-        <v-icon v-else size="56" color="#90A4AE" dark>mdi-account-circle</v-icon>
+        <v-icon v-else size="42" color="#90A4AE" dark>mdi-account-circle</v-icon>
       </v-avatar>
+      <span class="text--secondary">by. {{post.user.name}}</span>
       <v-spacer></v-spacer>
       <template v-if="currentUser !== null">
         <template v-if="currentUser.id === post.user.id">
@@ -99,6 +108,11 @@ export default {
         name: "PostsEditPage",
         params: { id: this.post.id },
       });
+    },
+    categorySearch(i) {
+      if (this.$route.path !== `/posts/${i}/categories`) {
+        this.$router.push(`/posts/${i}/categories`);
+      }
     },
   },
   computed: {
