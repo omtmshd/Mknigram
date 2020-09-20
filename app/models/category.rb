@@ -5,16 +5,14 @@ class Category < ApplicationRecord
   default_scope -> { order(:id) }
 
   def posts_count
-    # 子カテゴリーがある場合
-    if self.children?
+    if children?
+      # 子カテゴリーがある場合
       # 子カテゴリー、孫カテゴリーのPostを返す
-      return Post.where(id: PostCategory.where(category_id: self.descendant_ids).pluck(:post_id)).count
-
-      子カテゴリーがない場合
+      Post.where(id: PostCategory.where(category_id: descendant_ids).pluck(:post_id)).count
     else
+      # 子カテゴリーがない場合
       # 自身のPostレコードを返す
-      return self.posts.count
+      posts.count
     end
   end
-
 end

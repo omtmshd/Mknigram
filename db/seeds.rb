@@ -9,64 +9,43 @@
 
 
 categories = [
-  { level1: '野菜', level1_children: [
-    { level2: 'よく使う野菜', level2_children: %w[にんじん じゃがいも たまねぎ キャベツ] },
-    { level2: '春野菜', level2_children: %w[たけのこ アスパラガス 山菜 クレソン グリンピース さやえんどう そら豆 新たまねぎ 新じゃがいも アボカド レタス 菜の花 スナップエンドウ ふき] },
-    { level2: '夏野菜', level2_children: %w[とうもろこし きゅうり ピーマン さやいんげん オクラ 枝豆 ゴーヤ ズッキーニ 冬瓜 トマト モロヘイヤ なす かぼちゃ みょうが パプリカ ししとう 新生姜] },
-    { level2: '秋/冬野菜', level2_children: ['大根', '白菜', '水菜', '里芋', 'さつまいも', '長芋/山芋', 'れんこん', 'ブロッコリー', 'チンゲン菜', 'セロリ', 'かぶ', '小松菜', 'ごぼう', 'カリフラワー', '長ねぎ', 'ほうれん草', '春菊'] },
-    { level2: 'きのこ', level2_children: %w[しいたけ しめじ まいたけ エノキ マッシュルーム エリンギ なめこ] },
-    { level2: '豆類', level2_children: %w[ミックスビーンズ 黒豆 ひよこ豆 大豆 レンズ豆] }
+  { level1: 'お店', level1_children: [
+    { level2: '和食のお店', level2_children: ['定食屋', '寿司屋', '料亭','割烹料理 店','天ぷら屋','蕎麦屋','ラーメン屋'] },
+    { level2: 'アジア料理 店', level2_children: ['インド料理 店','ベトナム料理 店','韓国料理 店','タイ料理 店', '中華料理 店'] },
+    { level2: 'ヨーロッパ料理 店', level2_children: ['イタリア料理 店', 'フランス料理 店','スペイン料理 店'] },
+    { level2: 'お肉料理屋', level2_children: ['焼肉屋', 'ステーキ屋','鉄板焼き 店','しゃぶしゃぶ 店','すき焼き 店','串焼き屋'] },
+    { level2: 'カフェ・スイーツ', level2_children: ['パン屋', 'ケーキ屋','カフェ','喫茶店','サンドイッチ 店'] },
+    { level2: 'ファミレス・ファストフード'},
+    { level2: '居酒屋・バー'}
   ] },
-  { level1: '肉料理', level1_children: [
-    { level2: '牛肉', level2_children: ['ローストビーフ', 'ビーフステーキ', '牛薄切り肉/牛こま切れ肉', '牛かたまり肉'] },
-    { level2: '豚肉', level2_children: ['豚の角煮', '豚の生姜焼き', 'スペアリブ', 'チャーシュー/煮豚', '酢豚', '豚バラ肉', '豚こま切れ肉', '豚薄切り肉', '豚かたまり肉'] },
-    { level2: '鶏肉', level2_children: %w[鶏の唐揚げ ローストチキン 照り焼きチキン 鶏もも肉 鶏むね肉 鶏ささみ 鶏手羽] },
-    { level2: '挽き肉', level2_children: ['つくね', 'ハンバーグ', '餃子/シュウマイ', '豚まん/肉まん', '春巻き'] },
-    { level2: 'ソーセージ' },
-    { level2: 'ハム' },
-    { level2: 'ベーコン', level2_children: ['自家製ベーコン/パンチェッタ', 'ベーコンを使った料理'] },
-    { level2: 'モツ', level2_children: ['レバー', 'ホルモン', '砂肝' ] }
+  { level1: '食材', level1_children: [
+    { level2: '野菜', level2_children: ['アスパラガス', 'かぼちゃ','キノコ','キャベツ','ごぼう','さつまいも','じゃがいも','たまねぎ','だいこん','トマト','なす','にんじん','ねぎ','その他 野菜'] },
+    { level2: 'お肉', level2_children: ['牛肉', '豚肉', 'とり肉', '羊肉', 'ベーコン', 'ハム', 'ソーセージ', 'その他 肉'] },
+    { level2: '魚介', level2_children: ['アジ', 'イワシ', 'サバ', 'サケ', 'イカ', 'エビ', 'タコ', 'ちりめん・しらす', '海藻類','貝', 'その他 魚介'] },
+    { level2: '豆腐・納豆・漬物', level2_children: ['豆腐', '納豆', 'キムチ', '漬物'] },
+    { level2: '卵・チーズ・乳製品', level2_children: ['チーズ', 'ヨーグルト', '牛乳', '生クリーム', 'バター', '鶏卵', 'その他 乳製品'] },
+    { level2: '粉類', level2_children: ['小麦粉', 'パン粉','片栗粉'] },
+    { level2: 'フルーツ', level2_children: ['みかん・柑橘', 'メロン', 'マンゴー', 'イチゴ', 'バナナ', 'レモン', 'りんご', 'その他 フルーツ'] }
   ] },
-  { level1: '魚介料理', level1_children: [
-    { level2: '魚', level2_children: ['鮭/サーモン', 'いわし', 'さば', 'あじ','ぶり','さんま','鯛','マグロ','その他お魚'] },
-    { level2: '海老' },
-    { level2: 'イカ' },
-    { level2: 'たこ' },
-    { level2: '貝類' },
-    { level2: '蟹' },
-    { level2: 'ツナ缶' },
-    { level2: '練り物' }
+  { level1: '定番まかない飯', level1_children: [
+    { level2: '丼ぶり', level2_children: ['親子丼', 'カツ丼', '海鮮丼', '天丼', 'その他 丼ぶり'] },
+    { level2: 'カレー', level2_children: ['ルウカレー', 'スープカレー','インドカレー','タイカレー'] },
+    { level2: 'パスタ料理', level2_children: ['トマト系パスタ', 'オイル系パスタ', 'クリーム系パスタ', 'ジェノベーゼ'] },
+    { level2: '麺', level2_children: ['うどん', 'そうめん', 'そば', 'パスタ', 'ラーメン', '焼きそば'] },
+    { level2: '炒め物'},
+    { level2: 'チャーハン'},
+    { level2: 'グラタン・ドリア'}
   ] },
-  { level1: 'ごはんもの', level1_children: [
-    { level2: '丼もの', level2_children: %w[カツ丼 天丼 牛丼 中華丼 親子丼 海鮮丼 アレンジ丼] },
-    { level2: 'カレー', level2_children: %w[チキンカレー ポークカレー 野菜カレー ビーフカレー タイ風カレー インド風カレー ドライカレー スープカレー] },
-    { level2: 'オムライス' },
-    { level2: '寿司' },
-    { level2: '炒めご飯/チャーハン' },
-    { level2: '炊き込み/まぜご飯'},
-    { level2: 'リゾット/雑炊類'}
+  { level1: 'おやつ', level1_children: [
+    { level2: 'パン', level2_children: ['食パン', '菓子パン', '惣菜パン', 'クロワッサン', 'その他 パン'] },
+    { level2: '洋菓子', level2_children: ['クッキー', 'チョコレート', 'ケーキ', 'タルト・パイ', 'ドーナツ', 'その他 洋菓子'] },
+    { level2: '和菓子', level2_children: ['団子', 'まんじゅう','おしるこ'] }
   ] },
-  { level1: 'パスタ/グラタン', level1_children: [
-    { level2: 'トマト系パスタ', level2_children: ['ペスカトーレ', 'ミートソース', 'トマトクリーム', 'ボンゴレロッソ', 'ナポリタン', 'アラビアータ', 'トマトソースパスタ'] },
-    { level2: 'クリーム系パスタ', level2_children: %w[クリームソース カルボナーラ] },
-    { level2: 'オイル/塩系パスタ', level2_children: ['ペペロンチーノ', 'ボンゴレビアンコ', 'アレンジオイル/塩系パスタ'] },
-    { level2: 'チーズ系パスタ' },
-    { level2: 'ジェノベーゼ' },
-    { level2: '和風パスタ' },
-    { level2: '冷製パスタ' },
-    { level2: 'スープパスタ' },
-    { level2: 'ニョッキ' },
-    { level2: 'グラタン' },
-    { level2: 'ラザニア/ラビオリ' },
-    { level2: '手作りパスタ' }
-  ] },
-  { level1: '麺', level1_children: [
-    { level2: 'うどん' },
-    { level2: '蕎麦' },
-    { level2: 'そうめん' },
-    { level2: 'ラーメン' },
-    { level2: '焼きそば' },
-    { level2: '冷やし中華' }
+  { level1: 'ドリンク', level1_children: [
+    { level2: 'ソフトドリンク', level2_children: ['フルーツジュース', '炭酸', '野菜ジュース', 'チョコレートドリンク', 'その他ソフトドリンク'] },
+    { level2: 'お茶', level2_children: ['日本茶', '紅茶', 'ハーブティー'] },
+    { level2: 'コーヒー・ココア', level2_children: ['ホットコーヒー', 'アイスコーヒー','アレンジコーヒー','ココア'] },
+    { level2: 'お酒', level2_children: ['ビール', '焼酎','日本酒','梅酒','ワイン','ウイスキー'] }
   ] }
 ]
 
@@ -84,12 +63,6 @@ categories.each.with_index(1) do |category, i|
     end
   end
 end
-
-User.create!(name:  "管理者",
-  email: ENV['ADMIN_EMAIL'],
-  password:  ENV['ADMIN_PASSWORD'],
-  password_confirmation: ENV['ADMIN_PASSWORD'],
-  admin: true)
 
 
 if Rails.env == 'development'
@@ -110,7 +83,7 @@ if Rails.env == 'development'
       title: title,
       body: body,
       post_image: open("#{Rails.root}/db/fixtures/img.jpg"),
-      category_ids: [1, 2, 3]
+      category_ids: [3, 4, 5]
     )
   end
 
@@ -122,5 +95,15 @@ if Rails.env == 'development'
   followers.each { |follower| follower.follow(user) }
 
 end
-if Rails.env == 'production'
-end
+
+User.create!(name:  "管理者",
+  email: ENV['ADMIN_EMAIL'],
+  password:  ENV['ADMIN_PASSWORD'],
+  password_confirmation: ENV['ADMIN_PASSWORD'],
+  admin: true)
+
+User.create!(name:  "テストユーザー",
+  email: "test@gmail.com",
+  password: "password",
+  password_confirmation: "password")
+

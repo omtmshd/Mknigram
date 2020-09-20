@@ -11,7 +11,11 @@ class Api::V1::CategoriesController < ApplicationController
           include: [
             children: {
               only: %i[id name]
-    }]}])
+            }
+          ]
+        }
+      ]
+    )
   end
 
   def parents

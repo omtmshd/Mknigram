@@ -11,7 +11,7 @@ class Api::V1::PostsController < ApplicationController
     render json: Post.all.limit(10).offset(params[:data_id]).to_json(
       only: %i[id title body post_image],
       include: [
-        user: { only: %i[id name profile_image] },
+        user: { only: %i[id name profile_image] }
       ]
     )
   end
@@ -50,15 +50,15 @@ class Api::V1::PostsController < ApplicationController
   # カテゴリー検索（10ずつ）
   def categories
     @category = Category.find(params[:id])
-    if @category.children?
-      @posts = Post.where(id: PostCategory.where(category_id: @category.descendant_ids).pluck(:post_id))
-    else
-      @posts = @category.posts
-    end
+    @posts = if @category.children?
+               Post.where(id: PostCategory.where(category_id: @category.descendant_ids).pluck(:post_id))
+             else
+               @category.posts
+             end
     render json: @posts.limit(10).offset(params[:data_id]).to_json(
       only: %i[id title body post_image],
       include: [
-        user: { only: %i[id name profile_image] },
+        user: { only: %i[id name profile_image] }
       ]
     )
   end
@@ -68,7 +68,7 @@ class Api::V1::PostsController < ApplicationController
     render json: Post.find(Like.group(:post_id).order('count(post_id) desc').limit(10).offset(params[:data_id]).pluck(:post_id)).to_json(
       only: %i[id title body post_image],
       include: [
-        user: { only: %i[id name profile_image] },
+        user: { only: %i[id name profile_image] }
       ]
     )
   end
