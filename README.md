@@ -23,3 +23,6 @@
 - RSpec
 - AWS(EC2 / ALB / Route53 / ACM / RDS / VPC / S3 )
 - Docker,docker-compose( 開発環境 )
+
+インフラ構成図
+![Untitled Diagram](https://user-images.githubusercontent.com/67169292/93694995-19ac5780-fb4d-11ea-8360-f7b09296f7f1.png)
