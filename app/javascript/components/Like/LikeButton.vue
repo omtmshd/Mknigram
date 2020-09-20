@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn icon color="#FDD835" v-if="isLiked" @click.stop="deleteLike">
+    <v-btn icon color="#FBC02D" v-if="isLiked" @click.stop="deleteLike">
       <v-icon>mdi-thumb-up</v-icon>
     </v-btn>
     <v-btn icon v-else @click.stop="registerLike">
