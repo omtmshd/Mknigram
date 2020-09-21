@@ -1,6 +1,6 @@
 class Api::V1::PostsController < ApplicationController
   before_action :authenticate_api_user!, only: %i[create update destroy]
-  before_action :set_post, only: %i[show update destroy]
+  before_action :set_post, only: %i[show update destroy categories]
 
   rescue_from ActiveRecord::RecordNotFound do |_exception|
     render json: { error: '404 not found' }, status: 404
@@ -11,8 +11,7 @@ class Api::V1::PostsController < ApplicationController
     render json: Post.all.limit(10).offset(params[:data_id]).to_json(
       only: %i[id title body post_image],
       include: [
-        user: { only: %i[id name profile_image] },
-        categories: { only: %i[id name]}
+        user: { only: %i[id name profile_image] }
       ]
     )
   end
@@ -21,8 +20,7 @@ class Api::V1::PostsController < ApplicationController
     render json: @post.to_json(
       only: %i[id title body post_image],
       include: [
-        user: { only: %i[id name profile_image] },
-        categories: { only: %i[id name] }
+        user: { only: %i[id name profile_image] }
       ]
     )
   end
@@ -48,21 +46,9 @@ class Api::V1::PostsController < ApplicationController
     head :no_content if @post.destroy! && @post.user_id == current_api_user.id
   end
 
-  # カテゴリー検索（10ずつ）
+  # @post のカテゴリーを返す
   def categories
-    @category = Category.find(params[:id])
-    @posts = if @category.children?
-               Post.where(id: PostCategory.where(category_id: @category.descendant_ids).pluck(:post_id))
-             else
-               @category.posts
-             end
-    render json: @posts.limit(10).offset(params[:data_id]).to_json(
-      only: %i[id title body post_image],
-      include: [
-        user: { only: %i[id name profile_image] },
-        categories: { only: %i[id name]}
-      ]
-    )
+    render json: @post.categories.to_json(only: %i[id name])
   end
 
   # いいねが多い順に10個ずつ取得
@@ -70,8 +56,7 @@ class Api::V1::PostsController < ApplicationController
     render json: Post.find(Like.group(:post_id).order('count(post_id) desc').limit(10).offset(params[:data_id]).pluck(:post_id)).to_json(
       only: %i[id title body post_image],
       include: [
-        user: { only: %i[id name profile_image] },
-        categories: { only: %i[id name]}
+        user: { only: %i[id name profile_image] }
       ]
     )
   end

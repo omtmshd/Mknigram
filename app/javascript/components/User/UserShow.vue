@@ -25,7 +25,7 @@
           @show-followers="$emit('show-followers')"
         ></user-follow-form>
         <v-card-text v-if="user.profile">{{ user.profile }}</v-card-text>
-        <template v-if="currentUser !== null && currentUser.id === user.id">
+        <template v-if="currentUser.id === user.id">
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn icon @click.stop="editUser">

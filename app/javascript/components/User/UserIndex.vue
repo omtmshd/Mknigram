@@ -16,7 +16,6 @@
                 :current-user="currentUser"
                 @show-following="showUser"
                 @show-followers="showUser"
-                @user-reset="$emit('user-reset')"
               ></user-follow-form>
             </v-list-item-action-text>
           </v-list-item>

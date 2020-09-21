@@ -32,6 +32,9 @@ module Myapp
     # Don't generate system test files.
     config.generators.system_tests = nil
 
+    # 日本語化
+    config.i18n.default_locale = :ja
+
     # オートロードの設定
     config.autoload_paths << Rails.root.join('app', 'uploaders')
 

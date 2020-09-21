@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card color="rgba(255,255,255,0.85)" :width="imageWidth" class="mx-auto">
+    <v-card :color="cardColor" :width="imageWidth" class="mx-auto">
       <v-img
         :src="post.post_image.url"
         aspect-ratio="1.2"
@@ -11,19 +11,8 @@
       </v-img>
 
       <v-card-text>
-        <v-breadcrumbs :items="post.categories" text="name" class="px-0 py-1">
-          <template v-slot:item="{ item }">
-            <v-breadcrumbs-item>
-              <v-btn
-                small
-                text
-                class="px-0"
-                color="#616161"
-                @click.stop="categorySearch(item.id)"
-              >{{ item.name }}</v-btn>
-            </v-breadcrumbs-item>
-          </template>
-        </v-breadcrumbs>
+        <category-list :post-id="post.id"></category-list>
+
         <p>{{ post.body }}</p>
       </v-card-text>
 
@@ -36,7 +25,7 @@
         </v-avatar>
         <span class="text--secondary">by. {{post.user.name}}</span>
         <v-spacer></v-spacer>
-        <template v-if="currentUser !== null">
+        <template v-if="currentUser.id > 0">
           <template v-if="currentUser.id === post.user.id">
             <v-btn icon @click.stop="showModal = true">
               <v-icon>mdi-delete</v-icon>
@@ -52,8 +41,8 @@
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </template>
-          <like-button :post-id="post.id" :user-id="currentUser.id"></like-button>
         </template>
+        <like-button :post-id="post.id" :user-id="currentUser.id"></like-button>
       </v-card-actions>
     </v-card>
   </div>
@@ -62,28 +51,18 @@
 import axios from "axios";
 import LikeButton from "../Like/LikeButton.vue";
 import PostDeleteModal from "./PostDeleteModal.vue";
+import CategoryList from "../Category/CategoryList.vue";
 
 export default {
-  components: { LikeButton, PostDeleteModal },
+  components: {
+    LikeButton,
+    PostDeleteModal,
+    CategoryList,
+  },
   props: {
     post: {},
     currentUser: {},
-  },
-  computed: {
-    imageWidth() {
-      switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          return "300";
-        case "sm":
-          return "400";
-        case "md":
-          return "560";
-        case "lg":
-          return "560";
-        case "xl":
-          return "560";
-      }
-    },
+    cardColor: "",
   },
   data() {
     return {
@@ -125,9 +104,20 @@ export default {
         params: { id: this.post.id },
       });
     },
-    categorySearch(i) {
-      if (this.$route.path !== `/posts/${i}/categories`) {
-        this.$router.push(`/posts/${i}/categories`);
+  },
+  computed: {
+    imageWidth() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return "300";
+        case "sm":
+          return "400";
+        case "md":
+          return "560";
+        case "lg":
+          return "560";
+        case "xl":
+          return "560";
       }
     },
   },
@@ -135,7 +125,4 @@ export default {
 </script>
 
 <style scoped>
-.col {
-  padding: 0.1em;
-}
 </style>

@@ -52,7 +52,7 @@ class Api::V1::UsersController < ApplicationController
 
   # ログインユーザーを返す
   def current
-    render json: current_api_user.to_json(only: %i[id name profile profile_image admin])
+    render json: current_api_user.to_json(only: %i[id name profile profile_image])
   end
 
   # Userと紐付いたPostを15個ずつ返す
