@@ -7,6 +7,19 @@
       <v-icon>mdi-thumb-up</v-icon>
     </v-btn>
     {{ count }}
+    <v-snackbar
+      v-model="snackbar"
+      top
+      right
+      light
+      transition="scroll-x-reverse-transition"
+      :timeout="2000"
+    >
+      ログインしてくだい
+      <template v-slot:action="{ attrs }">
+        <v-btn color="#37474F" text v-bind="attrs" @click="snackbar = false">閉じる</v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -18,6 +31,7 @@ export default {
   data() {
     return {
       likeList: [],
+      snackbar: false,
     };
   },
   computed: {
@@ -48,38 +62,46 @@ export default {
     },
     // rails側のcreateアクション
     async registerLike() {
-      const res = await axios.post(
-        "/api/v1/likes",
-        { post_id: this.postId },
-        {
+      if (this.userId > 0) {
+        const res = await axios.post(
+          "/api/v1/likes",
+          { post_id: this.postId },
+          {
+            headers: {
+              "access-token": localStorage.getItem("access-token"),
+              uid: localStorage.getItem("uid"),
+              client: localStorage.getItem("client"),
+            },
+          }
+        );
+        if (res.status !== 201) {
+          process.exit();
+        }
+        this.fetchLikeByPostId().then((result) => {
+          this.likeList = result;
+        });
+      } else {
+        this.snackbar = true;
+      }
+    },
+    // rails側のdestroyアクション
+    async deleteLike() {
+      if (this.userId > 0) {
+        const likeId = this.findLikeId();
+        const res = await axios.delete(`/api/v1/likes/${likeId}`, {
           headers: {
             "access-token": localStorage.getItem("access-token"),
             uid: localStorage.getItem("uid"),
             client: localStorage.getItem("client"),
           },
+        });
+        if (res.status !== 200) {
+          process.exit();
         }
-      );
-      if (res.status !== 201) {
-        process.exit();
+        this.likeList = this.likeList.filter((n) => n.id !== likeId);
+      } else {
+        this.snackbar = true;
       }
-      this.fetchLikeByPostId().then((result) => {
-        this.likeList = result;
-      });
-    },
-    // rails側のdestroyアクション
-    async deleteLike() {
-      const likeId = this.findLikeId();
-      const res = await axios.delete(`/api/v1/likes/${likeId}`, {
-        headers: {
-          "access-token": localStorage.getItem("access-token"),
-          uid: localStorage.getItem("uid"),
-          client: localStorage.getItem("client"),
-        },
-      });
-      if (res.status !== 200) {
-        process.exit();
-      }
-      this.likeList = this.likeList.filter((n) => n.id !== likeId);
     },
     // いいねしているlikeモデルのidを返す
     findLikeId() {

@@ -18,31 +18,42 @@
       @click.stop="$emit('show-followers')"
     >フォロワー ({{ followersCount }})</v-btn>
 
-    <template v-if="currentUser !== null">
-      <template v-if="Number(currentUser.id) !== Number(userId)">
-        <v-row justify="end" align="center" no-gutters>
-          <v-chip v-if="followedStatus" class="ma-0" x-small>フォローされています</v-chip>
+    <template v-if="Number(currentUser.id) !== Number(userId)">
+      <v-row justify="end" align="center" no-gutters>
+        <v-chip v-if="followedStatus" class="ma-0" x-small>フォローされています</v-chip>
 
-          <v-btn
-            v-if="followingStatus"
-            class="white--text"
-            color="#37474F"
-            rounded
-            small
-            @click.stop="userUnfollow"
-          >フォロー解除</v-btn>
+        <v-btn
+          v-if="followingStatus"
+          class="white--text"
+          color="#37474F"
+          rounded
+          small
+          @click.stop="userUnfollow"
+        >フォロー解除</v-btn>
 
-          <v-btn
-            v-else
-            color="#37474F"
-            class="white--text"
-            rounded
-            small
-            @click.stop="userFollow"
-          >フォローする</v-btn>
-        </v-row>
-      </template>
+        <v-btn
+          v-else
+          color="#37474F"
+          class="white--text"
+          rounded
+          small
+          @click.stop="userFollow"
+        >フォローする</v-btn>
+      </v-row>
     </template>
+    <v-snackbar
+      v-model="snackbar"
+      top
+      right
+      light
+      transition="scroll-x-reverse-transition"
+      :timeout="2000"
+    >
+      ログインしてくだい
+      <template v-slot:action="{ attrs }">
+        <v-btn color="#37474F" text v-bind="attrs" @click="snackbar = false">閉じる</v-btn>
+      </template>
+    </v-snackbar>
   </span>
 </template>
 <script>
@@ -60,6 +71,7 @@ export default {
         following: [],
         followers: [],
       },
+      snackbar: false,
     };
   },
   computed: {
@@ -97,33 +109,39 @@ export default {
     },
     // フォローする
     async userFollow() {
-      await axios.post(
-        "/api/v1/relationships",
-        {
-          followed_id: this.userId,
-        },
-        {
+      if (this.currentUser.id > 0) {
+        await axios.post(
+          "/api/v1/relationships",
+          {
+            followed_id: this.userId,
+          },
+          {
+            headers: {
+              "access-token": localStorage.getItem("access-token"),
+              uid: localStorage.getItem("uid"),
+              client: localStorage.getItem("client"),
+            },
+          }
+        );
+        this.setUser();
+      } else {
+        this.snackbar = true;
+      }
+    },
+    // フォロー解除
+    async userUnfollow() {
+      if (this.currentUser.id > 0) {
+        await axios.delete(`/api/v1/relationships/${this.userId}`, {
           headers: {
             "access-token": localStorage.getItem("access-token"),
             uid: localStorage.getItem("uid"),
             client: localStorage.getItem("client"),
           },
-        }
-      );
-      this.setUser();
-      this.$emit("user-reset");
-    },
-    // フォロー解除
-    async userUnfollow() {
-      await axios.delete(`/api/v1/relationships/${this.userId}`, {
-        headers: {
-          "access-token": localStorage.getItem("access-token"),
-          uid: localStorage.getItem("uid"),
-          client: localStorage.getItem("client"),
-        },
-      });
-      this.setUser();
-      this.$emit("user-reset");
+        });
+        this.setUser();
+      } else {
+        this.snackbar = true;
+      }
     },
   },
 };

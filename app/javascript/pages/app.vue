@@ -18,7 +18,7 @@ import InfiniteLoading from "vue-infinite-loading";
 import LayoutHeader from "../components/layout/LayoutHeader.vue";
 
 import PostsFollowingPage from "./posts/PostsFollowingPage.vue";
-import PostsCategoriesPage from "./posts/PostsCategoriesPage.vue";
+import CategorySearchPage from "./posts/CategorySearchPage.vue";
 import PostsLikesPage from "./posts/PostsLikesPage.vue";
 
 import PostsNewPage from "./posts/PostsNewPage.vue";
@@ -35,11 +35,6 @@ const router = new VueRouter({
   routes: [
     { path: "/", component: PostsFollowingPage },
     {
-      path: "/posts/:id(\\d+)/categories",
-      name: "PostsCategoriesPage",
-      component: PostsCategoriesPage,
-    },
-    {
       path: "/posts/likes",
       name: "PostsLikesPage",
       component: PostsLikesPage,
@@ -49,6 +44,11 @@ const router = new VueRouter({
       path: "/posts/:id(\\d+)/edit",
       name: "PostsEditPage",
       component: PostsEditPage,
+    },
+    {
+      path: "/categories/:id(\\d+)/search",
+      name: "CategorySearchPage",
+      component: CategorySearchPage,
     },
     { path: "/users", name: "UsersIndexPage", component: UsersIndexPage },
     {

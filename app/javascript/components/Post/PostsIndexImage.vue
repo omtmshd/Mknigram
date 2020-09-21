@@ -1,11 +1,12 @@
 <template>
   <div>
     <v-dialog v-model="dialog" scrollable :width="dialogWidth">
-      <post-show-modal
+      <post-show
         :post="post"
         :current-user="currentUser"
+        :card-color="cardColor"
         @update-posts="$emit('update-posts')"
-      ></post-show-modal>
+      ></post-show>
     </v-dialog>
     <v-col>
       <v-card @click.prevent="showDialog" class="mx-auto" :width="imageWidth" :height="imageHeight">
@@ -20,10 +21,10 @@
 </template>
 <script>
 import LikeButton from "../Like/LikeButton.vue";
-import PostShowModal from "./PostShowModal.vue";
+import PostShow from "./PostShow.vue";
 
 export default {
-  components: { LikeButton, PostShowModal },
+  components: { LikeButton, PostShow },
   props: {
     post: {},
     currentUser: {},
@@ -31,6 +32,7 @@ export default {
   data() {
     return {
       dialog: false,
+      cardColor: "rgba(255,255,255,1)",
     };
   },
   computed: {

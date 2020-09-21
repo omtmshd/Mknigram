@@ -1,5 +1,5 @@
 class Api::V1::CategoriesController < ApplicationController
-  before_action :set_post, only: %i[post]
+  before_action :set_category, only: %i[children search]
 
   # 全カテゴリー取得
   def index
@@ -27,9 +27,8 @@ class Api::V1::CategoriesController < ApplicationController
 
   # 子カテゴリーがあれば返し、なければ兄弟カテゴリーを返す。
   def children
-    category = Category.find(params[:id])
-    if category.has_children?
-      render json: category.to_json(
+    if @category.has_children?
+      render json: @category.to_json(
         methods: [:posts_count],
         only: %i[id name],
         include: [
@@ -44,7 +43,7 @@ class Api::V1::CategoriesController < ApplicationController
         ]
       )
     else
-      render json: category.to_json(
+      render json: @category.to_json(
         methods: [:posts_count],
         only: %i[id name],
         include: [
@@ -61,13 +60,25 @@ class Api::V1::CategoriesController < ApplicationController
     end
   end
 
-  def post
-    render json: @post.categories.to_json(only: %i[id name])
+  # カテゴリー検索（10ずつ）
+  # 子カテゴリーがある場合、孫子カテゴリーのPostから検索
+  def search
+    @posts = if @category.children?
+               Post.where(id: PostCategory.where(category_id: @category.descendant_ids).pluck(:post_id))
+             else
+               @category.posts
+             end
+    render json: @posts.limit(10).offset(params[:data_id]).to_json(
+      only: %i[id title body post_image],
+      include: [
+        user: { only: %i[id name profile_image] }
+      ]
+    )
   end
 
   private
 
-  def set_post
-    @post = Post.find(params[:id])
+  def set_category
+    @category = Category.find(params[:id])
   end
 end

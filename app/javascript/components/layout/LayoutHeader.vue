@@ -7,7 +7,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-menu bottom left v-if="currentUser !== null">
+      <v-menu bottom left v-if="currentUser.id > 0">
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-dots-vertical</v-icon>
@@ -56,7 +56,7 @@
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" temporary app>
       <v-list nav>
-        <v-list-item v-if="currentUser !== null" link @click="postsNew">
+        <v-list-item link @click="postsNew">
           <v-list-item-action>
             <v-icon>mdi-folder-edit</v-icon>
           </v-list-item-action>
@@ -79,14 +79,14 @@
 
         <v-divider></v-divider>
 
-        <v-list-item link @click="searchPosts(0)">
+        <v-list-item link @click="categorySearch(0)">
           <v-list-item-title>カテゴリーから探す</v-list-item-title>
           <v-list-item-action>
             <v-icon>mdi-chevron-triple-right</v-icon>
           </v-list-item-action>
         </v-list-item>
         <v-list dense nav>
-          <v-list-item v-for="c in categories" :key="c.id" link @click="searchPosts(c.id)">
+          <v-list-item v-for="c in categories" :key="c.id" link @click="categorySearch(c.id)">
             <v-list-item-title>
               {{ c.name }}
               <span class="text--secondary">({{c.posts_count}}品)</span>
@@ -98,9 +98,24 @@
         </v-list>
       </v-list>
     </v-navigation-drawer>
+
     <user-logout-modal v-if="showModal" @cancel="showModal = false" @ok="logOut">
       <div slot="body">本当にログアウトしますか？</div>
     </user-logout-modal>
+
+    <v-snackbar
+      v-model="snackbar"
+      top
+      right
+      light
+      transition="scroll-x-reverse-transition"
+      :timeout="2000"
+    >
+      ログインしてくだい
+      <template v-slot:action="{ attrs }">
+        <v-btn color="#37474F" text v-bind="attrs" @click="snackbar = false">閉じる</v-btn>
+      </template>
+    </v-snackbar>
   </header>
 </template>
 <script>
@@ -117,6 +132,7 @@ export default {
       drawer: false,
       showModal: false,
       categories: [],
+      snackbar: false,
     };
   },
   mounted() {
@@ -124,11 +140,16 @@ export default {
   },
   methods: {
     postsNew() {
-      if (this.$route.name !== "PostsNewPage") {
-        this.$router.push({
-          name: "PostsNewPage",
-        });
+      if (this.currentUser.id > 0) {
+        if (this.$route.name !== "PostsNewPage") {
+          this.$router.push({
+            name: "PostsNewPage",
+          });
+        } else {
+          this.drawer = false;
+        }
       } else {
+        this.snackbar = true;
         this.drawer = false;
       }
     },
@@ -173,9 +194,9 @@ export default {
         this.categories = data;
       });
     },
-    searchPosts(i) {
-      if (this.$route.path !== `/posts/${i}/categories`) {
-        this.$router.push(`/posts/${i}/categories`);
+    categorySearch(i) {
+      if (this.$route.path !== `/categories/${i}/search`) {
+        this.$router.push(`/categories/${i}/search`);
       }
     },
     async logOut() {
@@ -218,4 +239,7 @@ export default {
 };
 </script>
 <style>
+.v-navigation-drawer--temporary {
+  z-index: 300;
+}
 </style>

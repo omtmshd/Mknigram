@@ -34,7 +34,7 @@ Rails.application.routes.draw do
       resources :categories, only: %i[index] do
         get :parents, on: :collection
         member do
-          get :children, :post
+          get :children, :search
         end
       end
 

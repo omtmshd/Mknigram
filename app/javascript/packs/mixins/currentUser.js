@@ -4,7 +4,7 @@ export const currentUser = {
   data() {
     return {
       currentUser: {
-        id: "",
+        id: -1,
         name: "",
         profile: "",
         profile_image: {
@@ -27,7 +27,13 @@ export const currentUser = {
             client: localStorage.getItem('client'),
           },
         })
-        .then((response) => (this.currentUser = response.data));
+        .then((response) => {
+          if (response.data !== null) {
+            this.currentUser = response.data
+          } else {
+            this.currentUser.id = -1
+          }
+        });
     }
   }
 };

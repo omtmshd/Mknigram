@@ -4,13 +4,14 @@
       <v-img :srd="post.post_image.url" width="0" height="0"></v-img>
     </div>
 
-    <posts-index-show
+    <post-show
       v-for="post in postsData"
       :key="post.index"
       :post="post"
       :current-user="currentUser"
+      :card-color="cardColor"
       @update-posts="updatePosts()"
-    ></posts-index-show>
+    ></post-show>
     <infinite-loading @infinite="infiniteHandler" spinner="spiral">
       <div slot="spinner"></div>
       <div slot="no-more"></div>
@@ -26,15 +27,16 @@ import axios from "axios";
 
 import { currentUser } from "../../packs/mixins/currentUser";
 
-import PostsIndexShow from "../../components/Post/PostsIndexShow.vue";
+import PostShow from "../../components/Post/PostShow.vue";
 
 export default {
   mixins: [currentUser],
-  components: { PostsIndexShow },
+  components: { PostShow },
   data() {
     return {
       postsData: [],
       postsNumber: 0,
+      cardColor: "rgba(255,255,255,0.85)",
     };
   },
   methods: {

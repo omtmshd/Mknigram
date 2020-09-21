@@ -9,7 +9,6 @@
           :key="followUser.index"
           :user="followUser"
           :current-user="currentUser"
-          @user-reset="getFollowing"
         ></user-index>
       </v-expansion-panels>
     </v-card-text>
