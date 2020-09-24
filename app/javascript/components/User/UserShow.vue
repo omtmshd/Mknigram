@@ -3,38 +3,34 @@
     <v-dialog v-model="dialog" width="350">
       <user-edit-modal @close="dialogClose" :user="user"></user-edit-modal>
     </v-dialog>
-    <v-card flat class="mx-auto" :width="cardWidth" color="rgba(255,255,255,.85)">
-      <v-container>
-        <v-row justify="center" align="center">
-          <v-col cols="4">
-            <v-avatar size="62" @click=" showUser">
-              <img v-if="user.profile_image.url !== null" :src="user.profile_image.url" />
-              <v-icon v-else size="62" color="#90A4AE" dark>mdi-account-circle</v-icon>
-            </v-avatar>
-          </v-col>
-          <v-col cols="7">
-            <strong>{{ user.name}}</strong>
-          </v-col>
-        </v-row>
-        <v-divider></v-divider>
-        <user-follow-form
-          :user-page="true"
-          :user-id="this.$route.params.id"
-          :current-user="currentUser"
-          @show-following="$emit('show-following')"
-          @show-followers="$emit('show-followers')"
-        ></user-follow-form>
-        <v-card-text v-if="user.profile">{{ user.profile }}</v-card-text>
-        <template v-if="currentUser.id === user.id">
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn icon @click.stop="editUser">
+    <v-list>
+      <v-list-item two-line @click="showUser">
+        <v-list-item-avatar :size="avatarSize">
+          <img v-if="user.profile_image.url !== null" :src="user.profile_image.url" />
+          <v-icon v-else :size="avatarSize" color="#90A4AE" dark>mdi-account-circle</v-icon>
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title>
+            {{ user.name }}
+            <v-btn v-if="currentUser.id === user.id" icon @click.stop="editUser">
               <v-icon color="#263238">mdi-account-edit</v-icon>
             </v-btn>
-          </v-card-actions>
-        </template>
-      </v-container>
-    </v-card>
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            <user-follow-form
+              :user-page="true"
+              :user-id="this.$route.params.id"
+              :current-user="currentUser"
+              @show-following="$emit('show-following')"
+              @show-followers="$emit('show-followers')"
+            ></user-follow-form>
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item>
+        <v-list-item-content>{{user.profile}}</v-list-item-content>
+      </v-list-item>
+    </v-list>
   </v-container>
 </template>
 <script>
@@ -70,7 +66,7 @@ export default {
       this.$emit("user-reset");
     },
     showUser() {
-      if (this.$route.path !== `/users/${this.user.id}/`) {
+      if (this.$route.path !== `/users/${this.user.id}/posts`) {
         this.$router.push({
           name: "UserPostsPage",
           params: { id: this.user.id },
@@ -79,18 +75,18 @@ export default {
     },
   },
   computed: {
-    cardWidth() {
+    avatarSize() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          return "330";
+          return "70";
         case "sm":
-          return "400";
+          return "80";
         case "md":
-          return "400";
+          return "100";
         case "lg":
-          return "400";
+          return "100";
         case "xl":
-          return "400";
+          return "100";
       }
     },
   },

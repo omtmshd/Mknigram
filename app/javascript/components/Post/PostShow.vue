@@ -1,6 +1,21 @@
 <template>
-  <div>
-    <v-card :color="cardColor" :width="imageWidth" class="mx-auto">
+  <v-card max-width="560">
+    <v-card-actions class="py-0">
+      <v-avatar size="36" @click.stop="showUser">
+        <img v-if="post.user.profile_image.url !== null" :src="post.user.profile_image.url" />
+        <v-icon v-else size="36" color="#90A4AE" dark>mdi-account-circle</v-icon>
+      </v-avatar>
+
+      <span class="text-xs-caption">{{post.user.name}}</span>
+
+      <v-spacer></v-spacer>
+
+      <list-button :user-id="currentUser.id"></list-button>
+
+      <like-button :user-id="currentUser.id"></like-button>
+    </v-card-actions>
+
+    <v-card-text :style="cardHeight" class="pa-0">
       <v-img
         :src="post.post_image.url"
         aspect-ratio="1.2"
@@ -11,58 +26,64 @@
       </v-img>
 
       <v-card-text>
-        <category-list :post-id="post.id"></category-list>
+        <category-list></category-list>
+
+        <v-divider class="mx-4"></v-divider>
 
         <p>{{ post.body }}</p>
       </v-card-text>
+      <template v-if="currentUser.id > 0">
+        <template v-if="currentUser.id === post.user.id">
+          <v-btn icon @click.stop="showModal = true">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
 
-      <v-divider class="mx-4"></v-divider>
+          <post-delete-modal
+            v-if="showModal"
+            @cancel="showModal = false"
+            @ok="deletePost; showModal = false;"
+          >
+            <div slot="body">本当に削除しますか？</div>
+          </post-delete-modal>
 
-      <v-card-actions>
-        <v-avatar size="42" @click.stop="showUser()">
-          <img v-if="post.user.profile_image.url !== null" :src="post.user.profile_image.url" />
-          <v-icon v-else size="42" color="#90A4AE" dark>mdi-account-circle</v-icon>
-        </v-avatar>
-        <span class="text--secondary">by. {{post.user.name}}</span>
-        <v-spacer></v-spacer>
-        <template v-if="currentUser.id > 0">
-          <template v-if="currentUser.id === post.user.id">
-            <v-btn icon @click.stop="showModal = true">
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-            <post-delete-modal
-              v-if="showModal"
-              @cancel="showModal = false"
-              @ok="deletePost(); showModal = false;"
-            >
-              <div slot="body">本当に削除しますか？</div>
-            </post-delete-modal>
-            <v-btn icon @click.stop="editPost()">
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-          </template>
+          <v-btn icon @click.stop="editPost">
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
         </template>
-        <like-button :post-id="post.id" :user-id="currentUser.id"></like-button>
-      </v-card-actions>
-    </v-card>
-  </div>
+      </template>
+    </v-card-text>
+  </v-card>
 </template>
 <script>
 import axios from "axios";
+
 import LikeButton from "../Like/LikeButton.vue";
+import ListButton from "../List/ListButton.vue";
 import PostDeleteModal from "./PostDeleteModal.vue";
 import CategoryList from "../Category/CategoryList.vue";
 
 export default {
   components: {
     LikeButton,
+    ListButton,
     PostDeleteModal,
     CategoryList,
   },
   props: {
-    post: {},
+    post: {
+      id: "",
+      title: "",
+      body: "",
+      post_image: {
+        url: "",
+      },
+      user: {
+        profile_image: {
+          url: "",
+        },
+      },
+    },
     currentUser: {},
-    cardColor: "",
   },
   data() {
     return {
@@ -91,7 +112,7 @@ export default {
         });
     },
     showUser() {
-      if (this.$route.path !== `/users/${this.post.user.id}/`) {
+      if (this.$route.path !== `/users/${this.post.user.id}/posts`) {
         this.$router.push({
           name: "UserPostsPage",
           params: { id: this.post.user.id },
@@ -106,18 +127,18 @@ export default {
     },
   },
   computed: {
-    imageWidth() {
+    cardHeight() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          return "300";
+          return "max-height: 500px";
         case "sm":
-          return "400";
+          return "max-height: 600px";
         case "md":
-          return "560";
+          return "max-height: 700px";
         case "lg":
-          return "560";
+          return "max-height: 700px";
         case "xl":
-          return "560";
+          return "max-height: 700px";
       }
     },
   },

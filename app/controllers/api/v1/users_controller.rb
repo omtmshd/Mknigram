@@ -19,7 +19,7 @@ class Api::V1::UsersController < ApplicationController
 
   def update
     if @user.update_attributes(user_params) && @user.id == current_api_user.id
-      head :no_content
+      head :ok
     else
       render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
     end
@@ -60,8 +60,7 @@ class Api::V1::UsersController < ApplicationController
     render json: @user.posts.limit(15).offset(params[:data_id]).to_json(
       only: %i[id title body post_image],
       include: [
-        user: { only: %i[id name profile_image] },
-        categories: { only: %i[id name] }
+        user: { only: %i[id name profile_image] }
       ]
     )
   end

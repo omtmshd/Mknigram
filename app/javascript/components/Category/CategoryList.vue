@@ -17,7 +17,6 @@
 import axios from "axios";
 
 export default {
-  props: ["postId"],
   data() {
     return {
       categories: [],
@@ -28,9 +27,11 @@ export default {
   },
   methods: {
     setCategories() {
-      axios.get(`/api/v1/posts/${this.postId}/categories`).then(({ data }) => {
-        this.categories = data;
-      });
+      axios
+        .get(`/api/v1/posts/${this.$route.params.post_id}/categories`)
+        .then(({ data }) => {
+          this.categories = data;
+        });
     },
     categorySearch(i) {
       if (this.$route.path !== `/categories/${i}/search`) {

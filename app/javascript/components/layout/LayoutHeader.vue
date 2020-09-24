@@ -180,7 +180,7 @@ export default {
       }
     },
     usersShow() {
-      if (this.$route.path !== `/users/${this.currentUser.id}/`) {
+      if (this.$route.path !== `/users/${this.currentUser.id}/posts`) {
         this.$router.push({
           name: "UserPostsPage",
           params: { id: this.currentUser.id },

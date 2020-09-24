@@ -7,7 +7,7 @@ class Api::V1::RelationshipsController < ApplicationController
 
   def create
     if current_api_user.active_relationships.create(relationships_params)
-      head :no_content
+      head :create
     else
       render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
     end
@@ -16,7 +16,7 @@ class Api::V1::RelationshipsController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     if current_api_user.unfollow(@user)
-      head :no_content
+      head :ok
     else
       render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
     end

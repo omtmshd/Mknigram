@@ -68,7 +68,7 @@ class Api::V1::CategoriesController < ApplicationController
              else
                @category.posts
              end
-    render json: @posts.limit(10).offset(params[:data_id]).to_json(
+    render json: @posts.limit(15).offset(params[:data_id]).to_json(
       only: %i[id title body post_image],
       include: [
         user: { only: %i[id name profile_image] }
