@@ -6,26 +6,20 @@
     <v-dialog v-model="dialogFollowers" scrollable :width="dialogWidth">
       <user-followers-modal :current-user="currentUser"></user-followers-modal>
     </v-dialog>
-
-    <user-show
-      :user="user"
-      :current-user="currentUser"
-      @user-reset="setUser"
-      @show-following="dialogFollowing = true"
-      @show-followers="dialogFollowers = true"
-    ></user-show>
-    <v-container class="mx-auto">
-      <v-card :max-width="cardWidth" class="mx-auto" color="rgba(255, 255, 255, .4)" flat>
-        <v-container class="mx-auto">
-          <v-row align="center" justify="end">
-            <v-btn-toggle v-model="tabs" tile group color="#37474F">
-              <v-btn value="tab-1" @click="postsShow">投稿</v-btn>
-
-              <v-btn value="tab-2" @click="likePostsShow">いいね</v-btn>
-            </v-btn-toggle>
-          </v-row>
-        </v-container>
-
+    <v-container>
+      <v-card flat class="mx-auto" color="rgba(255,255,255,.85)">
+        <user-show
+          :user="user"
+          :current-user="currentUser"
+          @user-reset="setUser"
+          @show-following="dialogFollowing = true"
+          @show-followers="dialogFollowers = true"
+        ></user-show>
+        <v-tabs v-model="tabs" color="#37474F">
+          <v-tab href="#tab-1" @click="postsShow">投稿</v-tab>
+          <v-tab href="#tab-2" @click="likePostsShow">いいね</v-tab>
+          <v-tab href="#tab-3" @click="ListsIndexShow">リスト</v-tab>
+        </v-tabs>
         <router-view></router-view>
       </v-card>
     </v-container>
@@ -57,7 +51,7 @@ export default {
       dialogFollowing: false,
       dialogFollowers: false,
 
-      tabs: "tab-1",
+      tabs: "",
     };
   },
 
@@ -71,17 +65,24 @@ export default {
     setUser() {
       axios.get(`/api/v1/users/${this.$route.params.id}`).then(({ data }) => {
         this.user = data;
-        this.dialogFollowing = this.dialogFollowers = false;
-        if (this.$route.path === `/users/${this.user.id}/`) {
-          this.tabs = "tab-1";
-        }
-        if (this.$route.path === `/users/${this.user.id}/like`) {
-          this.tabs = "tab-2";
+        switch (this.$route.path) {
+          case `/users/${this.user.id}/posts`:
+            this.tabs = "tab-1";
+            break;
+          case `/users/${this.user.id}/likes`:
+            this.tabs = "tab-2";
+            break;
+          case `/users/${this.user.id}/list_folders`:
+            this.tabs = "tab-3";
+            break;
+          default:
+            this.tabs = "";
+            break;
         }
       });
     },
     postsShow() {
-      if (this.$route.path !== `/users/${this.user.id}/`) {
+      if (this.$route.path !== `/users/${this.user.id}/posts`) {
         this.$router.push({
           name: "UserPostsPage",
           params: { id: this.user.id },
@@ -89,9 +90,17 @@ export default {
       }
     },
     likePostsShow() {
-      if (this.$route.path !== `/users/${this.user.id}/like`) {
+      if (this.$route.path !== `/users/${this.user.id}/likes`) {
         this.$router.push({
           name: "LikePostsPage",
+          params: { id: this.user.id },
+        });
+      }
+    },
+    ListsIndexShow() {
+      if (this.$route.path !== `/users/${this.user.id}/list_folders`) {
+        this.$router.push({
+          name: "ListFolderIndex",
           params: { id: this.user.id },
         });
       }
@@ -112,18 +121,32 @@ export default {
           return "600";
       }
     },
+    tabsWidth() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return "330";
+        case "sm":
+          return "400";
+        case "md":
+          return "400";
+        case "lg":
+          return "400";
+        case "xl":
+          return "400";
+      }
+    },
     cardWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          return "335";
+          return "360";
         case "sm":
           return "665";
         case "md":
-          return "1030";
+          return "1330";
         case "lg":
-          return "1030";
+          return "1330";
         case "xl":
-          return "1030";
+          return "1330";
       }
     },
   },

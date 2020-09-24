@@ -1,9 +1,7 @@
 <template>
   <div>
+    <router-view @update-posts="$emit('update-posts')"></router-view>
     <div :width="cardWidth" v-if="dsplayPc">
-      <div v-for="post in postsData" :key="post.index">
-        <v-img :srd="post.post_image.url" width="0" height="0"></v-img>
-      </div>
       <v-row justify="center">
         <v-col cols="3">
           <v-card
@@ -45,9 +43,6 @@
         </v-row>
 
         <div>
-          <div v-for="post in postsData" :key="post.index">
-            <v-img :srd="post.post_image.url" width="0" height="0"></v-img>
-          </div>
           <v-row justify="center" class="mx-auto">
             <posts-index-image
               v-for="post in postsData"
@@ -85,7 +80,7 @@ export default {
       infiniteId: 0,
     };
   },
-  watch: { $route: "updatePosts" },
+  watch: { watchId: "updatePosts" },
   methods: {
     updatePosts() {
       this.postsData = [];
@@ -97,9 +92,9 @@ export default {
         axios
           .get(`/api/v1/posts?data_id=${this.postsNumber}`)
           .then(({ data }) => {
-            this.postsNumber += 10;
+            this.postsNumber += 15;
             this.postsData.push(...data);
-            if (10 > data.length) {
+            if (15 > data.length) {
               $state.complete();
             } else {
               $state.loaded();
@@ -113,11 +108,11 @@ export default {
             )
             .then(({ data }) => {
               this.postsData.push(...data);
-              if (10 > data.length) {
+              if (15 > data.length) {
                 this.postsNumber = -1;
                 $state.loaded();
               } else {
-                this.postsNumber += 10;
+                this.postsNumber += 15;
                 $state.loaded();
               }
             });
@@ -126,6 +121,9 @@ export default {
     },
   },
   computed: {
+    watchId() {
+      return this.$route.params.id;
+    },
     cardWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":

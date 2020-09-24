@@ -89,10 +89,15 @@ export default {
       },
     };
   },
+  computed: {
+    watchId() {
+      return this.$route.params.id;
+    },
+  },
   mounted() {
     this.setCategories();
   },
-  watch: { $route: "setCategories" },
+  watch: { watchId: "setCategories" },
   methods: {
     setCategories() {
       if (Number(this.$route.params.id) === 0) {

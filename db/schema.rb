@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_20_164040) do
+ActiveRecord::Schema.define(version: 2020_09_22_064849) do
 
   create_table "categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2020_09_20_164040) do
     t.bigint "post_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["list_folder_id", "post_id"], name: "unique_list_folder_post", unique: true
     t.index ["list_folder_id"], name: "index_lists_on_list_folder_id"
     t.index ["post_id"], name: "index_lists_on_post_id"
   end

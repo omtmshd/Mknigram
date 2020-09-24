@@ -1,9 +1,7 @@
 <template>
   <div>
     <v-row justify="center" class="mx-auto">
-      <div v-for="post in userPosts" :key="post.index">
-        <v-img :srd="post.post_image.url" width="0" height="0"></v-img>
-      </div>
+      <router-view @update-posts="$emit('update-posts')"></router-view>
       <posts-index-image
         v-for="userPost in userPosts"
         :key="userPost.index"
@@ -35,7 +33,12 @@ export default {
       infiniteId: +new Date(),
     };
   },
-  watch: { $route: "updatePosts" },
+  computed: {
+    watchId() {
+      return this.$route.params.id;
+    },
+  },
+  watch: { watchId: "updatePosts" },
   methods: {
     updatePosts() {
       this.userPosts = [];

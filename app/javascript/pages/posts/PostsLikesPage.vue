@@ -1,22 +1,22 @@
 <template>
   <div>
-    <div v-for="post in postsData" :key="post.index">
-      <v-img :srd="post.post_image.url" width="0" height="0"></v-img>
-    </div>
-
-    <post-show
-      v-for="post in postsData"
-      :key="post.index"
-      :post="post"
-      :current-user="currentUser"
-      :card-color="cardColor"
-      @update-posts="updatePosts()"
-    ></post-show>
-    <infinite-loading @infinite="infiniteHandler" spinner="spiral">
-      <div slot="spinner"></div>
-      <div slot="no-more"></div>
-      <div slot="no-results"></div>
-    </infinite-loading>
+    <router-view @update-posts="$emit('update-posts')"></router-view>
+    <v-card color="rgba(0,0,0,0)" flat class="mx-auto" max-width="1200">
+      <v-row justify="center" class="mx-auto">
+        <posts-index-image
+          v-for="post in postsData"
+          :key="post.index"
+          :post="post"
+          :current-user="currentUser"
+          @update-posts="updatePosts"
+        ></posts-index-image>
+      </v-row>
+      <infinite-loading @infinite="infiniteHandler" spinner="spiral">
+        <div slot="spinner"></div>
+        <div slot="no-more"></div>
+        <div slot="no-results"></div>
+      </infinite-loading>
+    </v-card>
     <v-btn fixed dark fab bottom right color="#263238" @click="$vuetify.goTo(0)">
       <v-icon>mdi-chevron-double-up</v-icon>
     </v-btn>
@@ -27,16 +27,15 @@ import axios from "axios";
 
 import { currentUser } from "../../packs/mixins/currentUser";
 
-import PostShow from "../../components/Post/PostShow.vue";
+import PostsIndexImage from "../../components/Post/PostsIndexImage.vue";
 
 export default {
   mixins: [currentUser],
-  components: { PostShow },
+  components: { PostsIndexImage },
   data() {
     return {
       postsData: [],
       postsNumber: 0,
-      cardColor: "rgba(255,255,255,0.85)",
     };
   },
   methods: {
@@ -49,9 +48,9 @@ export default {
       axios
         .get(`/api/v1/posts/likes?data_id=${this.postsNumber}`)
         .then(({ data }) => {
-          this.postsNumber += 10;
+          this.postsNumber += 15;
           this.postsData.push(...data);
-          if (10 > data.length) {
+          if (15 > data.length) {
             $state.complete();
           } else {
             $state.loaded();

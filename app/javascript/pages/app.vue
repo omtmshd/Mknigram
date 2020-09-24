@@ -21,24 +21,26 @@ import PostsFollowingPage from "./posts/PostsFollowingPage.vue";
 import CategorySearchPage from "./posts/CategorySearchPage.vue";
 import PostsLikesPage from "./posts/PostsLikesPage.vue";
 
+import PostsModal from "../components/Post/PostsModal.vue";
+
 import PostsNewPage from "./posts/PostsNewPage.vue";
 import PostsEditPage from "./posts/PostsEditPage.vue";
 
 import UsersIndexPage from "./users/UsersIndexPage.vue";
 import UsersShowPage from "./users/UsersShowPage.vue";
+
 import UserPosts from "../components/Post/UserPosts.vue";
 import LikePosts from "../components/Post/LikePosts.vue";
+import ListFolderIndex from "../components/List/ListFolderIndex.vue";
+
+import ListForm from "../components/List/ListForm.vue";
+import ListFolderNew from "../components/List/ListFolderNew.vue";
 
 import LoginPage from "./login/LoginPage.vue";
+import ListFolderNewVue from "../components/List/ListFolderNew.vue";
 
 const router = new VueRouter({
   routes: [
-    { path: "/", component: PostsFollowingPage },
-    {
-      path: "/posts/likes",
-      name: "PostsLikesPage",
-      component: PostsLikesPage,
-    },
     { path: "/posts/new", name: "PostsNewPage", component: PostsNewPage },
     {
       path: "/posts/:id(\\d+)/edit",
@@ -46,19 +48,91 @@ const router = new VueRouter({
       component: PostsEditPage,
     },
     {
+      path: "/",
+      component: PostsFollowingPage,
+      children: [
+        {
+          path: ":post_id(\\d+)",
+          component: PostsModal,
+          children: [
+            { path: "lists", component: ListForm },
+            { path: "folders", component: ListFolderNew },
+          ],
+        },
+      ],
+    },
+    {
+      path: "/posts/likes",
+      name: "PostsLikesPage",
+      component: PostsLikesPage,
+      children: [
+        {
+          path: ":post_id(\\d+)",
+          component: PostsModal,
+          children: [
+            { path: "lists", component: ListForm },
+            { path: "folders", component: ListFolderNew },
+          ],
+        },
+      ],
+    },
+    {
       path: "/categories/:id(\\d+)/search",
       name: "CategorySearchPage",
       component: CategorySearchPage,
+      children: [
+        {
+          path: ":post_id(\\d+)",
+          component: PostsModal,
+          children: [
+            { path: "lists", component: ListForm },
+            { path: "folders", component: ListFolderNew },
+          ],
+        },
+      ],
     },
-    { path: "/users", name: "UsersIndexPage", component: UsersIndexPage },
     {
       path: "/users/:id(\\d+)",
       component: UsersShowPage,
       children: [
-        { path: "", component: UserPosts, name: "UserPostsPage" },
-        { path: "like", component: LikePosts, name: "LikePostsPage" },
+        {
+          path: "posts",
+          component: UserPosts,
+          name: "UserPostsPage",
+          children: [
+            {
+              path: ":post_id(\\d+)",
+              component: PostsModal,
+              children: [
+                { path: "lists", component: ListForm },
+                { path: "folders", component: ListFolderNew },
+              ],
+            },
+          ],
+        },
+        {
+          path: "likes",
+          component: LikePosts,
+          name: "LikePostsPage",
+          children: [
+            {
+              path: ":post_id(\\d+)",
+              component: PostsModal,
+              children: [
+                { path: "lists", component: ListForm },
+                { path: "folders", component: ListFolderNew },
+              ],
+            },
+          ],
+        },
+        {
+          path: "list_folders",
+          component: ListFolderIndex,
+          name: "ListFolderIndex",
+        },
       ],
     },
+    { path: "/users", name: "UsersIndexPage", component: UsersIndexPage },
     {
       path: "/sign_in",
       name: "LoginPage",

@@ -1,12 +1,13 @@
 <template>
   <div>
-    <v-btn icon color="#FBC02D" v-if="isLiked" @click.stop="deleteLike">
-      <v-icon>mdi-thumb-up</v-icon>
+    <v-btn icon color="#E53935" v-if="isLiked" @click.stop="deleteLike">
+      <v-icon>mdi-heart-box</v-icon>
+      {{ count }}
     </v-btn>
     <v-btn icon v-else @click.stop="registerLike">
-      <v-icon>mdi-thumb-up</v-icon>
+      <v-icon>mdi-heart-box</v-icon>
+      {{ count }}
     </v-btn>
-    {{ count }}
     <v-snackbar
       v-model="snackbar"
       top
@@ -27,7 +28,7 @@
 import axios from "axios";
 
 export default {
-  props: ["postId", "userId"],
+  props: ["userId"],
   data() {
     return {
       likeList: [],
@@ -54,7 +55,9 @@ export default {
   methods: {
     // rails側のindexアクション
     async fetchLikeByPostId() {
-      const res = await axios.get(`/api/v1/likes/?post_id=${this.postId}`);
+      const res = await axios.get(
+        `/api/v1/likes/?post_id=${this.$route.params.post_id}`
+      );
       if (res.status !== 200) {
         process.exit();
       }
