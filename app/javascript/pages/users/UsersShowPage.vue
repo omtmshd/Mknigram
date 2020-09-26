@@ -6,23 +6,22 @@
     <v-dialog v-model="dialogFollowers" scrollable :width="dialogWidth">
       <user-followers-modal :current-user="currentUser"></user-followers-modal>
     </v-dialog>
-    <v-container>
-      <v-card flat class="mx-auto" color="rgba(255,255,255,.85)">
-        <user-show
-          :user="user"
-          :current-user="currentUser"
-          @user-reset="setUser"
-          @show-following="dialogFollowing = true"
-          @show-followers="dialogFollowers = true"
-        ></user-show>
-        <v-tabs v-model="tabs" color="#37474F">
-          <v-tab href="#tab-1" @click="postsShow">投稿</v-tab>
-          <v-tab href="#tab-2" @click="likePostsShow">いいね</v-tab>
-          <v-tab href="#tab-3" @click="ListsIndexShow">リスト</v-tab>
-        </v-tabs>
-        <router-view></router-view>
-      </v-card>
-    </v-container>
+
+    <v-card flat class="mx-auto" color="rgba(255,255,255,0)" :width="cardWidth" min-height="100vh">
+      <user-show
+        :user="user"
+        :current-user="currentUser"
+        @user-reset="setUser"
+        @show-following="dialogFollowing = true"
+        @show-followers="dialogFollowers = true"
+      ></user-show>
+      <v-tabs v-model="tabs" color="#37474F" background-color="rgba(255,255,255,0)">
+        <v-tab href="#tab-1" @click.stop="showPosts">投稿</v-tab>
+        <v-tab href="#tab-2" @click.stop="showLikes">いいね</v-tab>
+        <v-tab href="#tab-3" @click.stop="showLists">リスト</v-tab>
+      </v-tabs>
+      <router-view></router-view>
+    </v-card>
   </div>
 </template>
 <script>
@@ -59,94 +58,67 @@ export default {
     this.setUser();
   },
   watch: {
-    $route: "setUser",
+    tabs: "setUser",
+    watchId: "setUser",
   },
   methods: {
     setUser() {
       axios.get(`/api/v1/users/${this.$route.params.id}`).then(({ data }) => {
         this.user = data;
-        switch (this.$route.path) {
-          case `/users/${this.user.id}/posts`:
-            this.tabs = "tab-1";
-            break;
-          case `/users/${this.user.id}/likes`:
-            this.tabs = "tab-2";
-            break;
-          case `/users/${this.user.id}/list_folders`:
-            this.tabs = "tab-3";
-            break;
-          default:
-            this.tabs = "";
-            break;
-        }
       });
+      this.setTabs();
     },
-    postsShow() {
-      if (this.$route.path !== `/users/${this.user.id}/posts`) {
-        this.$router.push({
-          name: "UserPostsPage",
-          params: { id: this.user.id },
-        });
+    setTabs() {
+      switch (this.$route.path) {
+        case `/users/${this.$route.params.id}/posts`:
+          this.tabs = "tab-1";
+          break;
+        case `/users/${this.$route.params.id}/likes`:
+          this.tabs = "tab-2";
+          break;
+        case `/users/${this.$route.params.id}/list_folders`:
+          this.tabs = "tab-3";
+          break;
       }
     },
-    likePostsShow() {
-      if (this.$route.path !== `/users/${this.user.id}/likes`) {
-        this.$router.push({
-          name: "LikePostsPage",
-          params: { id: this.user.id },
-        });
+    showPosts() {
+      if (this.$route.path !== `/users/${this.$route.params.id}/posts`) {
+        this.$router.push(`/users/${this.$route.params.id}/posts`);
       }
     },
-    ListsIndexShow() {
-      if (this.$route.path !== `/users/${this.user.id}/list_folders`) {
-        this.$router.push({
-          name: "ListFolderIndex",
-          params: { id: this.user.id },
-        });
+    showLikes() {
+      if (this.$route.path !== `/users/${this.$route.params.id}/likes`) {
+        this.$router.push(`/users/${this.$route.params.id}/likes`);
+      }
+    },
+    showLists() {
+      if (this.$route.path !== `/users/${this.$route.params.id}/list_folders`) {
+        this.$router.push(`/users/${this.$route.params.id}/list_folders`);
       }
     },
   },
   computed: {
+    watchId() {
+      return this.$route.params.id;
+    },
     dialogWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
           return "330";
         case "sm":
           return "400";
-        case "md":
+        default:
           return "600";
-        case "lg":
-          return "600";
-        case "xl":
-          return "600";
-      }
-    },
-    tabsWidth() {
-      switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          return "330";
-        case "sm":
-          return "400";
-        case "md":
-          return "400";
-        case "lg":
-          return "400";
-        case "xl":
-          return "400";
       }
     },
     cardWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          return "360";
+          return "320";
         case "sm":
-          return "665";
-        case "md":
-          return "1330";
-        case "lg":
-          return "1330";
-        case "xl":
-          return "1330";
+          return "950";
+        default:
+          return "1230";
       }
     },
   },

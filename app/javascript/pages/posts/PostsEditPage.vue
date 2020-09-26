@@ -17,6 +17,7 @@ export default {
         post_image: String,
         categories: [],
         category_ids: [],
+        user_id: "",
       },
       errors: "",
       fileChange: false,

@@ -32,11 +32,7 @@ export default {
         post_image: {
           url: "",
         },
-        user: {
-          profile_image: {
-            url: "",
-          },
-        },
+        user_id: "",
       },
     };
   },

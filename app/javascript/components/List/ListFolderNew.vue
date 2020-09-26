@@ -8,7 +8,12 @@
   >
     <v-card class="pa-6">
       <v-card-text>
-        <list-folder-form :list-folder="list_folder" :errors="errors" @submit="createListFolder"></list-folder-form>
+        <list-folder-form
+          :list-folder="list_folder"
+          :errors="errors"
+          @submit="createListFolder"
+          @cancel="listShow"
+        ></list-folder-form>
       </v-card-text>
     </v-card>
   </v-dialog>
@@ -36,6 +41,13 @@ export default {
     this.dialog = true;
   },
   methods: {
+    listShow() {
+      const arr = this.$route.path.split("/");
+      arr.pop();
+      this.$router.push({
+        path: `${arr.join("/")}/lists`,
+      });
+    },
     async createListFolder() {
       let formData = new FormData();
       formData.append("list_folder[name]", this.list_folder.name);
@@ -70,11 +82,7 @@ export default {
           return "250";
         case "sm":
           return "250";
-        case "md":
-          return "450";
-        case "lg":
-          return "450";
-        case "xl":
+        default:
           return "450";
       }
     },

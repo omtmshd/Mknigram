@@ -20,6 +20,7 @@ import LayoutHeader from "../components/layout/LayoutHeader.vue";
 import PostsFollowingPage from "./posts/PostsFollowingPage.vue";
 import CategorySearchPage from "./posts/CategorySearchPage.vue";
 import PostsLikesPage from "./posts/PostsLikesPage.vue";
+import ListPostsPage from "./posts/ListPostsPage.vue";
 
 import PostsModal from "../components/Post/PostsModal.vue";
 
@@ -80,6 +81,21 @@ const router = new VueRouter({
       path: "/categories/:id(\\d+)/search",
       name: "CategorySearchPage",
       component: CategorySearchPage,
+      children: [
+        {
+          path: ":post_id(\\d+)",
+          component: PostsModal,
+          children: [
+            { path: "lists", component: ListForm },
+            { path: "folders", component: ListFolderNew },
+          ],
+        },
+      ],
+    },
+    {
+      path: "/list_folders/:id(\\d+)/posts",
+      name: "ListPostsPage",
+      component: ListPostsPage,
       children: [
         {
           path: ":post_id(\\d+)",
@@ -163,7 +179,7 @@ export default {
 #display {
   margin: 0;
   padding: 0;
-  background-image: url("../../assets/images/back_img_2.jpg");
+  background-image: url("../../assets/images/back_img_1.jpg");
   background-size: cover;
   background-position: bottom;
   background-repeat: no-repeat;

@@ -20,11 +20,7 @@ class Api::V1::LikesController < ApplicationController
     @user = User.find(params[:id])
     @posts = @user.liked_posts
     render json: @posts.limit(15).offset(params[:data_id]).to_json(
-      only: %i[id title body post_image],
-      include: [
-        user: { only: %i[id name profile_image] },
-        categories: { only: %i[id name] }
-      ]
+      only: %i[id title body post_image user_id],
     )
   end
 

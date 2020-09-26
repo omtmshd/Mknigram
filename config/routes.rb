@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       resources :users, only: %i[show update index] do
         get :current, on: :collection
         member do
-          get :following, :followers, :follow_data, :posts
+          get :following, :followers, :follow_data, :posts, :list_folders
         end
       end
 
@@ -33,7 +33,7 @@ Rails.application.routes.draw do
 
       resources :lists, only: %i[index show create destroy]
 
-      resources :list_folders, only: %i[index show create destroy] do
+      resources :list_folders, only: %i[index show create update destroy] do
         member do
           get :posts
         end

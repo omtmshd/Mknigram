@@ -46,7 +46,6 @@ export default {
       return Boolean(this.findLikeId());
     },
   },
-  // Vueインスタンスの作成・初期化直後に実行される
   mounted() {
     this.fetchLikeByPostId().then((result) => {
       this.likeList = result;
@@ -68,7 +67,7 @@ export default {
       if (this.userId > 0) {
         const res = await axios.post(
           "/api/v1/likes",
-          { post_id: this.postId },
+          { post_id: this.$route.params.post_id },
           {
             headers: {
               "access-token": localStorage.getItem("access-token"),

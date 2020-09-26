@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-row justify="center" class="mx-auto">
+      <router-view></router-view>
       <list-folder-card
         v-for="list_folder in list_folders"
         :key="list_folder.id"
@@ -29,7 +30,7 @@ export default {
   methods: {
     setListFolders() {
       axios
-        .get(`/api/v1/list_folders/${this.$route.params.id}`)
+        .get(`/api/v1/users/${this.$route.params.id}/list_folders`)
         .then(({ data }) => {
           this.list_folders = data;
         });
@@ -42,11 +43,7 @@ export default {
           return "108";
         case "sm":
           return "216";
-        case "md":
-          return "336";
-        case "lg":
-          return "336";
-        case "xl":
+        default:
           return "336";
       }
     },

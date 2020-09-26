@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   before_action :authenticate_api_user!, only: %i[update]
-  before_action :set_user, only: %i[update show following followers follow_data posts]
+  before_action :set_user, only: %i[update show following followers follow_data posts list_folders]
 
   rescue_from ActiveRecord::RecordNotFound do |_exception|
     render json: { error: '404 not found' }, status: 404
@@ -58,10 +58,14 @@ class Api::V1::UsersController < ApplicationController
   # Userと紐付いたPostを15個ずつ返す
   def posts
     render json: @user.posts.limit(15).offset(params[:data_id]).to_json(
-      only: %i[id title body post_image],
-      include: [
-        user: { only: %i[id name profile_image] }
-      ]
+      only: %i[id title body post_image user_id],
+    )
+  end
+
+  # ユーザーのリストを返す
+  def list_folders
+    render json: @user.list_folders.to_json(
+      only: %i[id name],
     )
   end
 

@@ -1,15 +1,21 @@
 <template>
-  <div>
-    <v-col>
-      <v-card @click.prevent="showDialog" class="mx-auto" :width="imageWidth" :height="imageHeight">
-        <v-img
-          :src="post.post_image.url"
-          aspect-ratio="1.2"
-          gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.3)"
-        ></v-img>
-      </v-card>
-    </v-col>
-  </div>
+  <v-hover v-slot:default="{ hover }">
+    <v-card
+      @click.prevent="showDialog"
+      :width="imageWidth"
+      flat
+      tile
+      hover
+      :elevation="hover ? 9 : 0"
+      :class="marginY"
+    >
+      <v-img
+        :src="post.post_image.url"
+        gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.3)"
+        :width="imageWidth"
+      ></v-img>
+    </v-card>
+  </v-hover>
 </template>
 <script>
 import PostShow from "./PostShow.vue";
@@ -24,43 +30,21 @@ export default {
     imageWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          return "108";
+          return "107";
         case "sm":
-          return "216";
-        case "md":
-          return "336";
-        case "lg":
-          return "336";
-        case "xl":
-          return "336";
+          return "250";
+        default:
+          return "390";
       }
     },
-    imageHeight() {
+    marginY() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          return "90";
+          return "my-2";
         case "sm":
-          return "180";
-        case "md":
-          return "280";
-        case "lg":
-          return "280";
-        case "xl":
-          return "280";
-      }
-    },
-    dialogWidth() {
-      switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          return "300";
-        case "sm":
-          return "300";
-        case "md":
-          return "560";
-        case "lg":
-          return "560";
-        case "xl":
-          return "560";
+          return "my-3";
+        default:
+          return "my-6";
       }
     },
   },
@@ -81,7 +65,4 @@ export default {
 </script>
 
 <style scoped>
-.col {
-  padding: 0.1em;
-}
 </style>

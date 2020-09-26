@@ -1,7 +1,7 @@
 class Api::V1::ListsController < ApplicationController
   before_action :authenticate_api_user!, only: %i[create destroy]
 
-  # Post の List 数を返す
+  # Post の List(id)を返す
   def index
     render json: Post.find(params[:id]).lists.to_json(
       only: [:id],

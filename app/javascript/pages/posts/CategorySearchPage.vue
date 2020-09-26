@@ -15,15 +15,41 @@
           </v-card>
         </v-col>
         <v-col cols="9">
-          <v-card max-height="100vh" class="overflow-y-auto" color="rgba(0,0,0,0)" flat>
-            <v-row justify="start" class="ml-3 mr-auto">
-              <posts-index-image
-                v-for="post in postsData"
-                :key="post.index"
-                :post="post"
-                :current-user="currentUser"
-                @update-posts="updatePosts"
-              ></posts-index-image>
+          <v-card
+            max-height="100vh"
+            class="overflow-y-auto"
+            color="rgba(0,0,0,0)"
+            flat
+            :width="cardWidth"
+          >
+            <v-row justify="start">
+              <v-col>
+                <posts-index-image
+                  v-for="postFirst in postsFirst"
+                  :key="postFirst.id"
+                  :post="postFirst"
+                  :current-user="currentUser"
+                  @update-posts="updatePosts"
+                ></posts-index-image>
+              </v-col>
+              <v-col>
+                <posts-index-image
+                  v-for="postScond in postsScond"
+                  :key="postScond.id"
+                  :post="postScond"
+                  :current-user="currentUser"
+                  @update-posts="updatePosts"
+                ></posts-index-image>
+              </v-col>
+              <v-col>
+                <posts-index-image
+                  v-for="postThird in postsThird"
+                  :key="postThird.id"
+                  :post="postThird"
+                  :current-user="currentUser"
+                  @update-posts="updatePosts"
+                ></posts-index-image>
+              </v-col>
             </v-row>
             <infinite-loading @infinite="infiniteHandler" :identifier="infiniteId" spinner="spiral">
               <div slot="spinner"></div>
@@ -35,22 +61,42 @@
       </v-row>
     </div>
     <div v-else>
-      <v-container>
-        <v-row justify="center">
-          <v-card width="330" color="rgba(0,0,0,0)">
+      <v-card color="rgba(0,0,0,0)" flat class="mx-auto" :width="cardWidth">
+        <v-container>
+          <v-card width="330" color="rgba(0,0,0,0)" class="mx-auto">
             <category-bar></category-bar>
           </v-card>
-        </v-row>
+        </v-container>
 
         <div>
-          <v-row justify="center" class="mx-auto">
-            <posts-index-image
-              v-for="post in postsData"
-              :key="post.index"
-              :post="post"
-              :current-user="currentUser"
-              @update-posts="updatePosts"
-            ></posts-index-image>
+          <v-row justify="center">
+            <v-col>
+              <posts-index-image
+                v-for="postFirst in postsFirst"
+                :key="postFirst.id"
+                :post="postFirst"
+                :current-user="currentUser"
+                @update-posts="updatePosts"
+              ></posts-index-image>
+            </v-col>
+            <v-col>
+              <posts-index-image
+                v-for="postScond in postsScond"
+                :key="postScond.id"
+                :post="postScond"
+                :current-user="currentUser"
+                @update-posts="updatePosts"
+              ></posts-index-image>
+            </v-col>
+            <v-col>
+              <posts-index-image
+                v-for="postThird in postsThird"
+                :key="postThird.id"
+                :post="postThird"
+                :current-user="currentUser"
+                @update-posts="updatePosts"
+              ></posts-index-image>
+            </v-col>
           </v-row>
           <infinite-loading @infinite="infiniteHandler" :identifier="infiniteId" spinner="spiral">
             <div slot="spinner"></div>
@@ -58,7 +104,7 @@
             <div slot="no-results"></div>
           </infinite-loading>
         </div>
-      </v-container>
+      </v-card>
     </div>
   </div>
 </template>
@@ -75,15 +121,22 @@ export default {
   components: { PostsIndexImage, CategoryBar },
   data() {
     return {
-      postsData: [],
+      postsFirst: [],
+      postsScond: [],
+      postsThird: [],
       postsNumber: 0,
       infiniteId: 0,
     };
   },
   watch: { watchId: "updatePosts" },
+  mounted() {
+    this.updatePosts();
+  },
   methods: {
     updatePosts() {
-      this.postsData = [];
+      this.postsFirst = [];
+      this.postsScond = [];
+      this.postsThird = [];
       this.postsNumber = 0;
       this.infiniteId++;
     },
@@ -93,7 +146,19 @@ export default {
           .get(`/api/v1/posts?data_id=${this.postsNumber}`)
           .then(({ data }) => {
             this.postsNumber += 15;
-            this.postsData.push(...data);
+            for (let i = 0; i < data.length; i++) {
+              switch ((i + 1) % 3) {
+                case 1:
+                  this.postsFirst.push(data[i]);
+                  break;
+                case 2:
+                  this.postsScond.push(data[i]);
+                  break;
+                case 0:
+                  this.postsThird.push(data[i]);
+                  break;
+              }
+            }
             if (15 > data.length) {
               $state.complete();
             } else {
@@ -107,14 +172,25 @@ export default {
               `/api/v1/categories/${this.$route.params.id}/search?data_id=${this.postsNumber}`
             )
             .then(({ data }) => {
-              this.postsData.push(...data);
               if (15 > data.length) {
                 this.postsNumber = -1;
-                $state.loaded();
               } else {
                 this.postsNumber += 15;
-                $state.loaded();
               }
+              for (let i = 0; i < data.length; i++) {
+                switch ((i + 1) % 3) {
+                  case 1:
+                    this.postsFirst.push(data[i]);
+                    break;
+                  case 2:
+                    this.postsScond.push(data[i]);
+                    break;
+                  case 0:
+                    this.postsThird.push(data[i]);
+                    break;
+                }
+              }
+              $state.loaded();
             });
         }
       }
@@ -127,15 +203,11 @@ export default {
     cardWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          return "100%";
+          return "320";
         case "sm":
-          return "100%";
-        case "md":
-          return "1200";
-        case "lg":
-          return "1200";
-        case "xl":
-          return "1200";
+          return "950";
+        default:
+          return "1230";
       }
     },
     categoryWidth() {
@@ -143,12 +215,8 @@ export default {
         case "xs":
           return "150";
         case "sm":
-          return "180";
-        case "md":
           return "250";
-        case "lg":
-          return "250";
-        case "xl":
+        default:
           return "250";
       }
     },
@@ -157,12 +225,8 @@ export default {
         case "xs":
           return false;
         case "sm":
-          return true;
-        case "md":
-          return true;
-        case "lg":
-          return true;
-        case "xl":
+          return false;
+        default:
           return true;
       }
     },

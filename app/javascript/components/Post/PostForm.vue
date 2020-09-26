@@ -12,7 +12,6 @@
       <v-card class="mx-auto" width="550" color="rgba(255,255,255,.85)" flat>
         <v-img
           :src="image"
-          aspect-ratio="1.2"
           class="white--text align-end"
           gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.3)"
         >
@@ -98,6 +97,7 @@ export default {
       post_image: "",
       categories: [],
       category_ids: [],
+      user_id: "",
     },
     errors: "",
   },

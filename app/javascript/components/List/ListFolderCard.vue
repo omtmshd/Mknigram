@@ -3,10 +3,11 @@
     <v-col>
       <v-hover v-slot:default="{ hover }">
         <v-card
-          :elevation="hover ? 12 : 2"
+          :elevation="hover ? 9 : 1"
           :class="{ 'on-hover': hover }"
           flat
           color="rgba(255, 255, 255, .3)"
+          @click="showPosts"
         >
           <v-row dense>
             <v-col cols="8">
@@ -83,6 +84,9 @@ export default {
           });
       }
     },
+    showPosts() {
+      this.$router.push(`/list_folders/${this.listFolder.id}/posts`);
+    },
   },
   computed: {
     listsLength() {
@@ -98,11 +102,7 @@ export default {
           return "300";
         case "sm":
           return "300";
-        case "md":
-          return "400";
-        case "lg":
-          return "400";
-        case "xl":
+        default:
           return "400";
       }
     },
@@ -115,6 +115,6 @@ export default {
 }
 .col-4,
 .col-8 {
-  padding: 0.1em;
+  padding: 0 0.1em;
 }
 </style>

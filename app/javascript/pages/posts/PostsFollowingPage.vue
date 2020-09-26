@@ -1,15 +1,35 @@
 <template>
   <div>
-    <router-view @update-posts="$emit('update-posts')"></router-view>
-    <v-card color="rgba(0,0,0,0)" flat class="mx-auto" max-width="1200">
-      <v-row justify="center" class="mx-auto">
-        <posts-index-image
-          v-for="post in postsData"
-          :key="post.index"
-          :post="post"
-          :current-user="currentUser"
-          @update-posts="updatePosts"
-        ></posts-index-image>
+    <router-view @update-posts="updatePosts"></router-view>
+    <v-card color="rgba(0,0,0,0)" flat class="mx-auto" :width="cardWidth">
+      <v-row justify="center">
+        <v-col>
+          <posts-index-image
+            v-for="postFirst in postsFirst"
+            :key="postFirst.id"
+            :post="postFirst"
+            :current-user="currentUser"
+            @update-posts="updatePosts"
+          ></posts-index-image>
+        </v-col>
+        <v-col>
+          <posts-index-image
+            v-for="postScond in postsScond"
+            :key="postScond.id"
+            :post="postScond"
+            :current-user="currentUser"
+            @update-posts="updatePosts"
+          ></posts-index-image>
+        </v-col>
+        <v-col>
+          <posts-index-image
+            v-for="postThird in postsThird"
+            :key="postThird.id"
+            :post="postThird"
+            :current-user="currentUser"
+            @update-posts="updatePosts"
+          ></posts-index-image>
+        </v-col>
       </v-row>
       <infinite-loading @infinite="infiniteHandler" spinner="spiral">
         <div slot="spinner"></div>
@@ -34,22 +54,37 @@ export default {
   components: { PostsIndexImage },
   data() {
     return {
-      postsData: [],
       postsNumber: 0,
+      postsFirst: [],
+      postsScond: [],
+      postsThird: [],
     };
   },
   methods: {
     updatePosts() {
-      this.postsData = [];
+      this.postsFirst = [];
+      this.postsScond = [];
+      this.postsThird = [];
       this.postsNumber = 0;
-      this.infiniteHandler();
     },
     infiniteHandler($state) {
       axios
         .get(`/api/v1/posts?data_id=${this.postsNumber}`)
         .then(({ data }) => {
           this.postsNumber += 15;
-          this.postsData.push(...data);
+          for (let i = 0; i < data.length; i++) {
+            switch ((i + 1) % 3) {
+              case 1:
+                this.postsFirst.push(data[i]);
+                break;
+              case 2:
+                this.postsScond.push(data[i]);
+                break;
+              case 0:
+                this.postsThird.push(data[i]);
+                break;
+            }
+          }
           if (15 > data.length) {
             $state.complete();
           } else {
@@ -58,11 +93,26 @@ export default {
         });
     },
   },
+  computed: {
+    cardWidth() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return "320";
+        case "sm":
+          return "950";
+        default:
+          return "1230";
+      }
+    },
+  },
 };
 </script>
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
   transition: 0.5s;
+}
+.col {
+  padding: 0;
 }
 </style>

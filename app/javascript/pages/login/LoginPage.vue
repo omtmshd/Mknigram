@@ -55,11 +55,7 @@ export default {
           return this.spImages;
         case "sm":
           return this.spImages;
-        case "md":
-          return this.pcImages;
-        case "lg":
-          return this.pcImages;
-        case "xl":
+        default:
           return this.pcImages;
       }
     },

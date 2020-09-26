@@ -162,11 +162,7 @@ export default {
           return "300";
         case "sm":
           return "300";
-        case "md":
-          return "400";
-        case "lg":
-          return "400";
-        case "xl":
+        default:
           return "400";
       }
     },

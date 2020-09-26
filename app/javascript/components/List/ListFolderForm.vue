@@ -8,14 +8,36 @@
           </li>
         </ul>
       </div>
-      <v-text-field color="black" v-model="listFolder.name" counter="25" label="リストの名前"></v-text-field>
-      <p>
-        <v-btn text @click.stop="listShow" left absolute>キャンセル</v-btn>
-        <v-btn text type="submit" right absolute>
-          作成
-          <v-icon>mdi-chevron-double-right</v-icon>
-        </v-btn>
-      </p>
+
+      <template v-if="!deleteForm">
+        <v-text-field color="black" v-model="listFolder.name" counter="25" label="リストの名前"></v-text-field>
+        <p>
+          <v-btn
+            text
+            v-if="$route.name === 'ListPostsPage'"
+            @click="$emit('delete-show')"
+            color="#E53935"
+          >削除</v-btn>
+        </p>
+        <p>
+          <v-btn text @click.stop="$emit('cancel')" left absolute>キャンセル</v-btn>
+          <v-btn text type="submit" right absolute>
+            作成
+            <v-icon>mdi-chevron-double-right</v-icon>
+          </v-btn>
+        </p>
+      </template>
+      <template v-else>
+        <v-text-field color="black" v-model="listFolder.name" counter="25" label="リストの名前" disabled></v-text-field>
+        <p>本当に削除しますか？</p>
+        <p>
+          <v-btn text @click.stop="$emit('delete-cancel')" left absolute>キャンセル</v-btn>
+          <v-btn text @click.stop="$emit('delete-lists')" right absolute color="#E53935">
+            削除
+            <v-icon>mdi-chevron-double-right</v-icon>
+          </v-btn>
+        </p>
+      </template>
     </v-form>
   </div>
 </template>
@@ -29,15 +51,7 @@ export default {
       name: "",
     },
     errors: "",
-  },
-  methods: {
-    listShow() {
-      const arr = this.$route.path.split("/");
-      arr.pop();
-      this.$router.push({
-        path: `${arr.join("/")}/lists`,
-      });
-    },
+    deleteForm: false,
   },
 };
 </script>

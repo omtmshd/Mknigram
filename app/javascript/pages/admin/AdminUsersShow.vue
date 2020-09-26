@@ -90,11 +90,7 @@ export default {
           return "335";
         case "sm":
           return "665";
-        case "md":
-          return "1030";
-        case "lg":
-          return "1030";
-        case "xl":
+        default:
           return "1030";
       }
     },

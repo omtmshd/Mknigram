@@ -51,11 +51,7 @@ export default {
           return "330";
         case "sm":
           return "400";
-        case "md":
-          return "600";
-        case "lg":
-          return "600";
-        case "xl":
+        default:
           return "600";
       }
     },
@@ -65,11 +61,7 @@ export default {
           return "max-height: 500px;";
         case "sm":
           return "max-height: 600px;";
-        case "md":
-          return "max-height: 600px;";
-        case "lg":
-          return "max-height: 600px;";
-        case "xl":
+        default:
           return "max-height: 600px;";
       }
     },

@@ -1,14 +1,34 @@
 <template>
   <div>
-    <v-row justify="center" class="mx-auto">
-      <router-view @update-posts="$emit('update-posts')"></router-view>
-      <posts-index-image
-        v-for="userPost in userPosts"
-        :key="userPost.index"
-        :post="userPost"
-        :current-user="currentUser"
-        @update-posts="updatePosts"
-      ></posts-index-image>
+    <router-view @update-posts="$emit('update-posts')"></router-view>
+    <v-row justify="center">
+      <v-col>
+        <posts-index-image
+          v-for="postFirst in postsFirst"
+          :key="postFirst.id"
+          :post="postFirst"
+          :current-user="currentUser"
+          @update-posts="updatePosts"
+        ></posts-index-image>
+      </v-col>
+      <v-col>
+        <posts-index-image
+          v-for="postScond in postsScond"
+          :key="postScond.id"
+          :post="postScond"
+          :current-user="currentUser"
+          @update-posts="updatePosts"
+        ></posts-index-image>
+      </v-col>
+      <v-col>
+        <posts-index-image
+          v-for="postThird in postsThird"
+          :key="postThird.id"
+          :post="postThird"
+          :current-user="currentUser"
+          @update-posts="updatePosts"
+        ></posts-index-image>
+      </v-col>
     </v-row>
     <infinite-loading @infinite="infiniteUserPosts" :identifier="infiniteId" spinner="spiral">
       <div slot="spinner"></div>
@@ -28,7 +48,9 @@ export default {
   components: { PostsIndexImage },
   data() {
     return {
-      userPosts: [],
+      postsFirst: [],
+      postsScond: [],
+      postsThird: [],
       userPostsNumber: 0,
       infiniteId: +new Date(),
     };
@@ -41,7 +63,9 @@ export default {
   watch: { watchId: "updatePosts" },
   methods: {
     updatePosts() {
-      this.userPosts = [];
+      this.postsFirst = [];
+      this.postsScond = [];
+      this.postsThird = [];
       this.userPostsNumber = 0;
       this.infiniteId += 1;
     },
@@ -52,11 +76,23 @@ export default {
             `/api/v1/users/${this.$route.params.id}/posts?data_id=${this.userPostsNumber}`
           )
           .then(({ data }) => {
-            this.userPosts.push(...data);
             if (15 > data.length) {
               this.userPostsNumber = -1;
             } else {
               this.userPostsNumber += 15;
+            }
+            for (let i = 0; i < data.length; i++) {
+              switch ((i + 1) % 3) {
+                case 1:
+                  this.postsFirst.push(data[i]);
+                  break;
+                case 2:
+                  this.postsScond.push(data[i]);
+                  break;
+                case 0:
+                  this.postsThird.push(data[i]);
+                  break;
+              }
             }
             $state.loaded();
           });
@@ -66,4 +102,7 @@ export default {
 };
 </script>
 <style scoped>
+.col {
+  padding: 0;
+}
 </style>

@@ -7,7 +7,7 @@ class Api::V1::RelationshipsController < ApplicationController
 
   def create
     if current_api_user.active_relationships.create(relationships_params)
-      head :create
+      head :created
     else
       render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
     end
