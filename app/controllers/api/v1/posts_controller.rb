@@ -9,13 +9,13 @@ class Api::V1::PostsController < ApplicationController
   # 15個ずつデータを取得
   def index
     render json: Post.all.limit(15).offset(params[:data_id]).to_json(
-      only: %i[id title body post_image user_id],
+      only: %i[id title body post_image user_id]
     )
   end
 
   def show
     render json: @post.to_json(
-      only: %i[id title body post_image user_id],
+      only: %i[id title body post_image user_id]
     )
   end
 
@@ -48,7 +48,7 @@ class Api::V1::PostsController < ApplicationController
   # いいねが多い順に15個ずつ取得(重複しないよう、さらにsum(id)でorder)
   def likes
     render json: Post.find(Like.group(:post_id).order('count(post_id) desc', 'sum(id) desc').limit(15).offset(params[:data_id]).pluck(:post_id)).to_json(
-      only: %i[id title body post_image user_id],
+      only: %i[id title body post_image user_id]
     )
   end
 

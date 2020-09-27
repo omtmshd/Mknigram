@@ -52,20 +52,20 @@ class Api::V1::UsersController < ApplicationController
 
   # ログインユーザーを返す
   def current
-    render json: current_api_user.to_json(only: %i[id name profile profile_image])
+    render json: current_api_user.to_json(only: %i[id name email profile profile_image])
   end
 
   # Userと紐付いたPostを15個ずつ返す
   def posts
     render json: @user.posts.limit(15).offset(params[:data_id]).to_json(
-      only: %i[id title body post_image user_id],
+      only: %i[id title body post_image user_id]
     )
   end
 
   # ユーザーのリストを返す
   def list_folders
     render json: @user.list_folders.to_json(
-      only: %i[id name],
+      only: %i[id name]
     )
   end
 

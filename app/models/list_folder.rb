@@ -6,5 +6,4 @@ class ListFolder < ApplicationRecord
 
   has_many :lists, dependent: :destroy
   has_many :listed_posts, through: :lists, source: :post
-
 end
