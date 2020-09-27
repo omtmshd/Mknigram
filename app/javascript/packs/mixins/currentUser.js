@@ -6,6 +6,7 @@ export const currentUser = {
       currentUser: {
         id: -1,
         name: "",
+        email: "",
         profile: "",
         profile_image: {
           url: ""

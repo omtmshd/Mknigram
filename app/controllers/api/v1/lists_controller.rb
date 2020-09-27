@@ -4,7 +4,7 @@ class Api::V1::ListsController < ApplicationController
   # Post の List(id)を返す
   def index
     render json: Post.find(params[:id]).lists.to_json(
-      only: [:id],
+      only: [:id]
     )
   end
 

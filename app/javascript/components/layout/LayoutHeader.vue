@@ -2,8 +2,8 @@
   <header id="header">
     <v-app-bar app color="white">
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-      <v-icon color="#FBC02D">mdi-fruit-watermelon</v-icon>
-      <v-toolbar-title>Mknigram</v-toolbar-title>
+      <v-icon color="#FBC02D">mdi-pumpkin</v-icon>
+      <v-toolbar-title class="font-weight-black">VeGGram</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -17,17 +17,19 @@
         <v-card>
           <v-container>
             <v-list>
-              <v-list-item two-line @click="usersShow">
-                <v-list-item-avatar size="30">
+              <v-list-item @click="usersShow">
+                <v-avatar size="60" class="mx-auto">
                   <v-img
                     v-if="currentUser.profile_image.url !== null"
                     :src="currentUser.profile_image.url"
                   ></v-img>
-                  <v-icon v-else size="30" color="#90A4AE" dark>mdi-account-circle</v-icon>
-                </v-list-item-avatar>
+                  <v-icon v-else size="60" color="#90A4AE" dark>mdi-account-circle</v-icon>
+                </v-avatar>
+              </v-list-item>
+              <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title>{{ currentUser.name }}</v-list-item-title>
-                  <v-list-item-subtitle>Logged In</v-list-item-subtitle>
+                  <v-list-item-title class="text-center">{{ currentUser.name }}</v-list-item-title>
+                  <v-list-item-subtitle class="text-center">{{ currentUser.email }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -36,17 +38,14 @@
 
             <v-list>
               <v-list-item @click="usersIndex">
-                <v-list-item-action>
-                  <v-icon>mdi-account-group</v-icon>
-                </v-list-item-action>
-                <v-list-item-title>ユーザー一覧</v-list-item-title>
+                <v-list-item-content class="text-subtitle-2">ユーザー一覧</v-list-item-content>
               </v-list-item>
 
               <v-list-item @click.stop="showModal = true">
+                <v-list-item-content class="text-subtitle-2">ログアウト</v-list-item-content>
                 <v-list-item-action>
-                  <v-icon>mdi-logout-variant</v-icon>
+                  <v-icon>mdi-transfer-right</v-icon>
                 </v-list-item-action>
-                <v-list-item-title>ログアウト</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-container>
@@ -96,6 +95,29 @@
             </v-list-item-action>
           </v-list-item>
         </v-list>
+
+        <template v-if="currentUser.id > 0">
+          <v-divider></v-divider>
+
+          <v-list-item link @click="listsIndexPage">
+            <v-list-item-action>
+              <v-icon>mdi-playlist-play</v-icon>
+            </v-list-item-action>
+            <v-list-itme-title>マイリスト</v-list-itme-title>
+          </v-list-item>
+          <v-list dense nav>
+            <v-list-item
+              v-for="list_folder in list_folders"
+              :key="list_folder.id"
+              @click="listsShowPage(list_folder.id)"
+            >
+              <v-list-item-action>
+                <v-icon>mdi-minus</v-icon>
+              </v-list-item-action>
+              <v-list-item-title>{{ list_folder.name }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </template>
       </v-list>
     </v-navigation-drawer>
 
@@ -133,11 +155,14 @@ export default {
       showModal: false,
       categories: [],
       snackbar: false,
+      list_folders: [],
     };
   },
   mounted() {
     this.getCategories();
+    this.setListFolders();
   },
+  watch: { currentUser: "setListFolders" },
   methods: {
     postsNew() {
       if (this.currentUser.id > 0) {
@@ -181,10 +206,7 @@ export default {
     },
     usersShow() {
       if (this.$route.path !== `/users/${this.currentUser.id}/posts`) {
-        this.$router.push({
-          name: "UserPostsPage",
-          params: { id: this.currentUser.id },
-        });
+        this.$router.push(`/users/${this.currentUser.id}/posts`);
       } else {
         this.drawer = false;
       }
@@ -197,6 +219,31 @@ export default {
     categorySearch(i) {
       if (this.$route.path !== `/categories/${i}/search`) {
         this.$router.push(`/categories/${i}/search`);
+      } else {
+        this.drawer = false;
+      }
+    },
+    setListFolders() {
+      if (this.currentUser.id > 0) {
+        axios
+          .get(`/api/v1/users/${this.currentUser.id}/list_folders`)
+          .then(({ data }) => {
+            this.list_folders = data;
+          });
+      }
+    },
+    listsIndexPage() {
+      if (this.$route.path !== `/users/${this.currentUser.id}/list_folders`) {
+        this.$router.push(`/users/${this.currentUser.id}/list_folders`);
+      } else {
+        this.drawer = false;
+      }
+    },
+    listsShowPage(i) {
+      if (this.$route.path !== `/list_folders/${i}/posts`) {
+        this.$router.push(`/list_folders/${i}/posts`);
+      } else {
+        this.drawer = false;
       }
     },
     async logOut() {

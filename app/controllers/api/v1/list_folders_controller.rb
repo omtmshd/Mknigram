@@ -2,10 +2,10 @@ class Api::V1::ListFoldersController < ApplicationController
   before_action :authenticate_api_user!, only: %i[create index destroy update]
   before_action :set_list_folder, only: %i[show posts update destroy]
 
-# ログインユーザーのListFolderを返す
+  # ログインユーザーのListFolderを返す
   def index
     render json: current_api_user.list_folders.to_json(
-      only: %i[id name],
+      only: %i[id name]
     )
   end
 
@@ -13,14 +13,14 @@ class Api::V1::ListFoldersController < ApplicationController
     render json: @list_folder.to_json(
       only: %i[id name user_id],
       include: [
-        lists: { only: [] },
+        lists: { only: [] }
       ]
     )
   end
 
   def posts
     render json: @list_folder.listed_posts.limit(15).offset(params[:data_id]).to_json(
-      only: %i[id title body post_image user_id],
+      only: %i[id title body post_image user_id]
     )
   end
 

@@ -22,6 +22,9 @@
       </v-tabs>
       <router-view></router-view>
     </v-card>
+    <v-btn fixed dark fab bottom right color="#263238" @click="$vuetify.goTo(0)">
+      <v-icon>mdi-chevron-double-up</v-icon>
+    </v-btn>
   </div>
 </template>
 <script>
@@ -125,6 +128,10 @@ export default {
 };
 </script>
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: 0.5s;
+}
 .theme--light.v-tabs-items {
   background-color: rgba(255, 255, 255, 0.4);
 }

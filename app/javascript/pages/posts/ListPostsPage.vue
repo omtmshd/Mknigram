@@ -207,6 +207,9 @@ export default {
     },
   },
   computed: {
+    watchId() {
+      return this.$route.params.id;
+    },
     cardWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
@@ -231,6 +234,10 @@ export default {
 };
 </script>
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: 0.5s;
+}
 .col {
   padding: 0;
 }

@@ -12,6 +12,7 @@
       <v-card class="mx-auto" width="550" color="rgba(255,255,255,.85)" flat>
         <v-img
           :src="image"
+          min-height="350"
           class="white--text align-end"
           gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.3)"
         >
@@ -53,6 +54,7 @@
         </v-card-text>
 
         <v-card-actions>
+          <v-btn text class="ml-4" @click="cancel">キャンセル</v-btn>
           <v-spacer></v-spacer>
 
           <v-btn dark class="mr-4" type="submit">投稿する</v-btn>
@@ -133,6 +135,9 @@ export default {
       axios.get("/api/v1/categories").then(({ data }) => {
         this.categoriesData = data;
       });
+    },
+    cancel() {
+      this.$router.push("/");
     },
   },
 };
