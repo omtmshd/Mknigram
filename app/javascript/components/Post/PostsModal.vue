@@ -9,7 +9,7 @@
       @click:outside="close"
       style="margin: 0px;"
     >
-      <post-show :post="post" :current-user="currentUser" @update-posts="updatePosts"></post-show>
+      <post-show :post="post" :current-user="currentUser"></post-show>
     </v-dialog>
   </div>
 </template>
@@ -45,10 +45,6 @@ export default {
       axios
         .get(`/api/v1/posts/${this.$route.params.post_id}`)
         .then((response) => (this.post = response.data));
-    },
-    updatePosts() {
-      this.close();
-      this.$emit("update-posts");
     },
     close() {
       const arr = this.$route.path.split("/");
