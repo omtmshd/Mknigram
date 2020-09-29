@@ -33,11 +33,7 @@
             <v-icon>mdi-delete</v-icon>
           </v-btn>
 
-          <post-delete-modal
-            v-if="showModal"
-            @cancel="showModal = false"
-            @ok="deletePost; showModal = false;"
-          >
+          <post-delete-modal v-if="showModal" @cancel="showModal = false" @ok="deletePost">
             <div slot="body">本当に削除しますか？</div>
           </post-delete-modal>
 
@@ -95,7 +91,7 @@ export default {
           },
         })
         .then((response) => {
-          this.$emit("update-posts");
+          this.$router.push(`/users/${this.post.user_id}/posts`);
         })
         .catch((error) => {
           console.error(error);

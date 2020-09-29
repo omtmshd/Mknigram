@@ -13,8 +13,8 @@
 
           <div class="modal-footer">
             <slot name="footer">
-              <v-btn text small @click="$emit('ok')">削除</v-btn>
-              <v-btn text small @click="$emit('cancel')">キャンセル</v-btn>
+              <v-btn text small @click.stop="$emit('ok')">削除</v-btn>
+              <v-btn text small @click.stop="$emit('cancel')">キャンセル</v-btn>
             </slot>
           </div>
         </div>

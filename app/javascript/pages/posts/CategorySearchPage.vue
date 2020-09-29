@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view @update-posts="$emit('update-posts')"></router-view>
+    <router-view></router-view>
     <div :width="cardWidth" v-if="dsplayPc">
       <v-row justify="center">
         <v-col cols="3">
@@ -28,8 +28,6 @@
                   v-for="postFirst in postsFirst"
                   :key="postFirst.id"
                   :post="postFirst"
-                  :current-user="currentUser"
-                  @update-posts="updatePosts"
                 ></posts-index-image>
               </v-col>
               <v-col>
@@ -37,8 +35,6 @@
                   v-for="postScond in postsScond"
                   :key="postScond.id"
                   :post="postScond"
-                  :current-user="currentUser"
-                  @update-posts="updatePosts"
                 ></posts-index-image>
               </v-col>
               <v-col>
@@ -46,8 +42,6 @@
                   v-for="postThird in postsThird"
                   :key="postThird.id"
                   :post="postThird"
-                  :current-user="currentUser"
-                  @update-posts="updatePosts"
                 ></posts-index-image>
               </v-col>
             </v-row>
@@ -75,8 +69,6 @@
                 v-for="postFirst in postsFirst"
                 :key="postFirst.id"
                 :post="postFirst"
-                :current-user="currentUser"
-                @update-posts="updatePosts"
               ></posts-index-image>
             </v-col>
             <v-col>
@@ -84,8 +76,6 @@
                 v-for="postScond in postsScond"
                 :key="postScond.id"
                 :post="postScond"
-                :current-user="currentUser"
-                @update-posts="updatePosts"
               ></posts-index-image>
             </v-col>
             <v-col>
@@ -93,8 +83,6 @@
                 v-for="postThird in postsThird"
                 :key="postThird.id"
                 :post="postThird"
-                :current-user="currentUser"
-                @update-posts="updatePosts"
               ></posts-index-image>
             </v-col>
           </v-row>
@@ -111,13 +99,10 @@
 <script>
 import axios from "axios";
 
-import { currentUser } from "../../packs/mixins/currentUser";
-
 import PostsIndexImage from "../../components/Post/PostsIndexImage.vue";
 import CategoryBar from "../../components/Category/CategoryBar.vue";
 
 export default {
-  mixins: [currentUser],
   components: { PostsIndexImage, CategoryBar },
   data() {
     return {

@@ -18,13 +18,9 @@
   </v-hover>
 </template>
 <script>
-import PostShow from "./PostShow.vue";
-
 export default {
-  components: { PostShow },
   props: {
     post: {},
-    currentUser: {},
   },
   computed: {
     imageWidth() {

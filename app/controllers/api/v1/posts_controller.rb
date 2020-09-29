@@ -15,7 +15,12 @@ class Api::V1::PostsController < ApplicationController
 
   def show
     render json: @post.to_json(
-      only: %i[id title body post_image user_id]
+      only: %i[id title body post_image user_id],
+      include: [
+        categories: {
+          only: %i[id name]
+        }
+      ]
     )
   end
 

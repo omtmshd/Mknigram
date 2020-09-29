@@ -1,34 +1,16 @@
 <template>
   <div>
-    <router-view @update-posts="updatePosts"></router-view>
+    <router-view></router-view>
     <v-card color="rgba(0,0,0,0)" flat class="mx-auto" :width="cardWidth">
       <v-row justify="center">
         <v-col>
-          <posts-index-image
-            v-for="postFirst in postsFirst"
-            :key="postFirst.id"
-            :post="postFirst"
-            :current-user="currentUser"
-            @update-posts="updatePosts"
-          ></posts-index-image>
+          <posts-index-image v-for="postFirst in postsFirst" :key="postFirst.id" :post="postFirst"></posts-index-image>
         </v-col>
         <v-col>
-          <posts-index-image
-            v-for="postScond in postsScond"
-            :key="postScond.id"
-            :post="postScond"
-            :current-user="currentUser"
-            @update-posts="updatePosts"
-          ></posts-index-image>
+          <posts-index-image v-for="postScond in postsScond" :key="postScond.id" :post="postScond"></posts-index-image>
         </v-col>
         <v-col>
-          <posts-index-image
-            v-for="postThird in postsThird"
-            :key="postThird.id"
-            :post="postThird"
-            :current-user="currentUser"
-            @update-posts="updatePosts"
-          ></posts-index-image>
+          <posts-index-image v-for="postThird in postsThird" :key="postThird.id" :post="postThird"></posts-index-image>
         </v-col>
       </v-row>
       <infinite-loading @infinite="infiniteHandler" spinner="spiral">
@@ -45,12 +27,9 @@
 <script>
 import axios from "axios";
 
-import { currentUser } from "../../packs/mixins/currentUser";
-
 import PostsIndexImage from "../../components/Post/PostsIndexImage.vue";
 
 export default {
-  mixins: [currentUser],
   components: { PostsIndexImage },
   data() {
     return {
