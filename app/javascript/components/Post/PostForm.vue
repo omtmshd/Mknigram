@@ -1,14 +1,6 @@
 <template>
   <v-container>
     <v-form @submit.prevent="$emit('submit')">
-      <div v-if="errors.length != 0">
-        <ul v-for="e in errors" :key="e">
-          <li>
-            <font color="red">{{ e }}</font>
-          </li>
-        </ul>
-      </div>
-
       <v-card class="mx-auto" width="550" color="rgba(255,255,255,.85)" flat>
         <v-img
           :src="image"
@@ -35,6 +27,13 @@
         </v-img>
 
         <v-card-text class="py-3">
+          <div v-if="errors.length != 0">
+            <ul v-for="e in errors" :key="e">
+              <li>
+                <font color="red">{{ e }}</font>
+              </li>
+            </ul>
+          </div>
           <v-textarea
             counter="250"
             dense
