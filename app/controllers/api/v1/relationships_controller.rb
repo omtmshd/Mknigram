@@ -25,7 +25,7 @@ class Api::V1::RelationshipsController < ApplicationController
   private
 
   def relationships_params
-    params.require(:relationship).permit(:followed_id, :follower_id)
+    params.require(:relationship).permit(:followed_id)
   end
 
   def render_status_404(exception)

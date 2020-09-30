@@ -89,12 +89,6 @@ RSpec.describe User, type: :model do
       user2 = build(:user, name: 'ziro', email: user1.email)
       expect(user2).to_not be_valid
     end
-    it 'メールアドレスは大文字小文字を区別せず扱うこと' do
-      user.email = 'test@gmail.com'
-      duplicate_user = build(:user, email: 'TEST@GMAIL.COM')
-      duplicate_user.valid?
-      expect(duplicate_user). to_not be_valid
-    end
   end
 
   describe 'パスワード' do
@@ -114,6 +108,14 @@ RSpec.describe User, type: :model do
     it 'ユーザーを削除した場合、関連する投稿も削除されること' do
       user = create(:user, :with_posts, posts_count: 1)
       expect { user.destroy }.to change { Post.count }.by(-1)
+    end
+    it 'ユーザーを削除した場合、関連するいいねも削除されること' do
+      user = create(:sub_user, :with_likes, likes_count: 1)
+      expect { user.destroy }.to change { Like.count }.by(-1)
+    end
+    it 'ユーザーを削除した場合、関連するlist_foldersも削除されること' do
+      user = create(:user, :with_list_folders, list_folders_count: 1)
+      expect { user.destroy }.to change { ListFolder.count }.by(-1)
     end
     it 'ユーザーを削除した場合、フォロー関係も削除されること' do
       alice = create(:user)

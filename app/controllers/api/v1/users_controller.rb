@@ -18,7 +18,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-    if @user.update_attributes(user_params) && @user.id == current_api_user.id
+    if @user.id == current_api_user.id && @user.update_attributes(user_params)
       head :ok
     else
       render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity

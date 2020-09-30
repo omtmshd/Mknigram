@@ -51,6 +51,15 @@ RSpec.describe Post, type: :model do
     end
   end
 
-  it '時系列順に並んでいること' do
+  describe '関連モデル' do
+    it '投稿を削除した場合、関連するいいねも削除されること' do
+      post = create(:post, :with_post_likes, likes_count: 1)
+      expect { post.destroy }.to change { Like.count }.by(-1)
+    end
+
+    it '投稿を削除した場合、関連するListも削除されること' do
+      post = create(:post, :with_post_lists, lists_count: 1)
+      expect { post.destroy }.to change { List.count }.by(-1)
+    end
   end
 end

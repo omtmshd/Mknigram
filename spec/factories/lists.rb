@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :list do
-    list_folder { nil }
-    post { nil }
-    user { nil }
+    association :list_folder, factory: :list_folder
+    association :post, factory: :post
   end
 end

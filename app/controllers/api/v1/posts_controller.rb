@@ -34,7 +34,7 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def update
-    if @post.update_attributes(post_params) && @post.user_id == current_api_user.id
+    if @post.user_id == current_api_user.id && @post.update_attributes(post_params)
       head :ok
     else
       render json: { errors: @post.errors.full_messages }, status: :unprocessable_entity
@@ -42,7 +42,7 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def destroy
-    head :ok if @post.destroy! && @post.user_id == current_api_user.id
+    head :ok if @post.user_id == current_api_user.id && @post.destroy!
   end
 
   # @post のカテゴリーを返す
