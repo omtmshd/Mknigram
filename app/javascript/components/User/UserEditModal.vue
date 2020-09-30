@@ -29,6 +29,7 @@
         <v-textarea
           counter="150"
           rows="4"
+          color="black"
           v-model="user.profile"
           label="プロフィール"
           width="350"
