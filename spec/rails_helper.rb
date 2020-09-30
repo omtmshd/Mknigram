@@ -63,4 +63,5 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
   # 手動追記
   config.include FactoryBot::Syntax::Methods
+  config.include AuthorizationSpecHelper, type: :request
 end

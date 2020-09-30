@@ -1,4 +1,6 @@
 class Category < ApplicationRecord
+  validates :name, presence: true, length: { maximum: 20 }
+
   has_ancestry
   has_many :post_category
   has_many :posts, through: :post_category
