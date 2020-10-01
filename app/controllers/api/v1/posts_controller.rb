@@ -8,7 +8,7 @@ class Api::V1::PostsController < ApplicationController
 
   # 15個ずつデータを取得
   def index
-    render json: Post.all.limit(5).offset(params[:data_id]).to_json(
+    render json: Post.all.limit(15).offset(params[:data_id]).to_json(
       only: %i[id title body post_image user_id]
     )
   end
