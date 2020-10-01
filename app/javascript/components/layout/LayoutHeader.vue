@@ -103,7 +103,7 @@
             <v-list-item-action>
               <v-icon>mdi-playlist-play</v-icon>
             </v-list-item-action>
-            <v-list-itme-title>マイリスト</v-list-itme-title>
+            <v-list-item-title>マイリスト</v-list-item-title>
           </v-list-item>
           <v-list dense nav>
             <v-list-item
