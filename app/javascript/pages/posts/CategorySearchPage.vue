@@ -29,6 +29,15 @@
                   :key="postFirst.id"
                   :post="postFirst"
                 ></posts-index-image>
+                <infinite-loading
+                  @infinite="infiniteHandler"
+                  :identifier="infiniteId"
+                  spinner="spiral"
+                >
+                  <div slot="spinner"></div>
+                  <div slot="no-more"></div>
+                  <div slot="no-results"></div>
+                </infinite-loading>
               </v-col>
               <v-col>
                 <posts-index-image
@@ -45,11 +54,6 @@
                 ></posts-index-image>
               </v-col>
             </v-row>
-            <infinite-loading @infinite="infiniteHandler" :identifier="infiniteId" spinner="spiral">
-              <div slot="spinner"></div>
-              <div slot="no-more"></div>
-              <div slot="no-results"></div>
-            </infinite-loading>
           </v-card>
         </v-col>
       </v-row>
@@ -70,6 +74,15 @@
                 :key="postFirst.id"
                 :post="postFirst"
               ></posts-index-image>
+              <infinite-loading
+                @infinite="infiniteHandler"
+                :identifier="infiniteId"
+                spinner="spiral"
+              >
+                <div slot="spinner"></div>
+                <div slot="no-more"></div>
+                <div slot="no-results"></div>
+              </infinite-loading>
             </v-col>
             <v-col>
               <posts-index-image
@@ -86,11 +99,6 @@
               ></posts-index-image>
             </v-col>
           </v-row>
-          <infinite-loading @infinite="infiniteHandler" :identifier="infiniteId" spinner="spiral">
-            <div slot="spinner"></div>
-            <div slot="no-more"></div>
-            <div slot="no-results"></div>
-          </infinite-loading>
         </div>
       </v-card>
     </div>
