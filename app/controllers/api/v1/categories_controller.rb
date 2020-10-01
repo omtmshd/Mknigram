@@ -60,7 +60,7 @@ class Api::V1::CategoriesController < ApplicationController
     end
   end
 
-  # カテゴリー検索（10ずつ）
+  # カテゴリー検索（15ずつ）
   # 子カテゴリーがある場合、孫子カテゴリーのPostから検索
   def search
     @posts = if @category.children?

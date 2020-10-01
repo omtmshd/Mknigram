@@ -5,29 +5,19 @@
       <v-row justify="center">
         <v-col>
           <posts-index-image v-for="postFirst in postsFirst" :key="postFirst.id" :post="postFirst"></posts-index-image>
-          <infinite-loading @infinite="infiniteFirst" spinner="spiral">
-            <div slot="spinner"></div>
-            <div slot="no-more"></div>
-            <div slot="no-results"></div>
-          </infinite-loading>
         </v-col>
         <v-col>
           <posts-index-image v-for="postScond in postsScond" :key="postScond.id" :post="postScond"></posts-index-image>
-          <infinite-loading @infinite="infiniteScond" spinner="spiral">
-            <div slot="spinner"></div>
-            <div slot="no-more"></div>
-            <div slot="no-results"></div>
-          </infinite-loading>
         </v-col>
         <v-col>
           <posts-index-image v-for="postThird in postsThird" :key="postThird.id" :post="postThird"></posts-index-image>
-          <infinite-loading @infinite="infiniteThird" spinner="spiral">
-            <div slot="spinner"></div>
-            <div slot="no-more"></div>
-            <div slot="no-results"></div>
-          </infinite-loading>
         </v-col>
       </v-row>
+      <infinite-loading @infinite="infiniteHandler" spinner="spiral">
+        <div slot="spinner"></div>
+        <div slot="no-more"></div>
+        <div slot="no-results"></div>
+      </infinite-loading>
     </v-card>
     <v-btn fixed dark fab bottom right color="#263238" @click="$vuetify.goTo(0)">
       <v-icon>mdi-chevron-double-up</v-icon>
@@ -43,9 +33,7 @@ export default {
   components: { PostsIndexImage },
   data() {
     return {
-      postsFirstNumber: 0,
-      postsScondNumber: 5,
-      postsThirdNumber: 10,
+      postsNumber: 0,
       postsFirst: [],
       postsScond: [],
       postsThird: [],
@@ -56,43 +44,27 @@ export default {
       this.postsFirst = [];
       this.postsScond = [];
       this.postsThird = [];
-      this.postsFirstNumber = 0;
-      this.postsScondNumber = 5;
-      this.postsThirdNumber = 10;
+      this.postsNumber = 0;
     },
-    infiniteFirst($state) {
+    infiniteHandler($state) {
       axios
-        .get(`/api/v1/posts?data_id=${this.postsFirstNumber}`)
+        .get(`/api/v1/posts?data_id=${this.postsNumber}`)
         .then(({ data }) => {
-          this.postsFirstNumber += 15;
-          this.postsFirst.push(...data);
-          if (5 > data.length) {
-            $state.complete();
-          } else {
-            $state.loaded();
+          this.postsNumber += 15;
+          for (let i = 0; i < data.length; i++) {
+            switch ((i + 1) % 3) {
+              case 1:
+                this.postsFirst.push(data[i]);
+                break;
+              case 2:
+                this.postsScond.push(data[i]);
+                break;
+              case 0:
+                this.postsThird.push(data[i]);
+                break;
+            }
           }
-        });
-    },
-    infiniteScond($state) {
-      axios
-        .get(`/api/v1/posts?data_id=${this.postsScondNumber}`)
-        .then(({ data }) => {
-          this.postsScondNumber += 15;
-          this.postsScond.push(...data);
-          if (5 > data.length) {
-            $state.complete();
-          } else {
-            $state.loaded();
-          }
-        });
-    },
-    infiniteThird($state) {
-      axios
-        .get(`/api/v1/posts?data_id=${this.postsThirdNumber}`)
-        .then(({ data }) => {
-          this.postsThirdNumber += 15;
-          this.postsThird.push(...data);
-          if (5 > data.length) {
+          if (15 > data.length) {
             $state.complete();
           } else {
             $state.loaded();
