@@ -39,6 +39,11 @@
       <v-row justify="center">
         <v-col>
           <posts-index-image v-for="postFirst in postsFirst" :key="postFirst.id" :post="postFirst"></posts-index-image>
+          <infinite-loading @infinite="infiniteListPosts" :identifier="infiniteId" spinner="spiral">
+            <div slot="spinner"></div>
+            <div slot="no-more"></div>
+            <div slot="no-results"></div>
+          </infinite-loading>
         </v-col>
         <v-col>
           <posts-index-image v-for="postScond in postsScond" :key="postScond.id" :post="postScond"></posts-index-image>
@@ -47,11 +52,7 @@
           <posts-index-image v-for="postThird in postsThird" :key="postThird.id" :post="postThird"></posts-index-image>
         </v-col>
       </v-row>
-      <infinite-loading @infinite="infiniteListPosts" :identifier="infiniteId" spinner="spiral">
-        <div slot="spinner"></div>
-        <div slot="no-more"></div>
-        <div slot="no-results"></div>
-      </infinite-loading>
+
       <v-btn fixed dark fab bottom right color="#263238" @click="$vuetify.goTo(0)">
         <v-icon>mdi-chevron-double-up</v-icon>
       </v-btn>
