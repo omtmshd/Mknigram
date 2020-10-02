@@ -2,6 +2,10 @@
 
 ヴィーガン・ベジタリアン向けの料理を投稿、共有するアプリケーションです。
 菜食主義者の方向けのレシピ投稿サービスには需要が高まってきていると思い、作成いたしました。
+
+ url: https://www.mknigram.com
+ 
+
 ![スクショ](https://user-images.githubusercontent.com/67169292/94879118-4b50e700-049a-11eb-8459-e114e8ba7c20.png)
 ![スクショ](https://user-images.githubusercontent.com/67169292/94879121-50159b00-049a-11eb-9a20-ab98a0362478.png)
 
