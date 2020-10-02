@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-form @submit.prevent="$emit('submit')">
+    <v-form @submit.prevent="formSubmit">
       <v-card class="mx-auto" width="550" color="rgba(255,255,255,.85)" flat>
         <v-img
           :src="image"
@@ -56,7 +56,7 @@
           <v-btn text class="ml-4" @click="cancel">キャンセル</v-btn>
           <v-spacer></v-spacer>
 
-          <v-btn dark class="mr-4" type="submit">投稿する</v-btn>
+          <v-btn dark class="mr-4" :disabled="processing" type="submit">投稿する</v-btn>
         </v-card-actions>
       </v-card>
       <v-dialog v-model="dialog" width="350" scrollable>
@@ -107,6 +107,7 @@ export default {
       categoriesData: [],
       image: "",
       dialog: false,
+      processing: false,
     };
   },
   mounted() {
@@ -137,6 +138,22 @@ export default {
     },
     cancel() {
       this.$router.push("/");
+    },
+    formSubmit() {
+      this.$emit("submit");
+      if (this.processing) return;
+      this.processing = true;
+      this.doSomething().then(() => {
+        this.processing = false;
+      });
+    },
+    doSomething() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          console.log(`Submitted on ${new Date()}`);
+          resolve();
+        }, 1000);
+      });
     },
   },
 };

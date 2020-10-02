@@ -1,11 +1,11 @@
 <template>
   <div>
-    <v-btn icon color="#E53935" v-if="isLiked" @click.stop="deleteLike">
-      <v-icon>mdi-heart-box</v-icon>
+    <v-btn text color="#E53935" v-if="isLiked" @click.stop="deleteLike">
+      <v-icon medium>mdi-heart-box</v-icon>
       {{ count }}
     </v-btn>
-    <v-btn icon v-else @click.stop="registerLike">
-      <v-icon>mdi-heart-box</v-icon>
+    <v-btn text v-else @click.stop="registerLike">
+      <v-icon medium>mdi-heart-box</v-icon>
       {{ count }}
     </v-btn>
     <v-snackbar

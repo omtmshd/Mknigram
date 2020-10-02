@@ -81,8 +81,8 @@ export default {
     };
   },
   methods: {
-    deletePost() {
-      axios
+    async deletePost() {
+      const res = await axios
         .delete(`/api/v1/posts/${this.post.id}`, {
           headers: {
             "access-token": localStorage.getItem("access-token"),
@@ -90,15 +90,17 @@ export default {
             client: localStorage.getItem("client"),
           },
         })
-        .then((response) => {
-          this.$router.push(`/users/${this.post.user_id}/posts`);
-        })
         .catch((error) => {
           console.error(error);
           if (error.response.data && error.response.data.errors) {
             this.errors = error.response.data.errors;
           }
         });
+      if (res.status !== 200) {
+        process.exit();
+      }
+      this.$router.push(`/users/${this.post.user_id}/posts`);
+      this.$emit("update-posts");
     },
     editPost() {
       this.$router.push({

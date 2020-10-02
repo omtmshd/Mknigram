@@ -9,7 +9,7 @@
       @click:outside="close"
       style="margin: 0px;"
     >
-      <post-show :post="post" :current-user="currentUser"></post-show>
+      <post-show :post="post" :current-user="currentUser" @update-posts="$emit('update-posts')"></post-show>
     </v-dialog>
   </div>
 </template>
