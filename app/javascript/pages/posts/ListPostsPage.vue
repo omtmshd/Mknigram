@@ -2,7 +2,7 @@
   <div>
     <router-view></router-view>
     <v-card color="rgba(0,0,0,0)" flat class="mx-auto" :width="cardWidth" min-height="100vh">
-      <v-card-title class="font-weight-bold text-h3 my-5">
+      <v-card-title class="font-weight-bold text-h4 my-5">
         {{listFolder.name}}
         <span class="text-sm-caption ml-4">({{listFolder.lists.length}} 品)</span>
         <v-spacer></v-spacer>
@@ -62,11 +62,14 @@
 <script>
 import axios from "axios";
 
+import { currentUser } from "../../packs/mixins/currentUser";
+
 import PostsIndexImage from "../../components/Post/PostsIndexImage.vue";
 import UserAvatar from "../../components/User/UserAvatar.vue";
 import ListFolderForm from "../../components/List/ListFolderForm.vue";
 
 export default {
+  mixins: [currentUser],
   components: { PostsIndexImage, UserAvatar, ListFolderForm },
   data() {
     return {

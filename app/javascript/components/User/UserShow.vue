@@ -4,7 +4,7 @@
       <user-edit-modal @close="dialogClose" :user="user"></user-edit-modal>
     </v-dialog>
     <v-list color="rgba(255,255,255,0)">
-      <v-list-item two-line @click="showUser">
+      <v-list-item two-line :link="false">
         <v-list-item-avatar :size="avatarSize">
           <img v-if="user.profile_image.url !== null" :src="user.profile_image.url" />
           <v-icon v-else :size="avatarSize" color="#90A4AE" dark>mdi-account-circle</v-icon>
@@ -64,11 +64,6 @@ export default {
     dialogClose() {
       this.dialog = false;
       this.$emit("user-reset");
-    },
-    showUser() {
-      if (this.$route.path !== `/users/${this.user.id}/posts`) {
-        this.$router.push(`/users/${this.user.id}/posts`);
-      }
     },
   },
   computed: {
