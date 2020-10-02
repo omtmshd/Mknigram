@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-btn icon @click.stop="listShow">
-      <v-icon>mdi-sticker-plus-outline</v-icon>
+    <v-btn text @click.stop="listShow">
+      <v-icon medium>mdi-sticker-plus-outline</v-icon>
       {{listsData.length}}
     </v-btn>
 

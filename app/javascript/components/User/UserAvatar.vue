@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-avatar size="36" @click.stop="showUser">
+    <v-avatar size="36" @click.stop="showUser" class="avatar_padding">
       <img v-if="user.profile_image.url !== null" :src="user.profile_image.url" />
       <v-icon v-else size="36" color="#90A4AE" dark>mdi-account-circle</v-icon>
     </v-avatar>
@@ -45,3 +45,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.avatar_padding {
+  margin: 0.1em 0;
+}
+</style>
