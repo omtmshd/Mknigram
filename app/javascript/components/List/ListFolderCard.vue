@@ -11,14 +11,13 @@
         >
           <v-row dense>
             <v-col cols="8">
-              <v-card
-                v-if="posts.length >= 1"
-                width="232"
-                height="200"
-                flat
-                color="rgba(0, 0, 0, .3)"
-              >
-                <v-img width="232" height="200" :src="posts[0].post_image.url"></v-img>
+              <v-card width="232" height="200" flat color="rgba(0, 0, 0, .05)">
+                <v-img
+                  v-if="posts.length >= 1"
+                  width="232"
+                  height="200"
+                  :src="posts[0].post_image.url"
+                ></v-img>
               </v-card>
             </v-col>
             <v-col cols="4">
