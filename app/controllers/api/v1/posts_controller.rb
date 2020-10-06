@@ -1,6 +1,6 @@
 class Api::V1::PostsController < ApplicationController
   before_action :authenticate_api_user!, only: %i[create update destroy]
-  before_action :set_post, only: %i[show update destroy categories]
+  before_action :set_post, only: %i[update destroy categories]
 
   rescue_from ActiveRecord::RecordNotFound do |_exception|
     render json: { error: '404 not found' }, status: 404
@@ -8,20 +8,11 @@ class Api::V1::PostsController < ApplicationController
 
   # 15個ずつデータを取得
   def index
-    render json: Post.all.limit(15).offset(params[:data_id]).to_json(
-      only: %i[id title body post_image user_id]
-    )
+    render json: Post.all.limit(15).offset(params[:data_id]).select(:id, :title, :body, :post_image, :user_id)
   end
 
   def show
-    render json: @post.to_json(
-      only: %i[id title body post_image user_id],
-      include: [
-        categories: {
-          only: %i[id name]
-        }
-      ]
-    )
+    render json: Post.select(:id, :title, :body, :post_image, :user_id).find(params[:id])
   end
 
   def create
@@ -47,14 +38,12 @@ class Api::V1::PostsController < ApplicationController
 
   # @post のカテゴリーを返す
   def categories
-    render json: @post.categories.to_json(only: %i[id name])
+    render json: @post.categories.select(:id, :name)
   end
 
   # いいねが多い順に15個ずつ取得(重複しないよう、さらにsum(id)でorder)
   def likes
-    render json: Post.find(Like.group(:post_id).order('count(post_id) desc', 'sum(id) desc').limit(15).offset(params[:data_id]).pluck(:post_id)).to_json(
-      only: %i[id title body post_image user_id]
-    )
+    render json: Post.select(:id, :title, :body, :post_image, :user_id).find(Like.group(:post_id).order('count(post_id) desc', 'sum(id) desc').limit(15).offset(params[:data_id]).pluck(:post_id))
   end
 
   private

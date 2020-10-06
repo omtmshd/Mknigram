@@ -4,9 +4,7 @@ class Api::V1::ListFoldersController < ApplicationController
 
   # ログインユーザーのListFolderを返す
   def index
-    render json: current_api_user.list_folders.to_json(
-      only: %i[id name]
-    )
+    render json: current_api_user.list_folders.select(:id, :name)
   end
 
   def show
@@ -19,9 +17,7 @@ class Api::V1::ListFoldersController < ApplicationController
   end
 
   def posts
-    render json: @list_folder.listed_posts.limit(15).offset(params[:data_id]).to_json(
-      only: %i[id title body post_image user_id]
-    )
+    render json: @list_folder.listed_posts.select(:id, :title, :body, :post_image, :user_id).limit(15).offset(params[:data_id])
   end
 
   def create
