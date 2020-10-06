@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   before_action :authenticate_api_user!, only: %i[update]
-  before_action :set_user, only: %i[update show following followers follow_data posts list_folders]
+  before_action :set_user, only: %i[updates following followers follow_data posts list_folders]
 
   rescue_from ActiveRecord::RecordNotFound do |_exception|
     render json: { error: '404 not found' }, status: 404
@@ -8,13 +8,11 @@ class Api::V1::UsersController < ApplicationController
 
   # すべてのUserを9個ずつ返す
   def index
-    render json: User.all.limit(9).offset(params[:data_id]).to_json(only: %i[id name profile profile_image])
+    render json: User.all.select(:id, :name, :profile, :profile_image).limit(9).offset(params[:data_id])
   end
 
   def show
-    render json: @user.to_json(
-      only: %i[id name profile profile_image]
-    )
+    render json: User.select(:id, :name, :profile, :profile_image).find(params[:id])
   end
 
   def update
@@ -27,16 +25,12 @@ class Api::V1::UsersController < ApplicationController
 
   # フォロー中のユーザーデータ取得
   def following
-    render json: @user.following.to_json(
-      only: %i[id name profile profile_image]
-    )
+    render json: @user.following.select(:id, :name, :profile, :profile_image)
   end
 
   # フォロワーユーザーデータ取得
   def followers
-    render json: @user.followers.to_json(
-      only: %i[id name profile profile_image]
-    )
+    render json: @user.followers.select(:id, :name, :profile, :profile_image)
   end
 
   # フォロー、フォロワーデータ取得(idのみ)
@@ -52,21 +46,17 @@ class Api::V1::UsersController < ApplicationController
 
   # ログインユーザーを返す
   def current
-    render json: current_api_user.to_json(only: %i[id name email profile profile_image])
+    render json: User.select(:id, :name, :profile, :profile_image).find(current_api_user.id)
   end
 
   # Userと紐付いたPostを15個ずつ返す
   def posts
-    render json: @user.posts.limit(15).offset(params[:data_id]).to_json(
-      only: %i[id title body post_image user_id]
-    )
+    render json: @user.posts.select(:id, :title, :body, :post_image, :user_id).limit(15).offset(params[:data_id])
   end
 
   # ユーザーのリストを返す
   def list_folders
-    render json: @user.list_folders.to_json(
-      only: %i[id name]
-    )
+    render json: @user.list_folders.select(:id, :name)
   end
 
   private

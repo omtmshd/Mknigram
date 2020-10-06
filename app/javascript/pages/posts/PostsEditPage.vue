@@ -30,10 +30,18 @@ export default {
     });
   },
   methods: {
-    setPost() {
-      axios
+    async setPost() {
+      await axios
         .get(`/api/v1/posts/${this.$route.params.id}`)
         .then((response) => (this.post = response.data));
+      this.setCategories();
+    },
+    async setCategories() {
+      await axios
+        .get(`/api/v1/posts/${this.$route.params.id}/categories`)
+        .then(({ data }) => {
+          this.post.categories = data;
+        });
     },
     changeFile() {
       this.fileChange = true;

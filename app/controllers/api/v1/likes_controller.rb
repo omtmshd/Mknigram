@@ -17,11 +17,8 @@ class Api::V1::LikesController < ApplicationController
 
   # ユーザーがいいねしている投稿を返す(15個ずつ)
   def posts
-    @user = User.find(params[:id])
-    @posts = @user.liked_posts
-    render json: @posts.limit(15).offset(params[:data_id]).to_json(
-      only: %i[id title body post_image user_id]
-    )
+    @posts = User.find(params[:id]).liked_posts
+    render json: @posts.select(:id, :title, :body, :post_image, :user_id).limit(15).offset(params[:data_id])
   end
 
   def users; end

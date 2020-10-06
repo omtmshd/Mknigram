@@ -3,16 +3,12 @@ class Api::V1::ListsController < ApplicationController
 
   # Post の List(id)を返す
   def index
-    render json: Post.find(params[:id]).lists.to_json(
-      only: [:id]
-    )
+    render json: Post.find(params[:id]).lists.select(:id)
   end
 
   # ListFolderのListを返す
   def show
-    render json: ListFolder.find(params[:id]).lists.to_json(
-      only: %i[id post_id]
-    )
+    render json: ListFolder.find(params[:id]).lists.select(:id, :post_id)
   end
 
   def create

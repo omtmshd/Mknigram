@@ -80,9 +80,11 @@ export default {
       this.getPost();
     },
     getPost() {
-      axios.get(`/api/v1/posts/${this.lists[0].post_id}`).then(({ data }) => {
-        this.post = data;
-      });
+      if (this.lists.length > 0) {
+        axios.get(`/api/v1/posts/${this.lists[0].post_id}`).then(({ data }) => {
+          this.post = data;
+        });
+      }
     },
     clickLists() {
       if (this.listStatus) {
