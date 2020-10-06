@@ -46,7 +46,7 @@ class Api::V1::UsersController < ApplicationController
 
   # ログインユーザーを返す
   def current
-    render json: User.select(:id, :name, :profile, :profile_image).find(current_api_user.id)
+    render json: User.select(:id, :name, :email, :profile, :profile_image).find(current_api_user.id)
   end
 
   # Userと紐付いたPostを15個ずつ返す
